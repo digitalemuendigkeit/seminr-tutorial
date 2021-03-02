@@ -1,0 +1,28 @@
+name: "SEMinR Tutorials"
+output_dir: ../docs
+
+navbar:
+  title: "SEMinR Tutorials"
+  #type: inverse
+  left:
+    - text: "Home"
+      icon: fa-home
+      href: index.html
+    - text: "About"
+      icon: fa-info
+      href: about.html
+    - text: "Learning SEM-in-R"
+      icon: fa-graduation-cap
+      menu:
+        - text: "Basics"
+        - text: "What is SEM?"
+          href: basics.html
+        - text: "---------"
+        - text: "Designing a model"
+        - text: "The structural model"
+          href: page-c.html
+        - text: "The measurement model"
+          href: page-d.html
+  right:
+    - icon: fa-code-branch
+      href: https://github.com
