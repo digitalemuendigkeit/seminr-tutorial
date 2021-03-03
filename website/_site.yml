@@ -8,9 +8,6 @@ navbar:
     - text: "Home"
       icon: fa-home
       href: index.html
-    - text: "About"
-      icon: fa-info
-      href: about.html
     - text: "Learning SEM-in-R"
       icon: fa-graduation-cap
       menu:
@@ -20,9 +17,14 @@ navbar:
         - text: "---------"
         - text: "Designing a model"
         - text: "The structural model"
-          href: page-c.html
+          href: basics-structural.html
         - text: "The measurement model"
-          href: page-d.html
+          href: basics-measurement.html
+        - text: "Testing a model"
+          href: advanced-simulation.html
+    - text: "About"
+      icon: fa-info
+      href: about.html
   right:
     - icon: fa-code-branch
       href: https://github.com

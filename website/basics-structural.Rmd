@@ -1,11 +1,10 @@
 ---
-title: "About"
-#date: "`r Sys.Date()`"
+title: "Designing the structural model"
+date: "`r Sys.Date()`"
 #output:
 #  rmdformats::downcute:
 #    self_contained: true
 ---
-
 
 
 ```{r setup, include=FALSE}
@@ -24,14 +23,19 @@ opts_chunk$set(echo = FALSE,
 opts_knit$set(width = 75)
 ```
 
-# Course information
+# Relationships between variables and directionality
 
 
-# About the authors
-This course was designed and is maintained by 
+# Advanced materials
 
-- André Calero Valdez
-- Johannes Nakayama
-- Laura Burbach
-- Lilian Kojan
+## Interaction Effects
+
+## Causal Models
+
+### Daggity
+Backdoor Criterion
+M-Estimator
+Collider Bias
+etc.
+
 
