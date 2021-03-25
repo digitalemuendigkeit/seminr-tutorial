@@ -8,7 +8,7 @@ navbar:
     - text: "Home"
       icon: fa-home
       href: index.html
-    - text: "Learning SEM-in-R"
+    - text: "Learning the basisc"
       icon: fa-graduation-cap
       menu:
         - text: "Basics"
@@ -22,6 +22,28 @@ navbar:
           href: basics-measurement.html
         - text: "Testing a model"
           href: advanced-simulation.html
+        - text: "---------"
+        - text: "Evaluating a model"
+        - text: "Estimating a model"
+          href: estimating_pls.html
+    - text: "Advanced SEM"
+      icon: fa-graduation-cap
+      menu:
+        - text: "Basics"
+        - text: "What is SEM?"
+          href: basics.html
+        - text: "---------"
+        - text: "Designing a model"
+        - text: "The structural model"
+          href: basics-structural.html
+        - text: "The measurement model"
+          href: basics-measurement.html
+        - text: "Testing a model"
+          href: advanced-simulation.html
+        - text: "---------"
+        - text: "Evaluating a model"
+        - text: "Estimating a model"
+          href: estimating_pls.html
     - text: "About"
       icon: fa-info
       href: about.html
