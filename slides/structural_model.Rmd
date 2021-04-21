@@ -46,12 +46,53 @@ options(htmltools.dir.version = FALSE)
 
 ---
 
-## Sequence of  constructs:
+## Sequence of constructs:
 - based on theory/ concept, logic/ experiences
 - from left to right: left: independent (eplanatory) constructs > dependent constructs (outcomes)
-- assumes, that constructs on the left are ahead and predict variables on the right
+- assumes, that constructs on the left are ahead and that they predict variables on the right
+- constructs only serving as independent variables = exogeneous latent variables; at the left side; have only arrows coming from it
+- constructs serving as dependent variables = endogeneous latent variables; at the right side; only incoming arrows
+- constructs serving as independent and dependent variables = endogeneous variables; in the middle of the path-model
 
- !(Figures/Path-model.png)
+ ![:scale 50%](Figures/Path-model.png)
 
 ---
 
+## Determining sequence of constructs:
+- hard: contradictory theoretic perspectives imply different sequences 
+- should always be based on theory and logic
+- contradictory perpectives: personal judgement 
+- possible: competing models
+
+---
+
+## Relationships between constructs:
+- specified by arrows
+- generally the tip points to the right
+- directed relations: called causal, when supported by theory
+- conflict: completeness (all relations supported by theory) and sparsity (few relations)
+- sparsity: not everything should explain everything
+- mostly, linear relationships between two or more constructs within one path-model
+- more complex modell relationships: mediations; moderations (next slides)
+---
+
+## Mediation:
+- mediating effect: third construct occurs between two other related constructs
+- e.g. model with direct and indirect effects:
+- direct effects: two constructs are related by only one arrow
+- indirect effects: related by a sequence of relationships with at least one mediating construct
+- indirect effects: sequence of two or more direct (indicated by arrows) effects = mediating effect
+
+![:scale 50%](Figures/Mediation.png)
+---
+
+## Mediation:
+- most common used for "explanation" why a relation between an exogeneous and an ednogeneous construct exists
+- (e.g. one observes a relation between two constructs, but is unsure "why" this relation exist or if the relation is the only possible relation between the constructs)
+---
+
+## Moderation:
+- mediating effect: third construct occurs between two other related constructs
+
+![:scale 50%](Figures/Moderation.png)
+---
