@@ -27,7 +27,7 @@ options(htmltools.dir.version = FALSE)
 
 ---
 
-## The structural model 2 - exogeneous vs. endogeneous variables:
+# The structural model 2 - exogeneous vs. endogeneous variables:
 
 - variables can serve as dependent and independent
 - latent variables serving only as independent = exogeneous latent variables (Y1 and Y2)
@@ -35,6 +35,23 @@ options(htmltools.dir.version = FALSE)
 - each variable, which has only arrows coming from it = exogeneous latent variable
 - endogeneous latent variables can have either incoming and outgoing arrows (Y3) or only incoming arrows (Y4)
 - exogeneous latent variables have no error terms (because these constructs depict the independent variables explaining the dependent variables in the path-model)
+
+---
+
+# Specification of structural model:
+- When developing a structural model, two things must be considered:
+1. sequence of the constructs
+2. relationships between constructs
+- both represent hypotheses and the theory to be tested (must be reflected during development of model)
+
+---
+
+## Sequence of  constructs:
+- based on theory/ concept, logic/ experiences
+- from left to right: left: independent (eplanatory) constructs > dependent constructs (outcomes)
+- assumes, that constructs on the left are ahead and predict variables on the right
+
+ !(Figures/Path-model.png)
 
 ---
 
