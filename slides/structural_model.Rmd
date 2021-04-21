@@ -2,34 +2,32 @@
 title: "structural_model"
 author: "Laura"
 date: "4/21/2021"
-output: ioslides_presentation
+output: 
+xaringan::moon_reader:
+    #lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
 ---
 
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+options(htmltools.dir.version = FALSE)
 ```
 
-## R Markdown
+# The structural model:
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
-
-## Slide with Bullets
-
-The structural model:
-
-- describes relationship between latent variables 
+- describes relationship between latent variables
 - order and sequence of constructs: based on theory/ experiences and knowledge
 - path-models from left to right
 -- left: independent variables
 -- right: dependent variables
 -- left: sequential ahead, influence variables on the right
 
+---
 
-## Slide with Bullets
-
-The structural model 2 - exogeneous vs. endogeneous variables:
+## The structural model 2 - exogeneous vs. endogeneous variables:
 
 - variables can serve as dependent and independent
 - latent variables serving only as independent = exogeneous latent variables (Y1 and Y2)
@@ -38,22 +36,5 @@ The structural model 2 - exogeneous vs. endogeneous variables:
 - endogeneous latent variables can have either incoming and outgoing arrows (Y3) or only incoming arrows (Y4)
 - exogeneous latent variables have no error terms (because these constructs depict the independent variables explaining the dependent variables in the path-model)
 
-## Slide with R Output
-
-```{r cars, echo = TRUE}
-summary(cars)
-```
-
-## Slide with Plot
-
-```{r pressure}
-plot(pressure)
-```
-
-## What is the structural model?
-
-```{r setup}
-
-
-```
+---
 
