@@ -17,9 +17,26 @@ When you click the **Knit** button a document will be generated that includes bo
 
 ## Slide with Bullets
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+The structural model:
+
+- describes relationship between latent variables 
+- order and sequence of constructs: based on theory/ experiences and knowledge
+- path-models from left to right
+-- left: independent variables
+-- right: dependent variables
+-- left: sequential ahead, influence variables on the right
+
+
+## Slide with Bullets
+
+The structural model 2 - exogeneous vs. endogeneous variables:
+
+- variables can serve as dependent and independent
+- latent variables serving only as independent = exogeneous latent variables (Y1 and Y2)
+- latent variables serving only as dependent (Y4) or as independent and dependent (Y3) = endogeneous latent variables (Y3)
+- each variable, which has only arrows coming from it = exogeneous latent variable
+- endogeneous latent variables can have either incoming and outgoing arrows (Y3) or only incoming arrows (Y4)
+- exogeneous latent variables have no error terms (because these constructs depict the independent variables explaining the dependent variables in the path-model)
 
 ## Slide with R Output
 
@@ -31,5 +48,12 @@ summary(cars)
 
 ```{r pressure}
 plot(pressure)
+```
+
+## What is the structural model?
+
+```{r setup}
+
+
 ```
 
