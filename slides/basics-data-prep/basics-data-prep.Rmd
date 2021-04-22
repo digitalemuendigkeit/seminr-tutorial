@@ -1,0 +1,127 @@
+---
+title: "Preparing your Data for SEM Estimation"
+subtitle: "Basic Cleaning and Renaming for SEMinRc"
+author: "Wir"
+#institute: "RStudio, PBC"
+date: "2021/04/21 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    #lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(seminr)
+library(knitr)
+```
+# Data preparation
+
+1. Data requirements
+2. Recoding variables 
+3. Renaming variables
+
+???
+In this video, I will outline the basics of data preparation for SEMinR.
+This means making sure that SEMinR is able to correctly interpret your data and estimate a model.
+First, I will give an overview of requirements for data to be used in SEMinR estimations.
+Then I will talk in detail about recoding and renaming of data. 
+
+---
+
+# Requirements
+
+Or why do I even need to do anything to my data?
+
+* data types
+* variable direction
+* variable range
+* variable names
+* na values
+* ensure data parametricity (distribution in a variable)
+* remove low quality responses
+* treat outliers
+* treat missing data
+
+
+
+???
+Before you can start with model estimation, you have to prepare your data.
+As you can see, there is a plethora of things you can do to your data before writing even one line of SEMinR code.
+However, in this video, I will focus on basic preparation steps.
+This means making sure your data can be used by the algorithm to estimate a model.
+I will demonstrate each step using R.
+If you are used to do these things in a software like SPSS, you are of course free to do so.
+
+---
+
+# What I am talking about
+
+```{r, echo = FALSE, include = TRUE}
+mobi[1:4,1:6] %>%
+  rename_with(~ c(
+    "Quality Expectation",
+    "Expectation Products",
+    "Problem Expectation",
+    "Satisfaction Overall",
+    "Expectation Fulfillment",
+    "Ideal Provider"
+    )) %>%
+knitr::kable(format = 'html',
+             row.names = TRUE)
+  
+```
+
+
+???
+If you are an experienced researcher, you will be familiar with many of the data preparation steps detailed on the previous stage.
+We will also share a similar language when talking about a data,
+But just to make sure there are no misunderstandings, I want to define some terms for this video.
+Let's assume we start out with a bunch of data collected in a survey.
+As you can see, here we have a small slice of such a data set with
+* 6 variables, i.e. columns, and
+* 4 observations, i.e., rows
+
+---
+
+# Recoding variables
+
+* rename variables
+* imputate missing observations or get rid of variables
+
+
+???
+SEM only uses interval scaled data.
+Answers should therefore be collected using measures like Likert scales or percentages of agreement.
+Categorical data, e.g. gender or profession, cannot be used in SEM constructs.
+The answers data should not only be numerical, but also, the numbers should represent points on a equidistant scale.
+If you have reverse-coded data, you should invert them.
+SEMinR also cannot handle missing data.
+This means if there is only one NA in a variable used in the SEM, the whole observation is discarded.
+Therefore, you should carefully consider what to do with NA values.
+If not that many observations contain missing data for a certain variable, you might imputate data.
+Otherwise, it might make more sense to not use the variable in your SEM.
+
+---
+
+# Renaming variables
+
+???
+As you can see, I have very descriptive variable names in my dataset.
+If you use SEMinR, you should probably rename thos variables.
+Not only does it make for a more clear path diagram.
+It also speeds up model specification.
+In SEMinR, you can use the multi_items() function you describe your measurement model.
+For this, SEMinR assumes all your variables are named after the patter prefix-number.
+In our example, we have three variables describing expectations, and three variables describing satisfaction.
+Therefore, we could rename them to CUEX 1:3 and CUSA 1:3.
+So now, in SEMinR, instead of writing this
+c("blablabla")
+we can write this
+multi_items("CUEX", 1:3)
+This might seem tedious in the beginning, but especially if you modify your model this will save you a lot of time.
+---
