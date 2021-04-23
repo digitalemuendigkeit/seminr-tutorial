@@ -1,9 +1,9 @@
 ---
 title: "Preparing your Data for SEM Estimation"
-subtitle: "Basic Cleaning and Renaming for SEMinRc"
+subtitle: "Basic Cleaning and Renaming for SEMinR"
 author: "Wir"
 #institute: "RStudio, PBC"
-date: "2021/04/21 (updated: `r Sys.Date()`)"
+date: "2021-04-23 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
     #lib_dir: libs
@@ -14,15 +14,16 @@ output:
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(seminr)
 library(knitr)
+library(kableExtra)
 ```
 # Data preparation
 
 1. Data requirements
 2. Recoding variables 
+3. Treating missing values
 3. Renaming variables
 
 ???
@@ -33,95 +34,600 @@ Then I will talk in detail about recoding and renaming of data.
 
 ---
 
-# Requirements
+# Data preparation steps
 
-Or why do I even need to do anything to my data?
+Basic steps:
+* Recoding variables
+* Treating missing data
+* Renaming variables
 
-* data types
-* variable direction
-* variable range
-* variable names
-* na values
-* ensure data parametricity (distribution in a variable)
-* remove low quality responses
-* treat outliers
-* treat missing data
-
-
+Advanced steps:
+* Examining data distribution
+* Removing low quality responses
+* Treating outliers
 
 ???
 Before you can start with model estimation, you have to prepare your data.
 As you can see, there is a plethora of things you can do to your data before writing even one line of SEMinR code.
-However, in this video, I will focus on basic preparation steps.
+If you are an experienced researcher, you will be familiar with many of these steps.
+In this video, I will focus on basic preparation steps.
 This means making sure your data can be used by the algorithm to estimate a model.
 I will demonstrate each step using R.
 If you are used to do these things in a software like SPSS, you are of course free to do so.
 
 ---
 
-# What I am talking about
+# Example data
 
 ```{r, echo = FALSE, include = TRUE}
-mobi[1:4,1:6] %>%
+dfgoal <- mobi[1:6,1:5]
+df <- dfgoal <- mobi[1:6,1:5] %>%
   rename_with(~ c(
     "Quality Expectation",
     "Expectation Products",
     "Problem Expectation",
     "Satisfaction Overall",
-    "Expectation Fulfillment",
-    "Ideal Provider"
-    )) %>%
-knitr::kable(format = 'html',
-             row.names = TRUE)
-  
+    "Expectation Fulfillment"
+    ))
+df[c(1,4,6),5] <- NA
+df[,2] <- df[,2] %>%
+  recode(
+  `7` = "rather agree",
+  `9` = "agree",
+  `10` = "strongly agree"
+)
+df[,3] <- df[,3] %>%
+  recode(
+    `5` = 6,
+    `6` = 5,
+    `7` = 4,
+    `9` = 2,
+    `10` = 1
+  )
+df %>%
+  knitr::kable(format = 'html')
 ```
 
 
 ???
-If you are an experienced researcher, you will be familiar with many of the data preparation steps detailed on the previous stage.
-We will also share a similar language when talking about a data,
-But just to make sure there are no misunderstandings, I want to define some terms for this video.
 Let's assume we start out with a bunch of data collected in a survey.
-As you can see, here we have a small slice of such a data set with
-* 6 variables, i.e. columns, and
-* 4 observations, i.e., rows
+As you can see, here we have a small slice of such a data set.
+Specifically, this is a modified portion the mobi data set which is also included in the SEMinR package.
+The mobi data set contains data on how satisfied customers are with their mobile phone provider.
+Our example data set contains
+* 5 variables and
+* 6 observations.
+The variables are the columns of this table.
+Each variable represents a survey question.
+The column contains all the answers we have collected to the question.
+The observations are the rows of this table.
+An observation is the set of all answers a single respondent has given to our survey.
+So, what should we do with this data?
 
 ---
 
-# Recoding variables
+# Recoding variables: Numerical
 
-* rename variables
-* imputate missing observations or get rid of variables
+```{r, echo = FALSE, include = TRUE}
+df %>%
+  knitr::kable(format = 'html') %>%
+  column_spec(2,
+              background = "#FFAABB")
+```
 
 
 ???
-SEM only uses interval scaled data.
-Answers should therefore be collected using measures like Likert scales or percentages of agreement.
-Categorical data, e.g. gender or profession, cannot be used in SEM constructs.
-The answers data should not only be numerical, but also, the numbers should represent points on a equidistant scale.
-If you have reverse-coded data, you should invert them.
-SEMinR also cannot handle missing data.
-This means if there is only one NA in a variable used in the SEM, the whole observation is discarded.
-Therefore, you should carefully consider what to do with NA values.
-If not that many observations contain missing data for a certain variable, you might imputate data.
-Otherwise, it might make more sense to not use the variable in your SEM.
+It should be self-evident that SEMinR only handles numerical data.
+So we would need to recode the highlighted variable.
+But I want to take this opportunity to quickly touch on the way data for a SEM should be measured.
+
+---
+
+# Recoding variables: Data type
+
+Data should be
+* numerical
+
+But also...
+
+--
+
+... approximately equidistant
+
+![](basics-data-prep_files/likert-scale-good.svg)
+
+
+???
+So, as I said, the data should be numerical so the SEMinR algorithm can do calculations with it.
+But when it does those calculations, there is another implicit assumption about your data.
+This assumption is that the distance between the numerical values is equidistant, e.g., that the distance between 1 and 2 and between 2 and 3 is roughly the same, like in this example. (Next Slide Part)
+Or to say it differently,  the algorithm handles your data as if it was interval scaled.
+Now, for many reasons it can be argued that it is impossible to collect interval scaled data psychological data.
+Still, when you collect your data using measures like Likert scales or percentages of agreement, you should try and ensure that the scale is, let's say, as equidistant as possible.
+
+---
+
+# Recoding variables: Data type
+
+Data should be
+* numerical
+
+But also...
+
+... approximately equidistant (not scaled like this)
+
+![](basics-data-prep_files/likert-scale-bad-red.svg)
+
+
+
+???
+So avoid to create a scale similar to this.
+Of course, it follows that categorical data, e.g. gender or profession, cannot be used in PLS-SEM constructs.
+If you want to test the influence of such data, you have to do something similar to a ANOVA or a t-test:
+Estimate a separate SEM for each group and then compare them via multi-group analysis.
+
+---
+
+# Recoding variables: Data type
+
+Data should be
+* numerical
+* ordinal scaled
+* and the scale should be approximately equidistant
+
+???
+So, to summarize:
+Your data needs to be numerical, ordinal scaled and as close to equidistant as possible.
+
+---
+
+# Recoding variables: Data type
+
+```{r, echo = FALSE, include = TRUE}
+df %>%
+  knitr::kable(format = 'html') %>%
+  column_spec(2,
+              background = "#FFAABB")
+```
+
+???
+So let's take a quick look on what we need to do to our example data if we want to recode it in R.
+Of course, there are many ways to do this.
+
+---
+
+# Recoding variables: Data type
+
+```{r echo=TRUE}
+df[,2] <- df[,2] %>%
+  recode(
+  "rather agree" = 7,
+  "agree" = 9,
+  "strongly agree" = 10  
+  )
+```
+
+???
+One relatively quick way is the recode function from the dplyr package.
+We choose the second column and tell R which answer option should be replaced by which number.
+Of course, if you have a full data set you would have to declare numbers for each possible answer option.
+
+---
+
+# Recoding variables: Data type
+
+```{r, echo = FALSE, include = TRUE}
+df %>%
+  knitr::kable(format = 'html') %>%
+  column_spec(2,
+              background = "#99DDFF")
+```
+
+???
+Much better.
+
+---
+
+# Recoding variables: Direction
+
+```{r, echo = FALSE, include = TRUE}
+df %>%
+  knitr::kable(format = 'html') %>%
+  column_spec(3,
+              background = "#FFAABB")
+```
+
+???
+Now let's take a look at the next highlighted variable.
+This variable is reverse coded.
+That means that it has a different direction than its related variables.
+Let me illustrate this.
+
+---
+
+# Recoding variables: Direction
+
+```{r, echo = FALSE, include = TRUE}
+df %>%
+  knitr::kable(format = 'html') %>%
+  column_spec(3,
+              background = "#FFAABB") %>%
+  column_spec(1:2,
+              background ="#99DDFF") %>%
+  add_header_above(
+    c(
+      "Expectation" = 3,
+      " " = 2
+    ),
+    background = "#99DDFF"  
+  )
+```
+
+???
+In our example data, the first three variables are supposed to measure facets of the same underlying concept.
+Specifically, they are supposed to measure the expectation a customer has of their mobile phone provider.
+The first variable in our data set refers to overall quality expectations, and the second variable to expectations about products and services.
+The third variable which is highlighted here refers to the expectation how often problems would occur.
+So where high values for the first two variables correspond with high expectations, a high value for the third variable corresponds with low expectations.
+Of course, you can often already recode your question in the survey software.
+But if you haven't, here is how you could do it in R. 
+
+---
+
+# Recoding variables: Direction
+
+```{r echo = TRUE}
+df[,3] <- df[,3] %>%
+  recode(
+    `1` = 10,
+    `2` = 9,
+    `3` = 8,
+    `4` = 7,
+    `5` = 6,
+    `6` = 5,
+    `7` = 4,
+    `8` = 3,
+    `9` = 2,
+    `10` = 1
+  )
+```
+
+???
+As you can see, the code looks pretty much similar to the code we used to recode the previous variable.
+
+---
+
+# Recoding variables: Direction
+
+```{r, echo = FALSE, include = TRUE}
+df %>%
+  knitr::kable(format = 'html') %>%
+  column_spec(1:3,
+              background ="#99DDFF") %>%
+  add_header_above(
+    c(
+      "Expectation" = 3,
+      " " = 2
+    ),
+    background = "#99DDFF"  
+  )
+```
+
+???
+Now, all variables are coded in the same direction.
+
+---
+
+# Treating missing values
+
+```{r, echo = FALSE, include = TRUE}
+df %>%
+  knitr::kable(format = 'html') %>%
+  column_spec(5,
+              background = "#FFAABB")
+```
+
+???
+Let's take a look at the last variable in our data set.
+There are three values missing.
+The SEMinR algorithm cannot work with missing data.
+This means if you use a variable in the SEM where there is a value missing, SEMinR will not use that observation at all.
+
+---
+
+# Treating missing values
+
+```{r, echo = FALSE, include = TRUE}
+df %>%
+  knitr::kable(format = 'html') %>%
+    column_spec(4,
+              background = "#99DDFF") %>%
+  column_spec(5,
+              background = "#FFAABB") %>%
+  add_header_above(
+    c(
+      "Expectation" = 3,
+      "Satisfaction" = 2
+    ),
+    background = c("","#99DDFF")
+  )
+```
+
+???
+In our example, the last two variables measure facets of satisfaction.
+As explained, if you use both variables in your SEM without doing anything about your missing variables...
+
+
+---
+
+# Treating missing values
+
+```{r, echo = FALSE, include = TRUE}
+df %>%
+  knitr::kable(format = 'html') %>%
+  add_header_above(
+    c(
+      "Expectation" = 3,
+      "Satisfaction" = 2
+    )
+  ) %>%
+  row_spec(c(2:3,5), background = "#99DDFF")
+```
+
+???
+... only the highlighted observations, or rows, will be used to estimate the SEM.
+In our case, that means we are using only half our sample, even though the observations contain values for all other variables!
+If multiple variables are missing values for different observations, the sample size for your SEM might suddenly be much smaller than expected.
+Therefore, you should carefully consider what to do with missing data.
+
+---
+
+# Treating missing values
+
+* Impute missing data
+* Remove variables containing missing data
+
+--
+
+```{r echo = TRUE}
+df <- df[,-5]
+```
+
+???
+If a variable is missing only a small amount of data, you might impute data.
+This means that you replace the missing values with substitute data.
+For example, you might replace them with the mean value of the variable.
+While this is unlikely to skew the results of your model, it might also make it more unlikely you find significant relationships.
+So another option is to simply not use the variable containing missing data in your SEM.
+This should be the method of choice, especially when there is a lot of data missing.
+In their 2017 primer, Hair et al. name 15 % as the threshold for missing data over which a variable should be removed.
+Of course, when you are working with a real data set, you will have to weigh the benefits of each option when deciding how to handle missing data.
+(new slide part)
+Fortunately, for our example, the decision is easy.
+Half the data is missing, let's get rid of the column.
 
 ---
 
 # Renaming variables
 
+```{r echo = FALSE, include = TRUE}
+df %>%
+  knitr::kable(format = 'html') %>%
+  add_header_above(
+    c(
+      "Expectation" = 3,
+      "Satisfaction" = 1
+    )
+  )
+```
+
+
 ???
-As you can see, I have very descriptive variable names in my dataset.
-If you use SEMinR, you should probably rename thos variables.
-Not only does it make for a more clear path diagram.
-It also speeds up model specification.
-In SEMinR, you can use the multi_items() function you describe your measurement model.
-For this, SEMinR assumes all your variables are named after the patter prefix-number.
-In our example, we have three variables describing expectations, and three variables describing satisfaction.
-Therefore, we could rename them to CUEX 1:3 and CUSA 1:3.
-So now, in SEMinR, instead of writing this
-c("blablabla")
-we can write this
-multi_items("CUEX", 1:3)
-This might seem tedious in the beginning, but especially if you modify your model this will save you a lot of time.
+The last point I want to talk about in this video is renaming the variables.
+As you can see, the variables in my data set have very descriptive names.
+This is useful when I want to see at a glance what exactly each variable refers to.
+But if you want to use your data in SEMinR, you should still rename them.
 ---
+
+# Renaming variables
+
+.pull-left[
+Long variable names...
+```{r echo=FALSE, out.width='90%'}
+specify_model(
+  measurement_model = constructs(
+    reflective(
+      construct_name = "Expectation", 
+      item_names = c(
+        "Quality Expectation",
+        "Expectation Products",
+        "Problem Expectation"
+      )
+      ),
+    reflective(
+      construct_name = "Satisfaction",
+      item_names = c(
+        "Satisfaction Overall"
+      )
+    )
+  ),
+  structural_model = relationships(
+    paths(
+      from = "Expectation",
+      to = "Satisfaction"
+    )
+  )
+             ) %>%
+  plot()
+```
+]
+
+--
+
+.pull-right[
+... vs. abbreviated names
+```{r echo=FALSE, out.width='90%'}
+specify_model(
+  measurement_model = constructs(
+    reflective(
+      construct_name = "Expectation", 
+      item_names = multi_items(
+        "CUEX", 1:3
+      )
+      ),
+    reflective(
+      construct_name = "Satisfaction",
+      item_names = "CUSA1"
+    )
+  ),
+  structural_model = relationships(
+    paths(
+      from = "Expectation",
+      to = "Satisfaction"
+    )
+  )
+             ) %>%
+  plot(
+  )
+```
+]
+
+
+???
+Let's take a look at this example model using our data set.
+You can imagine this gets crowded pretty quickly.
+(next slide part) 
+Especially as most models you build will likely contain many more variables.
+But the main reason is  that it makes model specification much easier.
+
+---
+
+# Renaming variables
+
+Long variable names...
+```{r echo=TRUE}
+measurement_model <- constructs(
+    reflective(
+      construct_name = "Expectation", 
+      item_names = c(
+        "Quality Expectation", 
+        "Expectation Products",
+        "Problem Expectation"
+      )
+      ),
+    reflective(
+      construct_name = "Satisfaction",
+      item_names = c(
+        "Expectation Fulfillment"
+      )
+    )
+  )
+```
+
+
+
+???
+This is what the code would look like for the example.
+For an in depth description of how to specify the measurement model in SEMinR, please refer to our measurement model video.
+
+---
+
+# Renaming variables
+
+... vs. abbreviated names
+```{r echo=TRUE}
+measurement_model <- constructs(
+    reflective(
+      construct_name = "Expectation", 
+      item_names = multi_items(
+        "CUEX", 1:3
+      )
+      ),
+    reflective(
+      construct_name = "Satisfaction",
+      item_names = "CUSA1"
+    )
+  )
+```
+
+
+???
+But even at a glance it is obvious that you can save a lot of code when you rename your variables.
+
+---
+
+# Renaming variables
+
+... vs. abbreviated names
+```{r tidy=FALSE, eval=FALSE}
+measurement_model <- constructs(
+    reflective(
+      construct_name = "Expectation",
+      item_names =multi_items( #<<
+        "CUEX", 1:3              #<<
+      )                          #<<
+      ),
+    reflective(
+      construct_name = "Satisfaction",
+      item_names = "CUSA1"
+    )
+  )
+```
+
+???
+In SEMinR, you can use the multi_items() function you describe your measurement model.
+For this, SEMinR assumes all your variables are named after the pattern prefix-number.
+In our example, we have three variables describing Expectation.
+Therefore, we could rename all variables associated with Expectation to CUEX 1:3 and all variables associated with Satisfaction to CUSA 1:3.
+Again, for a small model like this, this might seem tedious.
+But especially if you modify your model, this will save you a lot of time in the long run.
+
+---
+
+# Renaming variables
+
+```{r}
+df <- df %>%
+  rename(
+    "CUSA1" = "Satisfaction Overall"
+  )
+```
+
+--
+```{r}
+df <- df %>%
+  rename_with(
+    ~ paste0(
+      "CUEX",
+      1:3
+    ),
+    .cols = c(1:3)
+  )
+```
+
+???
+So how would you do it in R?
+Again, there is a lot of ways, but one way is using the rename function.
+Let's start with the last variable, the one with Satisfaction.
+And what if we want to rename multiple variables at once?
+(next slide part)
+That's easy, too.
+We can use rename_with to rename them all at once.
+
+---
+
+# Renaming variables
+
+```{r, echo = FALSE}
+df %>%
+  knitr::kable(format = 'html')
+```
+
+???
+And that's it, you're done with basic data preparation.
+
+---
+
+# Sources for this video
+
+Hair, J. F., Hult, G. T. M., Ringle, C. M., & Sarstedt, M. (2017). A primer on partial least squares structural equation modeling (PLS-SEM) (Second edition). Sage.
