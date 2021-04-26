@@ -1,7 +1,7 @@
 ---
 title: "Preparing your Data for SEM Estimation"
-subtitle: "Basic Cleaning and Renaming for SEMinR"
-author: "Wir"
+subtitle: "Basic Steps"
+author: "Lilian Kojan"
 #institute: "RStudio, PBC"
 date: "2021-04-23 (updated: `r Sys.Date()`)"
 output:
@@ -341,7 +341,8 @@ df %>%
 Let's take a look at the last variable in our data set.
 There are three values missing.
 The SEMinR algorithm cannot work with missing data.
-This means if you use a variable in the SEM where there is a value missing, SEMinR will not use the observation that includes this missing value at all.
+This means if you use a variable in the SEM where there is a value missing, SEMinR will by default use substitute data for that missing value.
+Otherwise, you can choose that it does not use the observation that includes this missing value at all.
 
 ---
 
@@ -367,6 +368,27 @@ df %>%
 In our example, the last two variables measure facets of satisfaction.
 As explained, if you use both variables in your SEM without doing anything about your missing variables...
 
+---
+
+# Treating missing values
+
+```{r, echo = FALSE, include = TRUE}
+df_mr <- df
+df_mr[c(1,4,6),5] <- round(sum(df[c(2:3,5),5])/3,0)
+df_mr %>%
+  knitr::kable(format = 'html') %>%
+  add_header_above(
+    c(
+      "Expectation" = 3,
+      "Satisfaction" = 2
+    )
+  ) %>%
+  row_spec(c(1,4,6), background = "#99DDFF")
+```
+
+???
+... SEMinR will by default use substitute the missing values with the mean of the variable.
+This might lead to smaller and less significant path coefficients.
 
 ---
 
@@ -385,17 +407,17 @@ df %>%
 ```
 
 ???
-... only the highlighted observations, or rows, will be used to estimate the SEM.
+And if you choose to not use mean replacement, only the highlighted observations, or rows, will be used to estimate the SEM.
 In our case, that means we are using only half our sample, even though the observations contain values for all other variables!
 If multiple variables are missing values for different observations, the sample size for your SEM might suddenly be much smaller than expected.
 Therefore, you should carefully consider what to do with missing data.
-
 ---
 
 # Treating missing values
 
 * Impute missing data
-* Remove variables containing missing data
+* Remove variables containing missing data (Hair et al., 2017)
+* Ignore missing data 
 
 --
 
@@ -406,15 +428,19 @@ df <- df[,-5]
 ???
 If a variable is missing only a small amount of data, you might impute data.
 This means that you replace the missing values with substitute data.
-For example, you might replace them with the mean value of the variable.
+As mentioned, by default SEMinR automatically replaces missing values with the mean value of the variable.
 While this is unlikely to skew the results of your model, it might also make it more unlikely you find significant relationships.
 So another option is to simply not use the variable containing missing data in your SEM.
 Especially when there is a lot of data missing, this should be the method of choice.
 In their 2017 primer on structural equation modeling, Hair et al. name 15 % as the threshold for missing data over which a variable should be removed.
-Of course, when you are working with a real data set, you will have to weigh the benefits of each option when deciding how to handle missing data.
+Of course, you can also always leave the missing data as-is and tell SEMinR to disregard observations with missing data.
+A benefit of this is that SEMinR only drops observations where the missing value would actually be part of the model.
+So this option might be beneficial if you try out many different model specifications.
+
+When you are working with a real data set, you will have to weigh the benefits of each option when deciding how to handle missing data.
 (new slide part)
 Fortunately, for our example, the decision is easy.
-Half the data for theh variable is missing, so let's get rid of it.
+Half the data for the variable is missing, so let's get rid of it.
 
 ---
 
