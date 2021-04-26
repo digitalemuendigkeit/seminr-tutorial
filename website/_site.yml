@@ -17,18 +17,17 @@ navbar:
         - text: "---------"
         - text: "Designing a model"
         - text: "Preparing the data"
-          href: basics.html
-        - text: "---------"
-        - text: "The structural model"
-          href: basics-structural.html
+          href: data-prep-basics.html
         - text: "The measurement model"
           href: basics-measurement.html
+        - text: "The structural model"
+          href: basics-structural.html
+        - text: "Estimating a model"
+          href: estimating_pls.html
         - text: "Testing a model"
           href: advanced-simulation.html
         - text: "---------"
         - text: "Evaluating a model"
-        - text: "Estimating a model"
-          href: estimating_pls.html
     - text: "Advanced SEM"
       icon: fa-graduation-cap
       menu:
