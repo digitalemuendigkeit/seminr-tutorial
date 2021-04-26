@@ -136,7 +136,7 @@ But also...
 
 ... approximately equidistant
 
-![](basics-data-prep_files/likert-scale-good.svg)
+![](figures/likert-scale-good.svg)
 
 
 ???
@@ -159,7 +159,7 @@ But also...
 
 ... approximately equidistant (i.e., not scaled like this)
 
-![](basics-data-prep_files/likert-scale-bad-red.svg)
+![](figures/likert-scale-bad-red.svg)
 
 
 

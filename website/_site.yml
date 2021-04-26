@@ -16,6 +16,9 @@ navbar:
           href: basics.html
         - text: "---------"
         - text: "Designing a model"
+        - text: "Preparing the data"
+          href: basics.html
+        - text: "---------"
         - text: "The structural model"
           href: basics-structural.html
         - text: "The measurement model"
