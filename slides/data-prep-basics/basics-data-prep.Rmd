@@ -635,8 +635,11 @@ df %>%
 
 ???
 And that's it, you're done with basic data preparation.
-To summarize, you should take care that you data is coded correctly, that you have taken care of missing values and that you have renamed your variables so you can easily use them in your SEMinR code.
-
+Let's review what I have described in this video:
+To start off, you should take care that you data is coded correctly.
+Then you should treat missing data.
+Lastly, you should rename your variables so you can easily use them in your SEMinR code.
+And then you can move on to model estimation!
 
 ---
 
