@@ -26,7 +26,7 @@ options(htmltools.dir.version = FALSE)
 - indirect effects: related by a sequence of relationships with at least one mediating construct
 - indirect effects: sequence of two or more direct (indicated by arrows) effects = mediating effect
 
-![:scale 50%](Figures/Mediation.png)
+<!--![:scale 50%](Figures/Mediation.png)-->
 ---
 
 ## Mediation:

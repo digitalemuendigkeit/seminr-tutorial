@@ -17,6 +17,7 @@ output:
 library(tidyverse)
 library(seminr)
 library(knitr)
+options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
 ```
 # PLS model estimation in SEMinR
 
@@ -112,11 +113,14 @@ specify_model(measurement_model = mm,
   plot()
 ```
 --
-```{r echo=FALSE, include = TRUE, out.width='50%'}
+```{r echo=FALSE, include = TRUE}
 specify_model(measurement_model = mm,
               structural_model = sm) %>%
-  plot()
+  plot() -> p
+save_plot("figures/estimated_mediation.svg", width = 1000)
 ```
+
+![](figures/estimated_mediation.svg)
 
 ???
 Now, we are ready for model estimation.
@@ -318,7 +322,7 @@ By default, the contains both the measurement and the structural model with path
 # The SEMinR model object - subobjects
 
 ```{r eval=FALSE}
-model$
+> model$
 ```
 --
 Means of all indicators:

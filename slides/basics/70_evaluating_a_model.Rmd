@@ -1,5 +1,5 @@
 ---
-title: "Evaluating_a_model"
+title: "Evaluating a model"
 subtitle: "Basic Introduction to SEM-in-R"
 author: "Laura"
 date: "4/21/2021"
@@ -37,7 +37,9 @@ options(htmltools.dir.version = FALSE)
 
 - R2 change analysis > whether an independent latent variable exerts a substantial influence on a dependent variable
 - Effect size f2: calculated from different R2 when the independent latent variable in question is included in the dependent latent variable (R2 incl) or not (R2 excl): 
- ![](Figures/formula.png)
+
+$$f^2:=\frac{R^2_{incl}-R^2_{excl}}{1-R^2_{incl}}$$
+
 
 Values for f 2 of more than 0.02 / 0.15 / 0.35: independent latent variable has small /medium / large influence on dependent latent variable 
 
@@ -56,6 +58,4 @@ Values for f 2 of more than 0.02 / 0.15 / 0.35: independent latent variable has 
 # Evaluation of measurement models
 
 - estimation of model > empirical measured variables to assess the relationship between the indicators and constructs (measurement models) and between the different constructs (structural model)
-
----
 
