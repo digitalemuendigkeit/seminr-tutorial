@@ -2,34 +2,35 @@
 title: "Evaluating_a_model"
 author: "Laura"
 date: "4/21/2021"
-output: ioslides_presentation
+output: 
+xaringan::moon_reader:
+    #lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
 ---
 
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+options(htmltools.dir.version = FALSE)
 ```
 
-## R Markdown
+# Evaluating a model:
+Following, we present how the quality of a structural-equation model should be evaluated.
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# Overview:
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+- primary quality or evaluation criteria and their systematic application to PLS-path-models 
+- evaluation of reflective specified measurement models: application of relevant evaluation criteria and their appropriate evaluation
+- 
 
-## Slide with Bullets
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+---
 
-## Slide with R Output
+# Evaluation of measurement models
 
-```{r cars, echo = TRUE}
-summary(cars)
-```
+- estimation of model > empirical measured variables to assess the relationship between the indicators and constructs (measurement models) and between the different constructs (structural model)
 
-## Slide with Plot
-
-```{r pressure}
-plot(pressure)
-```
+---
 
