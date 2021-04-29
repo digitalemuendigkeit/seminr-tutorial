@@ -34,6 +34,15 @@ options(htmltools.dir.version = FALSE)
 - interpret as in ordinary regressions
 - Path values: can also be considered as coefficients of an ordinary (multiple) regression
 
+- R2 change analysis > whether an independent latent variable exerts a substantial influence on a dependent variable
+- Effect size f2: calculated from different R2 when the independent latent variable in question is included in the dependent latent variable (R2 incl) or not (R2 excl): 
+ ![:scale 25%](Figures/formula.png)
+
+Values for f 2 of more than 0.02 / 0.15 / 0.35: independent latent variable has small /medium / large influence on dependent latent variable 
+
+
+
+(Henseler, J. (2005). Einführung in die PLS-Pfadmodellierung. Wirtschaftswissenschaftliches Studium, 34(2), 70-75.)
 ---
 
 
