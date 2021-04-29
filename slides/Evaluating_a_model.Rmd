@@ -24,11 +24,18 @@ options(htmltools.dir.version = FALSE)
 # Overview:
 
 - primary quality or evaluation criteria and their systematic application to PLS-path-models 
-- evaluation of reflective specified measurement models: application of relevant evaluation criteria and their appropriate evaluation
-- 
+- evaluation of reflective specified measurement models: application of relevant evaluation criteria and their appropriate evaluation 
 
 
 ---
+
+# Evaluation - in general:
+- In the evaluation of PLS pathway models: Starting point: R2 from the regressions of the individual endogenous latent variables of the structural model.
+- interpret as in ordinary regressions
+- Path values: can also be considered as coefficients of an ordinary (multiple) regression
+
+---
+
 
 # Evaluation of measurement models
 
