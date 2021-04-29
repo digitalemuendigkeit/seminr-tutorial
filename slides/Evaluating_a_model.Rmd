@@ -45,6 +45,11 @@ Values for f 2 of more than 0.02 / 0.15 / 0.35: independent latent variable has 
 (Henseler, J. (2005). Einführung in die PLS-Pfadmodellierung. Wirtschaftswissenschaftliches Studium, 34(2), 70-75.)
 ---
 
+# Evaluation - Validation:
+- Validation of determined estimated values: resampling techniques
+-- allow evaluation of stability of determined model parameters
+
+---
 
 # Evaluation of measurement models
 
