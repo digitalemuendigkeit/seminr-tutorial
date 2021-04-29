@@ -1,10 +1,11 @@
 ---
 title: "structural_model"
+subtitle: "Basic Introduction to SEM-in-R"
 author: "Laura"
-date: "4/21/2021"
-output: 
-xaringan::moon_reader:
-    #lib_dir: libs
+date: "test 4/21/2021"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
     nature:
       highlightStyle: github
       highlightLines: true
@@ -54,7 +55,7 @@ options(htmltools.dir.version = FALSE)
 - constructs serving as dependent variables = endogeneous latent variables; at the right side; only incoming arrows
 - constructs serving as independent and dependent variables = endogeneous variables; in the middle of the path-model
 
- ![:scale 50%](Figures/Path-model.png)
+![](Figures/Path-model.png)
 
 ---
 
@@ -74,6 +75,7 @@ options(htmltools.dir.version = FALSE)
 - sparsity: not everything should explain everything
 - mostly, linear relationships between two or more constructs within one path-model
 - more complex modell relationships: mediations; moderations (next slides)
+
 ---
 
 ## Mediation:
@@ -83,7 +85,7 @@ options(htmltools.dir.version = FALSE)
 - indirect effects: related by a sequence of relationships with at least one mediating construct
 - indirect effects: sequence of two or more direct (indicated by arrows) effects = mediating effect
 
-![:scale 50%](Figures/Mediation.png)
+![](Figures/Mediation.png)
 ---
 
 ## Mediation:
@@ -94,5 +96,5 @@ options(htmltools.dir.version = FALSE)
 ## Moderation:
 - mediating effect: third construct occurs between two other related constructs
 
-![:scale 50%](Figures/Moderation.png)
----
+![](Figures/Moderation.png)
+

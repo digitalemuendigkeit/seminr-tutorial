@@ -1,9 +1,10 @@
 ---
 title: "Evaluating_a_model"
+subtitle: "Basic Introduction to SEM-in-R"
 author: "Laura"
 date: "4/21/2021"
-output: 
-xaringan::moon_reader:
+output:
+  xaringan::moon_reader:
     #lib_dir: libs
     nature:
       highlightStyle: github
@@ -36,7 +37,7 @@ options(htmltools.dir.version = FALSE)
 
 - R2 change analysis > whether an independent latent variable exerts a substantial influence on a dependent variable
 - Effect size f2: calculated from different R2 when the independent latent variable in question is included in the dependent latent variable (R2 incl) or not (R2 excl): 
- ![:scale 25%](Figures/formula.png)
+ ![](Figures/formula.png)
 
 Values for f 2 of more than 0.02 / 0.15 / 0.35: independent latent variable has small /medium / large influence on dependent latent variable 
 

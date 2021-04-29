@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>structural_model</title>
+    <title>Evaluating_a_model</title>
     <meta charset="utf-8" />
     <meta name="author" content="Laura" />
-    <script src="libs/header-attrs/header-attrs.js"></script>
-    <link href="libs/remark-css/default.css" rel="stylesheet" />
-    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <script src="Evaluating_a_model_files/header-attrs/header-attrs.js"></script>
+    <link href="Evaluating_a_model_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Evaluating_a_model_files/remark-css/default-fonts.css" rel="stylesheet" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# structural_model
+# Evaluating_a_model
 ## Basic Introduction to SEM-in-R
 ### Laura
-### test 4/21/2021
+### 4/21/2021
 
 ---
 
@@ -23,86 +23,46 @@ class: center, middle, inverse, title-slide
 
 
 
-# The structural model:
+# Evaluating a model:
+- Following, we present how the quality of a structural-equation model should be evaluated.
+- There are primary quality or evaluation criteria.
+- Further, Systematicall application to PLS path models.
 
-- describes relationship between latent variables
-- order and sequence of constructs: based on theory/ experiences and knowledge
-- path-models from left to right
--- left: independent variables
--- right: dependent variables
--- left: sequential ahead, influence variables on the right
+# Overview:
 
----
+- primary quality or evaluation criteria and their systematic application to PLS-path-models 
+- evaluation of reflective specified measurement models: application of relevant evaluation criteria and their appropriate evaluation 
 
-# The structural model 2 - exogeneous vs. endogeneous variables:
-
-- variables can serve as dependent and independent
-- latent variables serving only as independent = exogeneous latent variables (Y1 and Y2)
-- latent variables serving only as dependent (Y4) or as independent and dependent (Y3) = endogeneous latent variables (Y3)
-- each variable, which has only arrows coming from it = exogeneous latent variable
-- endogeneous latent variables can have either incoming and outgoing arrows (Y3) or only incoming arrows (Y4)
-- exogeneous latent variables have no error terms (because these constructs depict the independent variables explaining the dependent variables in the path-model)
 
 ---
 
-# Specification of structural model:
-- When developing a structural model, two things must be considered:
-1. sequence of the constructs
-2. relationships between constructs
-- both represent hypotheses and the theory to be tested (must be reflected during development of model)
+# Evaluation - in general:
+- In the evaluation of PLS pathway models: Starting point: R2 from the regressions of the individual endogenous latent variables of the structural model.
+- interpret as in ordinary regressions
+- Path values: can also be considered as coefficients of an ordinary (multiple) regression
+
+- R2 change analysis &gt; whether an independent latent variable exerts a substantial influence on a dependent variable
+- Effect size f2: calculated from different R2 when the independent latent variable in question is included in the dependent latent variable (R2 incl) or not (R2 excl): 
+ ![](Figures/formula.png)
+
+Values for f 2 of more than 0.02 / 0.15 / 0.35: independent latent variable has small /medium / large influence on dependent latent variable 
+
+
+
+(Henseler, J. (2005). Einführung in die PLS-Pfadmodellierung. Wirtschaftswissenschaftliches Studium, 34(2), 70-75.)
+---
+
+# Evaluation - Validation:
+- Validation of determined estimated values: resampling techniques
+-- allow evaluation of stability of determined model parameters
 
 ---
 
-## Sequence of constructs:
-- based on theory/ concept, logic/ experiences
-- from left to right: left: independent (eplanatory) constructs &gt; dependent constructs (outcomes)
-- assumes, that constructs on the left are ahead and that they predict variables on the right
-- constructs only serving as independent variables = exogeneous latent variables; at the left side; have only arrows coming from it
-- constructs serving as dependent variables = endogeneous latent variables; at the right side; only incoming arrows
-- constructs serving as independent and dependent variables = endogeneous variables; in the middle of the path-model
+# Evaluation of measurement models
 
-![](Figures/Path-model.png)
+- estimation of model &gt; empirical measured variables to assess the relationship between the indicators and constructs (measurement models) and between the different constructs (structural model)
 
 ---
-
-## Determining sequence of constructs:
-- hard: contradictory theoretic perspectives imply different sequences 
-- should always be based on theory and logic
-- contradictory perpectives: personal judgement 
-- possible: competing models
-
----
-
-## Relationships between constructs:
-- specified by arrows
-- generally the tip points to the right
-- directed relations: called causal, when supported by theory
-- conflict: completeness (all relations supported by theory) and sparsity (few relations)
-- sparsity: not everything should explain everything
-- mostly, linear relationships between two or more constructs within one path-model
-- more complex modell relationships: mediations; moderations (next slides)
-
----
-
-## Mediation:
-- mediating effect: third construct occurs between two other related constructs
-- e.g. model with direct and indirect effects:
-- direct effects: two constructs are related by only one arrow
-- indirect effects: related by a sequence of relationships with at least one mediating construct
-- indirect effects: sequence of two or more direct (indicated by arrows) effects = mediating effect
-
-![](Figures/Mediation.png)
----
-
-## Mediation:
-- most common used for "explanation" why a relation between an exogeneous and an ednogeneous construct exists
-- (e.g. one observes a relation between two constructs, but is unsure "why" this relation exist or if the relation is the only possible relation between the constructs)
----
-
-## Moderation:
-- mediating effect: third construct occurs between two other related constructs
-
-![](Figures/Moderation.png)
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
