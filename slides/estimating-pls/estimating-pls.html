@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Estimating a PLS-SEM</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Lilian Kojan" />
+    <link href="estimating-pls_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="estimating-pls_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="estimating-pls_files/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+    <script src="estimating-pls_files/viz-1.8.2/viz.js"></script>
+    <link href="estimating-pls_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+    <script src="estimating-pls_files/grViz-binding-1.0.6.1/grViz.js"></script>
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Estimating a PLS-SEM
+## Model Estimation in SEMinR
+### Lilian Kojan
+### 2021-04-27 (updated: 2021-04-27)
+
+---
+
+
+
+# PLS model estimation in SEMinR
+
+1. Before estimation
+2. Estimating a model
+3. The SEMinR model object
+4. Troubleshooting
+
+
+???
+Now that you know how to specify the measurement model and the structural model in SEMinR, all that is left is model estimation.
+In this video, I will show you how to estimate a PLS SEM model in SEMinR.
+I will also talk about the model object in SEMinR and what you can do with it.
+Finally, I will adress some common problems that appear when you estimate a model.
+
+---
+
+# Before estimation
+
+What you need to estimate a model:
+* Data
+* Measurement model
+* Structural model
+
+???
+Before we start with estimation, let's shortly talk about the ingredients you need to estimate a model. 
+Firstly, you need a data set as described in our video on data preparation.
+This data set can be both in the matrix or dataframe format and must contain numerical response data.
+With PLS-SEM, model estimation is possible even with a small number of observations.
+But of course, if you have more responses, your model's statistical power is larger.
+Secondly, you need to specify a measurement model.
+The measurement model is the link between your data and your structural model.
+A common source of trouble is a disconnect between measurement model and either data or structural model.
+For example, if the indicator names in your measurement model don't correspond with the column names in your data,
+or when you use a construct in your structural model that you have not defined in your measurement model.
+Thirdly, in your structural model you the relationship between the model constructs.
+
+---
+
+# Before estimation - example
+
+
+```r
+library(seminr)
+dt &lt;- mobi
+mm &lt;- constructs(
+  composite(construct_name = "Reputation",
+            item_names = multi_items("IMAG", 1:5),
+            weights = correlation_weights),
+  composite("Satisfaction",
+            multi_items("CUSA", 1:3),
+            mode_A),
+  composite("Loyalty",
+            multi_items("CUSL", 1:3))
+)
+```
+
+
+???
+For our example, we use the mobi data set which is part of the seminar package.
+We assign the new name dt to the mobi data set.
+As example model, we use the mediation model from our structural model tutorial.
+For that, we define all constructs in the measurement model which we call mm.
+As you have learned in the measurement model tutorial, the code for all three constructs is equivalent. They each define a mode a (or correlation weights) composite construct.
+
+
+---
+
+# Before estimation - example
+
+
+```r
+sm &lt;- relationships(
+  paths(
+    from = "Reputation",
+    to = c("Satisfaction", "Loyalty")
+  ),
+  paths(
+    from = "Satisfaction",
+    to = "Loyalty"
+  )
+)
+```
+
+???
+Lastly, we define the structural model which we call sm.
+
+---
+
+# Before estimation - example
+
+
+```r
+specify_model(measurement_model = mm,
+              structural_model = sm) %&gt;%
+  plot()
+```
+--
+<div id="htmlwidget-1367c25ca3336b15b029" style="width:50%;height:504px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1367c25ca3336b15b029">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = white,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.05,\nwidth = 1.56666666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"Reputation\" [label=<<B>Reputation <\/B>>, shape = hexagon]\n\"Satisfaction\" [label=<<B>Satisfaction <\/B>>, shape = hexagon]\n\"Loyalty\" [label=<<B>Loyalty <\/B>>, shape = hexagon]\nedge [\ncolor = black,\nfontsize = 9,\nfontcolor = black,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"Reputation\" -> {\"Satisfaction\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"Reputation\" -> {\"Loyalty\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"Satisfaction\" -> {\"Loyalty\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.188888888888889,\nwidth = 0.5,\nfontname = helvetica,\nfixedsize = true\n]\n\"IMAG1\" [label = \"IMAG1\", shape = box]\n\"IMAG2\" [label = \"IMAG2\", shape = box]\n\"IMAG3\" [label = \"IMAG3\", shape = box]\n\"IMAG4\" [label = \"IMAG4\", shape = box]\n\"IMAG5\" [label = \"IMAG5\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"IMAG1\" -> {\"Reputation\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"IMAG2\" -> {\"Reputation\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"IMAG3\" -> {\"Reputation\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"IMAG4\" -> {\"Reputation\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"IMAG5\" -> {\"Reputation\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.188888888888889,\nwidth = 0.5,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSA1\" [label = \"CUSA1\", shape = box]\n\"CUSA2\" [label = \"CUSA2\", shape = box]\n\"CUSA3\" [label = \"CUSA3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"CUSA1\" -> {\"Satisfaction\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"CUSA2\" -> {\"Satisfaction\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"CUSA3\" -> {\"Satisfaction\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.188888888888889,\nwidth = 0.5,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSL1\" [label = \"CUSL1\", shape = box]\n\"CUSL2\" [label = \"CUSL2\", shape = box]\n\"CUSL3\" [label = \"CUSL3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"CUSL1\" -> {\"Loyalty\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"CUSL2\" -> {\"Loyalty\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"CUSL3\" -> {\"Loyalty\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+???
+Now, we are ready for model estimation.
+But we can also take a quick peek on how our model looks.
+For this, you can use the specify_model function with your measurement model and your structural model and pipe it into the plot function.
+(Next slide part)
+Looks about right.
+As you can see, by default SEMinR visualizes composite constructs as hexagons.
+
+---
+
+# Estimating a model
+
+
+```r
+model &lt;- estimate_pls(
+  data = dt,
+  measurement_model = mm,
+  structural_model = sm,
+  model = NULL,
+  inner_weights = path_weighting,
+  missing = mean_replacement, 
+  missing_value = NA
+)
+```
+
+???
+Now it's time for model estimation!
+The estimate_pls function takes eight arguments.
+On a regular basis, you will likely only use these first three.
+Let me still quickly take you through all of them.
+
+---
+
+# Estimating a model - the fundamentals
+
+
+```r
+model &lt;- estimate_pls(
+* data = dt,
+* measurement_model = mm,
+* structural_model = sm,
+  model = NULL,
+  inner_weights = path_weighting,
+  missing = mean_replacement, 
+  missing_value = NA
+)
+```
+--
+Equivalent code:
+
+```r
+model &lt;- estimate_pls(
+  dt,
+  mm,
+  sm
+)
+```
+
+???
+As mentioned, these three are likely the only arguments you will need.
+The first argument asks for the data, the second for the measurement model and the third for the structural model.
+(Next slide part)
+Without these three inputs, SEMinR cannot estimate your model.
+But these three inputs are also sufficient to estimate the model, so normally, you can just give these inputs to the estimate_pls function without specifying which argument is which.
+This means, that the bottom code is equivalent to to the top code.
+
+---
+
+# Estimating a model - *model*
+
+
+```r
+model &lt;- estimate_pls(
+  data = dt,                
+  measurement_model = mm,   
+  structural_model = sm,
+* model = NULL,
+  inner_weights = path_weighting,
+  missing = mean_replacement, 
+  missing_value = NA
+)
+```
+--
+
+```r
+specified_model &lt;- specify_model(
+  measurement_model = mm,
+  structural_model = sm
+  )
+```
+
+
+???
+Instead of providing a measurement model and structural model, you can also specify a model with the specify_model function.
+(Next slide part)
+We just used this to quickly plot our model, remember?
+So either you provide the measurement model and structural model directly to the estimate_pls function, or you specify the model before.
+By default, this argument is set to NULL.
+
+---
+
+# Estimating a model - *inner_weights*
+
+
+```r
+model &lt;- estimate_pls(
+  data = dt,                
+  measurement_model = mm,   
+  structural_model = sm,
+  model = NULL,
+* inner_weights = path_weighting,
+  missing = mean_replacement, 
+  missing_value = NA
+)
+```
+--
+Further reading:
+Tenenhaus et al. (2005). PLS path modeling.
+
+???
+The inner_weights argument defines how paths are estimated by the algorithm.
+By default, this is set to path weighting which is the recommended option for most models.
+The other option is factor weighting.
+(New slide part)
+When estimating a model, the results for both options will be very similar.
+If you are interested in the differences between these two schemes, I recommend the 2005 PLS path modeling paper by Tenenhaus et al.
+
+---
+
+# Estimating a model - *missing*
+
+
+```r
+model &lt;- estimate_pls(
+  data = dt,                
+  measurement_model = mm,   
+  structural_model = sm,
+  model = NULL,
+  inner_weights = path_weighting,
+* missing = mean_replacement,
+* missing_value = NA
+)
+```
+--
+Alternatively: Disregard observations with missing values
+
+```r
+model &lt;- estimate_pls(
+  data = dt,                
+  measurement_model = mm,   
+  structural_model = sm,
+  model = NULL,
+  inner_weights = path_weighting,
+* missing = na.omit,
+* missing_value = NA
+)
+```
+
+???
+These arguments let you specify how SEMinR handles missing data.
+As described in our data preparation basics video, missing data means that in a variable, or column of your data set, some values are missing.
+By default, SEMinR uses mean replacement.
+That means that SEMinR replaces missing values in a column of your dataset with the mean of that column.
+As discussed, this might not always be the best option.
+If you want SEMinR to disregard observations with missing values, choose the na.omit option.
+The second argument, missing_value, just tells SEMinR what missing values look like in your data.
+If you have formatted your data as numerical, it will be called NA anyway.
+
+---
+
+# Estimating a model 
+
+
+
+```r
+model &lt;- estimate_pls(
+  data = dt,                
+  measurement_model = mm,  
+  structural_model = sm
+)
+```
+
+```
+## Generating the seminr model
+## All 250 observations are valid.
+```
+
+???
+Now that we have talked through all arguments, let's run the code.
+If everything goes according to plan, your code output will look like this and tell you the number of observations.
+If your model includes higher-order constructs or interaction terms, this will print twice because a first-stage model is estimated separately.
+(Next slide part)
+We can now plot our model to get a quick overview of our model results.
+
+---
+
+# The SEMinR model object - plot
+
+
+```r
+plot(model)
+```
+
+<div id="htmlwidget-3a530a78b6872d546cc1" style="width:504px;height:504px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3a530a78b6872d546cc1">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = white,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.05,\nwidth = 1.56666666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"Reputation\" [label=<<B>Reputation <\/B>>, shape = hexagon]\n\"Satisfaction\" [label=<<B>Satisfaction <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.483<\/FONT>>, shape = hexagon]\n\"Loyalty\" [label=<<B>Loyalty <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.454<\/FONT>>, shape = hexagon]\nedge [\ncolor = black,\nfontsize = 9,\nfontcolor = black,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"Reputation\" -> {\"Satisfaction\"}[weight = 1, label = < 𝛽 = 0.695<BR /><FONT POINT-SIZE=\"7\">   <\/FONT> >, penwidth = 3.975, style = solid, color = black]\n\"Reputation\" -> {\"Loyalty\"}[weight = 1, label = < 𝛽 = 0.211<BR /><FONT POINT-SIZE=\"7\">   <\/FONT> >, penwidth = 1.555, style = solid, color = black]\n\"Satisfaction\" -> {\"Loyalty\"}[weight = 1, label = < 𝛽 = 0.51<BR /><FONT POINT-SIZE=\"7\">   <\/FONT> >, penwidth = 3.05, style = solid, color = black]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.188888888888889,\nwidth = 0.5,\nfontname = helvetica,\nfixedsize = true\n]\n\"IMAG1\" [label = \"IMAG1\", shape = box]\n\"IMAG2\" [label = \"IMAG2\", shape = box]\n\"IMAG3\" [label = \"IMAG3\", shape = box]\n\"IMAG4\" [label = \"IMAG4\", shape = box]\n\"IMAG5\" [label = \"IMAG5\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"IMAG1\" -> {\"Reputation\"}[weight = 1000, label = < 𝜆 = 0.747 >, penwidth = 2.741, style = solid, color = dimgrey]\n\"IMAG2\" -> {\"Reputation\"}[weight = 1000, label = < 𝜆 = 0.587 >, penwidth = 2.261, style = solid, color = dimgrey]\n\"IMAG3\" -> {\"Reputation\"}[weight = 1000, label = < 𝜆 = 0.574 >, penwidth = 2.222, style = solid, color = dimgrey]\n\"IMAG4\" -> {\"Reputation\"}[weight = 1000, label = < 𝜆 = 0.773 >, penwidth = 2.819, style = solid, color = dimgrey]\n\"IMAG5\" -> {\"Reputation\"}[weight = 1000, label = < 𝜆 = 0.75 >, penwidth = 2.75, style = solid, color = dimgrey]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.188888888888889,\nwidth = 0.5,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSA1\" [label = \"CUSA1\", shape = box]\n\"CUSA2\" [label = \"CUSA2\", shape = box]\n\"CUSA3\" [label = \"CUSA3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"CUSA1\" -> {\"Satisfaction\"}[weight = 1000, label = < 𝜆 = 0.804 >, penwidth = 2.912, style = solid, color = dimgrey]\n\"CUSA2\" -> {\"Satisfaction\"}[weight = 1000, label = < 𝜆 = 0.839 >, penwidth = 3.017, style = solid, color = dimgrey]\n\"CUSA3\" -> {\"Satisfaction\"}[weight = 1000, label = < 𝜆 = 0.854 >, penwidth = 3.062, style = solid, color = dimgrey]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.188888888888889,\nwidth = 0.5,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSL1\" [label = \"CUSL1\", shape = box]\n\"CUSL2\" [label = \"CUSL2\", shape = box]\n\"CUSL3\" [label = \"CUSL3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"CUSL1\" -> {\"Loyalty\"}[weight = 1000, label = < 𝜆 = 0.824 >, penwidth = 2.972, style = solid, color = dimgrey]\n\"CUSL2\" -> {\"Loyalty\"}[weight = 1000, label = < 𝜆 = 0.196 >, penwidth = 1.088, style = solid, color = dimgrey]\n\"CUSL3\" -> {\"Loyalty\"}[weight = 1000, label = < 𝜆 = 0.914 >, penwidth = 3.242, style = solid, color = dimgrey]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+???
+Now, we have a model object, what do we do with it?
+We have separate videos on model evaluation and bootstrapping, so let's just take a quick peek at the model object itself.
+Firstly, we can of course plot it.
+(Next slide part)
+By default, the contains both the measurement and the structural model with path coefficients, weights and loadings as well as the explained variance R^2.
+
+---
+
+# The SEMinR model object - subobjects
+
+
+```r
+model$
+```
+--
+Means of all indicators:
+
+```r
+model$meanData
+```
+
+```
+## IMAG1 IMAG2 IMAG3 IMAG4 IMAG5 CUSA1 CUSA2 CUSA3 CUSL1 CUSL2 CUSL3 
+## 7.640 7.780 6.744 7.588 7.932 7.988 7.128 7.316 7.452 4.988 7.668
+```
+--
+Number of iterations until convergence:
+
+```r
+model$iterations
+```
+
+```
+## [1] 6
+```
+And many more!
+
+???
+If you type in model and then the dollar sign, you get an overview of the information and objects stored in the pls model object.
+(Next slide part)
+For example, meanData contains the means of all indicators.
+(Next slide part)
+Iterations is the number of iterations it took until the algorithm converged.
+
+---
+
+# The SEMinR model object - summary
+
+
+```r
+summary(model)
+```
+
+```
+## 
+## Results from  package seminr (2.0.1)
+## 
+## Path Coefficients:
+##              Satisfaction Loyalty
+## R^2                 0.483   0.454
+## AdjR^2              0.481   0.449
+## Reputation          0.695   0.211
+## Satisfaction            .   0.510
+## 
+## Reliability:
+##                alpha    rhoC     AVE    rhoA
+## Reputation   "0.723" "0.819" "0.478" "0.745"
+## Satisfaction "0.779" "0.871" "0.693" "0.786"
+## Loyalty      "0.472" "0.721" "0.518" "0.743"
+## 
+## Alpha, rhoC, and rhoA should exceed 0.7 while AVE should exceed 0.5
+```
+
+???
+The summary function gives you a quick overview of your model results.
+If you just execute summary function, R prints a table with path coefficients and R^2.
+It also prints a table with criteria for internal consistency reliability and convergent validity.
+
+---
+
+# The SEMinR model object - summary subobjects
+
+
+```r
+summarymodel &lt;- summary(model)
+```
+--
+Informations on discriminant validity:
+
+```r
+summarymodel$validity$vif_items
+```
+
+```
+## Reputation :
+## IMAG1 IMAG2 IMAG3 IMAG4 IMAG5 
+## 1.468 1.225 1.259 1.510 1.403 
+## 
+## Satisfaction :
+## CUSA1 CUSA2 CUSA3 
+## 1.505 1.762 1.644 
+## 
+## Loyalty :
+## CUSL1 CUSL2 CUSL3 
+## 1.415 1.010 1.427
+```
+
+And many more!
+
+???
+If you store the model summary in a separate object, you can access much more information. For example...
+(Next slide part)
+You can access discriminant validity criteria like the variance inflation factor
+
+---
+
+# Troubleshooting - *'x' must be numeric*
+
+
+```r
+dt2 &lt;- dt %&gt;%
+  mutate(IMAG1 = IMAG1 %&gt;%
+           as.character())
+```
+--
+
+```r
+estimate_pls(dt2, mm, sm)
+```
+```
+Generating the seminr model
+argument is not numeric or logical: returning NA
+All 250 observations are valid.
+Error in colMeans(x, na.rm = TRUE) : 'x' must be numeric
+```
+
+--
+
+```r
+dt2 %&gt;% select(!where(is.numeric))
+```
+
+--
+
+
+???
+Finally, let's look at three common problems that can happen when estimating a model.
+First, let's assume our data is not numerical.
+For that, I make a new data set with one of our indicators formatted as a character.
+What happens if I try to estimate our model with that data?
+(Next slide part)
+I get an error that looks something like that, telling me that my data is not numeric.
+So if you get an error that looks like this, you need to go back and reexamine your data.
+(Next slide part)
+For example, you can select all the columns that are not numeric using the select function, the where function negated with a ! operator and the is.numeric function.
+
+---
+# Troubleshooting - *undefined columns selected*
+
+
+```r
+mm2 &lt;- constructs(
+  composite(construct_name = "Reputation",
+*           item_names = multi_items("IMGA", 1:5),
+            weights = correlation_weights),
+  composite("Satisfaction",
+            multi_items("CUSA", 1:3),
+            mode_A),
+  composite("Loyalty",
+            multi_items("CUSL", 1:3))
+)
+```
+--
+
+```r
+estimate_pls(dt, mm2, sm)
+```
+```
+Error in `[.data.frame`(data, , mmMatrix[which(!grepl("\\*", 
+mmMatrix[, : undefined columns selected
+```
+
+???
+Second, what happens if I try to access a column that is not in my data?
+Especially with large measurement models, typos are prone to happen.
+So if I mistype the *Image* suffix to I-M-G-A and try to estimate the model
+(Next slide part)
+The resulting error tells me that R could not find the columns I tried to select in my data.
+Unfortunately, I have not yet found a shortcut to correct this.
+As far as I know, you have to scrutinize every line of your measurement model and compare it with the column names in your data.
+
+---
+# Troubleshooting - *attempt to apply non-function*
+
+
+```r
+sm2 &lt;- relationships(
+  paths(
+    from = "Reputation",
+    to = c("Satisfaction", "Loyalty")
+  ),
+  paths(
+    from = "Satisfaction",
+*   to = c("Loyalty", "Quality")
+  )
+)
+```
+--
+
+```r
+estimate_pls(dt, mm, sm2)
+```
+```
+Generating the seminr model
+All 250 observations are valid.
+Error in measurement_mode_scheme[[i]](mmMatrix, i, normData, 
+construct_scores) : attempt to apply non-function
+```
+
+???
+The last common error happens when I try to include a construct in my structural model that I have not defined in my measurement model.
+Let's assume I want to include a construct called quality.
+If I just put it into my structural model without defining how it should be measured...
+(Next slide part)
+... the error message will tell me that I attempted to apply a non-function.
+Again, there is not really a quick way to find the culprit construct.
+But if you get an error message like this, you now know where to start looking:
+Which construct in your structural model is not defined in your measurement model?
+---
+
+# Summary
+
+* Model estimation with estimate_pls()
+* Model object and model summary object
+* Common errors
+
+???
+To finish off, let me review the contents of this video.
+You now know how to estimate a PLS model in SEMinR.
+You also know how to examine the model you have estimated.
+And you are familiar with common errors that can happen when you estimate a model.
+Now you're ready to move on to model evaluation!
+
+---
+
+# Sources for this video
+
+Hair, J. F., Hult, G. T. M., Ringle, C. M., &amp; Sarstedt, M. (2017). A primer on partial least squares structural equation modeling (PLS-SEM) (Second edition). Sage.
+
+Henseler, J., Ringle, C. M., &amp; Sinkovics, R. R. (2009). The use of partial least squares path modeling in international marketing. In R. R. Sinkovics &amp; P. N. Ghauri (Eds.), Advances in International Marketing (Vol. 20, pp. 277–319). Emerald Group Publishing Limited. https://doi.org/10.1108/S1474-7979(2009)0000020014
+
+Ray, S. &amp; Danks. N. (2020). SEMinR Vignette. https://cran.r-project.org/web/packages/seminr/vignettes/SEMinR.html
+
+Tenenhaus, M., Vinzi, V. E., Chatelin, Y.-M., &amp; Lauro, C. (2005). PLS path modeling. Computational Statistics &amp; Data Analysis, 48(1), 159–205. https://doi.org/10.1016/j.csda.2004.03.005
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
