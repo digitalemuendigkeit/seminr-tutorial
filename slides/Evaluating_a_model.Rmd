@@ -48,6 +48,7 @@ Values for f 2 of more than 0.02 / 0.15 / 0.35: independent latent variable has 
 # Evaluation - Validation:
 - Validation of determined estimated values: resampling techniques
 -- allow evaluation of stability of determined model parameters
+- From the raw data matrix: n times a number k of observations (with or without regression) are drawn from the raw data matrix. transformed to a modified raw data matrix. 
 
 ---
 
