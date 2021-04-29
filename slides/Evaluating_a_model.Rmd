@@ -17,7 +17,9 @@ options(htmltools.dir.version = FALSE)
 ```
 
 # Evaluating a model:
-Following, we present how the quality of a structural-equation model should be evaluated.
+- Following, we present how the quality of a structural-equation model should be evaluated.
+- There are primary quality or evaluation criteria.
+- Further, Systematicall application to PLS path models.
 
 # Overview:
 
