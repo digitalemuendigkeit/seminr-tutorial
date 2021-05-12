@@ -72,4 +72,5 @@ thm$plot.bgcolor <- "transparent"
 seminr_theme_set(thm)
 
 
-our_blue <- "#123456"
+our_blue <- "#004488"
+our_red <- "#994455"
