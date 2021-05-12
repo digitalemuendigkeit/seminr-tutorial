@@ -6,11 +6,15 @@ author: "Lilian Kojan"
 date: "2021-04-23 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
+    css: ["default", "default-fonts", "tutorials.css"]  
     #lib_dir: libs
     nature:
+      ratio: '16:9'
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+  html_document:
+      highlightStyle: github
 ---
 
 ```{r setup, include = FALSE}
@@ -18,6 +22,7 @@ library(tidyverse)
 library(seminr)
 library(knitr)
 library(kableExtra)
+options(knitr.table.format = "html")
 ```
 # Data preparation
 
@@ -27,6 +32,7 @@ library(kableExtra)
 3. Renaming variables
 
 ???
+
 In this video, I will outline the basics of data preparation for SEMinR.
 This means making sure that SEMinR is able to correctly interpret your data and estimate a model.
 First, I will give an overview of requirements for data to be used in SEMinR estimations.
@@ -37,16 +43,19 @@ Then I will talk in detail about why and how you should recode and rename variab
 # Data preparation steps
 
 Basic steps:
+
 * Recoding variables
 * Treating missing data
 * Renaming variables
 
 Advanced steps:
+
 * Examining data distribution
 * Removing low quality responses
 * Treating outliers
 
 ???
+
 Before you can start with model estimation, you have to prepare your data.
 As you can see, there are lots of things you can do with your data before writing even one line of SEMinR code.
 If you have done statistical analyses before, you will likely be familiar with many of these steps.
@@ -87,18 +96,23 @@ df[,3] <- df[,3] %>%
     `10` = 1
   )
 df %>%
-  knitr::kable(format = 'html')
+  kbl() %>% 
+  kable_styling()
 ```
 
 
 ???
+
 Let's assume we start out with a bunch of data collected in a survey.
 Here, we have a small slice of such a data set.
 Specifically, this is a modified portion the mobi data set which is also included in the SEMinR package.
 The mobi data set contains data on how satisfied customers are with their mobile phone provider.
+
 Our example data set contains
+
 * 5 variables and
 * 6 observations.
+
 The variables are the columns of this table.
 Each variable represents a survey question.
 The column contains all the answers we have collected to the question.
@@ -112,13 +126,15 @@ So, what should we do with this data?
 
 ```{r, echo = FALSE, include = TRUE}
 df %>%
-  knitr::kable(format = 'html') %>%
+  kbl() %>%
   column_spec(2,
-              background = "#FFAABB")
+              background = "#FFAABB") %>% 
+  kable_styling()
 ```
 
 
 ???
+
 Needless to say, SEMinR only handles numerical data.
 So we need to recode the highlighted variable.
 But I want to take this opportunity to quickly touch on the way data for a structural equation model should be measured.
@@ -128,6 +144,7 @@ But I want to take this opportunity to quickly touch on the way data for a struc
 # Recoding variables: Data type
 
 Data should be
+
 * numerical
 
 But also...
@@ -136,14 +153,17 @@ But also...
 
 ... approximately equidistant
 
-![](figures/likert-scale-good.svg)
+![](figures/likert-scale-good-dark.svg)
 
 
 ???
-So, as I said, the data should be numerical so the SEMinR algorithm can do calculations with it.
+
+As I said, the data should be numerical so the SEMinR algorithm can do calculations with it.
 But when it does those calculations, there is another implicit assumption about your data.
 This assumption is that the distance between the numerical values is equidistant, e.g., that the distance between 1 and 2 and between 2 and 3 is roughly the same, like in this example. 
-(Next Slide part)
+
+-
+
 Or to say it differently,  the algorithm handles your data as if it was interval scaled.
 Now, for many reasons it can be argued that it is impossible to collect interval scaled psychological data.
 Still, when you collect your data using measures like Likert scales or percentages of agreement, you should try and ensure that the scale is, let's say, as equidistant as possible.
@@ -153,17 +173,19 @@ Still, when you collect your data using measures like Likert scales or percentag
 # Recoding variables: Data type
 
 Data should be
+
 * numerical
 
 But also...
 
 ... approximately equidistant (i.e., not scaled like this)
 
-![](figures/likert-scale-bad-red.svg)
+![](figures/likert-scale-bad-dark.svg)
 
 
 
 ???
+
 So avoid to create a scale similar to this.
 From this, it also follows that categorical data, e.g. gender or profession, cannot be used in PLS-SEM constructs.
 If you want to test the influence of such data, you have to do something similar to a ANOVA or a t-test:
@@ -174,11 +196,13 @@ Estimate a separate SEM for each group and then compare them in a multigroup ana
 # Recoding variables: Data type
 
 Data should be
+
 * numerical
 * ordinal scaled
 * and the scale should be approximately equidistant
 
 ???
+
 So, to summarize:
 Your data needs to be numerical, ordinal scaled and as close to equidistant as possible.
 
@@ -188,12 +212,14 @@ Your data needs to be numerical, ordinal scaled and as close to equidistant as p
 
 ```{r, echo = FALSE, include = TRUE}
 df %>%
-  knitr::kable(format = 'html') %>%
+  kbl() %>%
   column_spec(2,
-              background = "#FFAABB")
+              background = "#FFAABB") %>% 
+  kable_styling()
 ```
 
 ???
+
 Now, let's take a quick look on what we need to do to our example data if we want to recode it in R.
 Of course, there are many ways to do this.
 
@@ -201,19 +227,28 @@ Of course, there are many ways to do this.
 
 # Recoding variables: Data type
 
-```{r echo=TRUE}
-df[,2] <- df[,2] %>%
-  recode(
-  "rather agree" = 7,
-  "agree" = 9,
-  "strongly agree" = 10  
+```{r}
+df <- df %>%                     # assign changes to existing data frame
+  mutate(                        # add new variable based on existing variables
+    `Expectation Products` =     # name for the new variable
+      recode(                    # replace values
+        `Expectation Products`,  # variable to replace values in
+        "rather agree" = 7,      # old value = new value
+        "agree" = 9,
+        "strongly agree" = 10
+      )
   )
+# because we gave the new variable the same name, it replaces the old variable
 ```
 
 ???
-One relatively quick way is the recode function from the dplyr package.
-We choose the second column and tell R which answer option should be replaced by which number.
+
+One relatively quick way is the recode() function from the dplyr package combined with the mutate() function.
+We use mutate() to create a new variable called 'Expectation Products'.
+It replaces the existing variable of the same name.
+Then we use recode to tell R which answer option should be replaced by which number.
 If you have a full data set, you have to assign numbers for each possible answer option.
+To recode multiple variables at once, you can combine mutate() with across().
 
 ---
 
@@ -221,12 +256,14 @@ If you have a full data set, you have to assign numbers for each possible answer
 
 ```{r, echo = FALSE, include = TRUE}
 df %>%
-  knitr::kable(format = 'html') %>%
+  kbl() %>%
   column_spec(2,
-              background = "#99DDFF")
+              background = "#99DDFF") %>% 
+  kable_styling()
 ```
 
 ???
+
 Much better.
 
 ---
@@ -235,12 +272,14 @@ Much better.
 
 ```{r, echo = FALSE, include = TRUE}
 df %>%
-  knitr::kable(format = 'html') %>%
+  kbl() %>%
   column_spec(3,
-              background = "#FFAABB")
+              background = "#FFAABB") %>% 
+  kable_styling()
 ```
 
 ???
+
 Let's take a look at the next highlighted variable.
 This variable is reverse coded.
 That means that it has a different direction than its related variables.
@@ -252,7 +291,7 @@ Let me illustrate this.
 
 ```{r, echo = FALSE, include = TRUE}
 df %>%
-  knitr::kable(format = 'html') %>%
+  kbl() %>%
   column_spec(3,
               background = "#FFAABB") %>%
   column_spec(1:2,
@@ -263,10 +302,11 @@ df %>%
       "Satisfaction" = 2
     ),
     background = c("#99DDFF"," ")  
-  )
+  ) %>% kable_styling()
 ```
 
 ???
+
 In our example data, the first three variables are supposed to measure facets of the same underlying concept.
 Specifically, they are supposed to measure the expectation a customer has of their mobile phone provider.
 The first variable in our data set refers to overall quality expectations, and the second variable to expectations about products and services.
@@ -279,24 +319,52 @@ But if you haven't, here is how you could do it in R.
 
 # Recoding variables: Direction
 
-```{r echo = TRUE}
-df[,3] <- df[,3] %>%
-  recode(
-    `1` = 10,
-    `2` = 9,
-    `3` = 8,
-    `4` = 7,
-    `5` = 6,
-    `6` = 5,
-    `7` = 4,
-    `8` = 3,
-    `9` = 2,
-    `10` = 1
+```{r eval = FALSE}
+df <- df %>%                 # assign changes to existing data frame
+  mutate(                    # add new variable based on existing variables
+    `Expectation Products` = # name for the new variable
+      recode(                # replace values
+        `1` = 10,            # old value = new value
+        `2` = 9,
+        `3` = 8,
+        `4` = 7,
+        `5` = 6,
+        `6` = 5,
+        `7` = 4,
+        `8` = 3,
+        `9` = 2,
+        `10` = 1
+      )
   )
 ```
 
+
 ???
-We simply use the recode function again, only with numbers instead of strings.
+
+We can simply use the mutate() and recode() functions again, only with numbers instead of strings.
+But there is also a quicker option.
+
+---
+
+# Recoding variables: Direction
+
+Quicker option:
+
+```{r echo = TRUE}
+# Reverse scale using mutate() with substraction:
+# For a scale ranging from 1 to x: x + 1 - scale
+# For a scale ranging from 0 to x: x - scale
+df <- df %>%                 
+  mutate(
+    `Problem Expectation` = 11 - `Problem Expectation`
+    )
+```
+
+???
+
+You can simply reverse scale your by combining mutate() with math.
+Mutate now substracts each element of my variable from 11.
+As my scale ranges from 1 to 10, this gives me the same result as the code on the previous slide.
 
 ---
 
@@ -304,7 +372,7 @@ We simply use the recode function again, only with numbers instead of strings.
 
 ```{r, echo = FALSE, include = TRUE}
 df %>%
-  knitr::kable(format = 'html') %>%
+  kbl() %>%
   column_spec(1:3,
               background ="#99DDFF") %>%
   add_header_above(
@@ -313,10 +381,11 @@ df %>%
       "Satisfaction" = 2
     ),
     background = c("#99DDFF", "")  
-  )
+  ) %>% kable_styling()
 ```
 
 ???
+
 Now, all variables are coded in the same direction.
 
 ---
@@ -325,7 +394,7 @@ Now, all variables are coded in the same direction.
 
 ```{r, echo = FALSE, include = TRUE}
 df %>%
-  knitr::kable(format = 'html') %>%
+  kbl() %>%
   column_spec(5,
               background = "#FFAABB") %>%
   add_header_above(
@@ -334,15 +403,18 @@ df %>%
       "Satisfaction" = 2
     ),
     background = c("","#99DDFF")
-  )
+  ) %>% kable_styling()
 ```
 
 ???
+
 Let's take a look at the last variable in our data set.
 There are three values missing.
 The SEMinR algorithm cannot work with missing data.
 This means if you use a variable in the SEM where there is a value missing, SEMinR will by default use substitute data for that missing value.
 Otherwise, you can choose that it does not use the observation that includes this missing value at all.
+So, SEMinR has built-in functionality to deal with missing data.
+But as both built-in options might drastically influence your model results, it still makes sense to consciously decide how you want to handle missing data before.
 
 ---
 
@@ -350,7 +422,7 @@ Otherwise, you can choose that it does not use the observation that includes thi
 
 ```{r, echo = FALSE, include = TRUE}
 df %>%
-  knitr::kable(format = 'html') %>%
+  kbl() %>%
     column_spec(4,
               background = "#99DDFF") %>%
   column_spec(5,
@@ -361,10 +433,11 @@ df %>%
       "Satisfaction" = 2
     ),
     background = c("","#99DDFF")
-  )
+  ) %>% kable_styling()
 ```
 
 ???
+
 In our example, the last two variables measure facets of satisfaction.
 As explained, if you use both variables in your SEM without doing anything about your missing variables...
 
@@ -376,17 +449,19 @@ As explained, if you use both variables in your SEM without doing anything about
 df_mr <- df
 df_mr[c(1,4,6),5] <- round(sum(df[c(2:3,5),5])/3,0)
 df_mr %>%
-  knitr::kable(format = 'html') %>%
+  kbl() %>%
   add_header_above(
     c(
       "Expectation" = 3,
       "Satisfaction" = 2
     )
   ) %>%
-  row_spec(c(1,4,6), background = "#99DDFF")
+  row_spec(c(1,4,6), background = "#99DDFF") %>% 
+  kable_styling()
 ```
 
 ???
+
 ... SEMinR will by default use substitute the missing values with the mean of the variable.
 This might lead to smaller and less significant path coefficients.
 
@@ -396,21 +471,24 @@ This might lead to smaller and less significant path coefficients.
 
 ```{r, echo = FALSE, include = TRUE}
 df %>%
-  knitr::kable(format = 'html') %>%
+  kbl() %>%
   add_header_above(
     c(
       "Expectation" = 3,
       "Satisfaction" = 2
     )
   ) %>%
-  row_spec(c(2:3,5), background = "#99DDFF")
+  row_spec(c(2:3,5), background = "#99DDFF") %>% 
+  kable_styling()
 ```
 
 ???
+
 And if you choose to not use mean replacement, only the highlighted observations, or rows, will be used to estimate the SEM.
 In our case, that means we are using only half our sample, even though the observations contain values for all other variables!
 If multiple variables are missing values for different observations, the sample size for your SEM might suddenly be much smaller than expected.
 Therefore, you should carefully consider what to do with missing data.
+
 ---
 
 # Treating missing values
@@ -421,24 +499,32 @@ Therefore, you should carefully consider what to do with missing data.
 
 --
 
-```{r echo = TRUE}
-df <- df[,-5]
+```{r}
+# remove variable with missing data
+df <- df %>%
+  select(!'Expectation Fulfillment')
 ```
 
 ???
+
 If a variable is missing only a small amount of data, you might impute data.
 This means that you replace the missing values with substitute data.
 As mentioned, by default SEMinR automatically replaces missing values with the mean value of the variable.
-While this is unlikely to skew the results of your model, it might also make it more unlikely you find significant relationships.
+This is called mean replacement and it is only one of many methods one can use to create substitute data.
+While using mean replacement for missing data will likely not skew the results of your model, it might also make it more unlikely you find significant relationships.
+
 So another option is to simply not use the variable containing missing data in your SEM.
 Especially when there is a lot of data missing, this should be the method of choice.
 In their 2017 primer on structural equation modeling, Hair et al. name 15 % as the threshold for missing data over which a variable should be removed.
+
 Of course, you can also always leave the missing data as-is and tell SEMinR to disregard observations with missing data.
 A benefit of this is that SEMinR only drops observations where the missing value would actually be part of the model.
 So this option might be beneficial if you try out many different model specifications.
 
 When you are working with a real data set, you will have to weigh the benefits of each option when deciding how to handle missing data.
-(new slide part)
+
+-
+
 Fortunately, for our example, the decision is easy.
 Half the data for the variable is missing, so let's get rid of it.
 
@@ -448,13 +534,14 @@ Half the data for the variable is missing, so let's get rid of it.
 
 ```{r echo = FALSE, include = TRUE}
 df %>%
-  knitr::kable(format = 'html') %>%
+  kbl() %>%
   add_header_above(c("Expectation" = 3,
-                     "Satisfaction" = 1))
+                     "Satisfaction" = 1)) %>% kable_styling()
 ```
 
 
 ???
+
 The last point I want to talk about in this video is renaming the variables.
 As you can see, the variables in my data set have very descriptive names.
 This is useful when I want to see at a glance what exactly each variable refers to.
@@ -463,9 +550,7 @@ But if you want to use your data in SEMinR, it makes sense to rename them.
 
 # Renaming variables
 
-.pull-left[
-Long variable names...
-```{r echo=FALSE, out.width='90%'}
+```{r echo=FALSE}
 specify_model(
   measurement_model = constructs(
     reflective(
@@ -484,15 +569,9 @@ specify_model(
   structural_model = relationships(paths(from = "Expectation",
                                          to = "Satisfaction"))
 ) %>%
-  plot()
-```
-]
+  plot() -> p
+save_plot("figures/long_names.svg", width = 2000)
 
---
-
-.pull-right[
-... vs. abbreviated names
-```{r echo=FALSE, out.width='90%'}
 specify_model(
   measurement_model = constructs(
     reflective(
@@ -505,12 +584,29 @@ specify_model(
   structural_model = relationships(paths(from = "Expectation",
                                          to = "Satisfaction"))
 ) %>%
-  plot()
+  plot() -> p
+save_plot("figures/short_names.svg", width = 2000)
+
 ```
+
+
+
+.pull-left[
+Long variable names...
+
+![](figures/long_names.svg)
 ]
 
+--
+
+.pull-right[
+... vs. abbreviated names
+
+![](figures/short_names.svg)
+]
 
 ???
+
 Let's take a look at this example path model using our data set.
 You can imagine this gets crowded pretty quickly.
 (next slide part) 
@@ -522,11 +618,12 @@ But the main reason is  that it makes model specification much easier.
 # Renaming variables
 
 Long variable names...
+
 ```{r echo=TRUE}
-measurement_model <- constructs(
-  reflective(
-    construct_name = "Expectation",
-    item_names = c(
+measurement_model <- constructs(    # define measurement model
+  reflective(                       # define a reflective construct
+    construct_name = "Expectation", # construct name
+    item_names = c(                 # item names = df variable names
       "Quality Expectation",
       "Expectation Products",
       "Problem Expectation"
@@ -539,9 +636,8 @@ measurement_model <- constructs(
 )
 ```
 
-
-
 ???
+
 This is what the SEMinR code would look like for the example.
 For an in depth description of how to specify the measurement model in SEMinR, please refer to our measurement model video.
 
@@ -554,7 +650,7 @@ For an in depth description of how to specify the measurement model in SEMinR, p
 measurement_model <- constructs(
   reflective(
     construct_name = "Expectation",
-    item_names = multi_items("CUEX", 1:3)
+    item_names = multi_items("CUEX", 1:3)    # calls variables with same prefix
   ),
   reflective(construct_name = "Satisfaction",
              item_names = "CUSA1")
@@ -570,7 +666,7 @@ But even at a glance it is obvious that you code gets more succinct when you ren
 # Renaming variables
 
 ... vs. abbreviated names
-```{r tidy=FALSE, eval=FALSE}
+```{r eval=FALSE}
 measurement_model <- constructs(
   reflective(
     construct_name = "Expectation",
@@ -599,15 +695,14 @@ Rename variables associated with the same construct with the same prefix, e.g. f
 
 ```{r}
 df <- df %>%
-  rename("CUSA1" = "Satisfaction Overall")
+  rename("CUSA1" = "Satisfaction Overall") # new name = old name
 ```
 
 --
 ```{r}
 df <- df %>%
-  rename_with(~ paste0("CUEX",
-                       1:3),
-              .cols = c(1:3))
+  rename_with(~ paste0("CUEX", 1:3), # function to generate new name
+              .cols = c(1:3))        # apply to columns 1 to 3
 ```
 
 ???
@@ -625,7 +720,8 @@ We can use rename_with and paste0 to rename them all at once.
 
 ```{r, echo = FALSE}
 df %>%
-  knitr::kable(format = 'html')
+  kbl() %>% 
+  kable_styling()
 ```
 
 
