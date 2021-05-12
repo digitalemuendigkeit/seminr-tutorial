@@ -5,13 +5,19 @@ author: "Laura"
 date: "test 4/21/2021"
 output:
   xaringan::moon_reader:
-    lib_dir: libs
+    css: [xaringan-themer.css] #, tutorials.css]
+    #lib_dir: libs
     nature:
+      ratio: '16:9'
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
 ---
 
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(seminr)
+source(here::here("slides", "style.R"))
+```
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
@@ -22,9 +28,9 @@ options(htmltools.dir.version = FALSE)
 - describes relationship between latent variables
 - order and sequence of constructs: based on theory/ experiences and knowledge
 - path-models from left to right
--- left: independent variables
--- right: dependent variables
--- left: sequential ahead, influence variables on the right
+ - left: independent variables
+ - right: dependent variables
+ - left: sequential ahead, influence variables on the right
 
 ---
 

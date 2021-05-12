@@ -6,7 +6,8 @@ author: "Lilian Kojan"
 date: "2021-04-23 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
-    css: ["default", "default-fonts", "tutorials.css"]  
+    css: xaringan-themer.css
+    #css: ["default", "default-fonts", "tutorials.css", "xaringan-themer.css"]  
     #lib_dir: libs
     nature:
       ratio: '16:9'
@@ -16,6 +17,11 @@ output:
   html_document:
       highlightStyle: github
 ---
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(seminr)
+source(here::here("slides", "style.R"))
+```
+
 
 ```{r setup, include = FALSE}
 library(tidyverse)
@@ -24,6 +30,7 @@ library(knitr)
 library(kableExtra)
 options(knitr.table.format = "html")
 ```
+
 # Data preparation
 
 1. Data requirements
@@ -149,12 +156,6 @@ Data should be
 
 But also...
 
---
-
-... approximately equidistant
-
-![](figures/likert-scale-good-dark.svg)
-
 
 ???
 
@@ -167,6 +168,15 @@ This assumption is that the distance between the numerical values is equidistant
 Or to say it differently,  the algorithm handles your data as if it was interval scaled.
 Now, for many reasons it can be argued that it is impossible to collect interval scaled psychological data.
 Still, when you collect your data using measures like Likert scales or percentages of agreement, you should try and ensure that the scale is, let's say, as equidistant as possible.
+
+--
+
+... approximately equidistant
+
+![](figures/likert-scale-good-dark.svg)
+
+
+
 
 ---
 
@@ -497,13 +507,6 @@ Therefore, you should carefully consider what to do with missing data.
 * Remove variables containing missing data (Hair et al., 2017)
 * Ignore missing data 
 
---
-
-```{r}
-# remove variable with missing data
-df <- df %>%
-  select(!'Expectation Fulfillment')
-```
 
 ???
 
@@ -511,7 +514,9 @@ If a variable is missing only a small amount of data, you might impute data.
 This means that you replace the missing values with substitute data.
 As mentioned, by default SEMinR automatically replaces missing values with the mean value of the variable.
 This is called mean replacement and it is only one of many methods one can use to create substitute data.
-While using mean replacement for missing data will likely not skew the results of your model, it might also make it more unlikely you find significant relationships.
+While using mean replacement for missing data will likely not skew the results of your model, it might also make it more unlikely for you to find significant relationships.
+
+-
 
 So another option is to simply not use the variable containing missing data in your SEM.
 Especially when there is a lot of data missing, this should be the method of choice.
@@ -522,6 +527,16 @@ A benefit of this is that SEMinR only drops observations where the missing value
 So this option might be beneficial if you try out many different model specifications.
 
 When you are working with a real data set, you will have to weigh the benefits of each option when deciding how to handle missing data.
+
+--
+
+```{r}
+# remove variable with missing data
+df <- df %>%
+  select(!'Expectation Fulfillment')
+```
+
+
 
 -
 
@@ -597,13 +612,6 @@ Long variable names...
 ![](figures/long_names.svg)
 ]
 
---
-
-.pull-right[
-... vs. abbreviated names
-
-![](figures/short_names.svg)
-]
 
 ???
 
@@ -612,6 +620,16 @@ You can imagine this gets crowded pretty quickly.
 (next slide part) 
 Especially as most models you build will likely contain many more variables.
 But the main reason is  that it makes model specification much easier.
+
+--
+
+.pull-right[
+... vs. abbreviated names
+
+![](figures/short_names.svg)
+]
+
+
 
 ---
 
@@ -698,12 +716,6 @@ df <- df %>%
   rename("CUSA1" = "Satisfaction Overall") # new name = old name
 ```
 
---
-```{r}
-df <- df %>%
-  rename_with(~ paste0("CUEX", 1:3), # function to generate new name
-              .cols = c(1:3))        # apply to columns 1 to 3
-```
 
 ???
 So how would you do it in R?
@@ -713,6 +725,14 @@ And what if we want to rename multiple variables at once?
 (next slide part)
 That's easy, too.
 We can use rename_with and paste0 to rename them all at once.
+
+--
+```{r}
+df <- df %>%
+  rename_with(~ paste0("CUEX", 1:3), # function to generate new name
+              .cols = c(1:3))        # apply to columns 1 to 3
+```
+
 
 ---
 

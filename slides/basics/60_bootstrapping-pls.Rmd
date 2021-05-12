@@ -6,12 +6,20 @@ author: "Lilian Kojan"
 date: "2021-04-27 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
+    css: [xaringan-themer.css] #, tutorials.css]
     #lib_dir: libs
     nature:
+      ratio: '16:9'
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
 ---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(seminr)
+source(here::here("slides", "style.R"))
+```
+
 
 ```{r setup, include = FALSE}
 library(tidyverse)
