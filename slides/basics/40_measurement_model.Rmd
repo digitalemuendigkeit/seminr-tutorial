@@ -1,16 +1,23 @@
 ---
-title: "measurement_model"
+title: "Measurement Model"
+subtitle: "Basic Introduction to SEM-in-R"
 author: "Laura"
-date: "5/12/2021"
-output: 
-xaringan::moon_reader:
+date: "test 4/21/2021"
+output:
+  xaringan::moon_reader:
+    css: [xaringan-themer.css] #, tutorials.css]
     #lib_dir: libs
     nature:
+      ratio: '16:9'
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
 ---
 
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(seminr)
+source(here::here("slides", "style.R"))
+```
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
