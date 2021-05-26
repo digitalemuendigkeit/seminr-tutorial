@@ -542,6 +542,11 @@ So this option might be beneficial if you try out many different model specifica
 
 When you are working with a real data set, you will have to weigh the benefits of each option when deciding on how to handle missing data.
 
+-
+
+Fortunately, for our example, the decision is easy.
+Half the data for the variable is missing, so let's get rid of it.
+
 --
 
 ```{r}
@@ -552,10 +557,7 @@ df <- df %>%
 
 
 
--
 
-Fortunately, for our example, the decision is easy.
-Half the data for the variable is missing, so let's get rid of it.
 
 ---
 
