@@ -2,26 +2,29 @@
 
 library(tidyverse)
 
-input_files <- dir("slides", pattern = "*.Rmd", recursive = T, full.names = T)
-output_files <- input_files %>% map_chr(~str_replace(., ".Rmd", "_script.txt"))
 
-for(j in 1:length(input_files)){
-  f_input <- input_files[[j]]
-  fileConn <- file(output_files[[j]])
+#' Extracts the slide notes from a Rmd file
+#'
+#' @param filename path of the Rmd file
+#' @param click_text the text to insert for transitionts (default: >>>)
+#'
+#' @return a vector of lines from the slide noted
+#' @export
+#'
+extract_notes <- function(filename, click_text = ">>>"){
   # open input file
-  con <- file(f_input, open = "r")
+  con <- file(filename, open = "r")
   line <- readLines(con)
 
   # setup state machien
   state <- "start"
   comments <- list()
   skippable_lines <- c("!\\[", "\\.pull")
-  click_text <- ">>>"
 
   header <- rmarkdown::yaml_front_matter(input_files[[j]])
 
-  comments[length(comments)+1] <- paste0("Hello and welcome to this Video: ", header$title)
-  comments[length(comments)+1] <- paste0("\nThe slides in this presentation were created by: ", header$author)
+  comments[length(comments)+1] <- paste0("Hello and welcome to this Video: ", header$title, "\n")
+  comments[length(comments)+1] <- paste0("The slides in this presentation were created by: ", header$author, "\n")
   comments[length(comments)+1] <- paste0("\n", click_text, "\n")
 
   for (i in 1:length(line)){
@@ -70,16 +73,32 @@ for(j in 1:length(input_files)){
     }
   }
 
-  #print(comments %>% unlist())
-  if(!is.null(comments %>% unlist())){
-    writeLines(comments %>% unlist(), fileConn)
-  }
-  close(fileConn)
   close(con)
+  comments %>% unlist()
 }
 
 
 
 
 
+input_files <- dir("slides", pattern = "*.Rmd", recursive = T, full.names = T)
+output_files <- input_files %>% map_chr(~str_replace(., ".Rmd", "_script.txt"))
+
+for(j in 1:length(input_files)){
+  f_input <- input_files[[j]]
+  fileConn <- file(output_files[[j]])
+  # open input file
+  comments <- extract_notes(f_input)
+
+  writeLines(comments %>% unlist(), fileConn)
+  close(fileConn)
+}
+
+
+
+
+
+
+
+extract_notes("slides/basics/40_measurement_model.Rmd")
 
