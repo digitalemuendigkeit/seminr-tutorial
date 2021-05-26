@@ -78,9 +78,6 @@ extract_notes <- function(filename, click_text = ">>>"){
 }
 
 
-
-
-
 input_files <- dir("slides", pattern = "*.Rmd", recursive = T, full.names = T)
 output_files <- input_files %>% map_chr(~str_replace(., ".Rmd", "_script.txt"))
 
@@ -95,10 +92,4 @@ for(j in 1:length(input_files)){
 }
 
 
-
-
-
-
-
-extract_notes("slides/basics/40_measurement_model.Rmd")
 

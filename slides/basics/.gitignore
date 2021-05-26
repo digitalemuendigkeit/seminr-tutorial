@@ -1,1 +1,11 @@
 *.html
+10_what_is_sem_de_script.txt
+10_what_is_sem_script.txt
+20_basics-data-prep_script.txt
+30_structural_model_files
+30_structural_model_script.txt
+40_measurement_model_files
+40_measurement_model_script.txt
+50_estimating-pls_script.txt
+60_bootstrapping-pls_script.txt
+70_evaluating_a_model_script.txt
