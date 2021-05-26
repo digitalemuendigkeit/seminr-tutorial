@@ -17,6 +17,8 @@ output:
   html_document:
       highlightStyle: github
 ---
+
+
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
 library(seminr)
 source(here::here("slides", "style.R"))
@@ -41,8 +43,8 @@ options(knitr.table.format = "html")
 ???
 
 In this video, I will outline the basics of data preparation for SEMinR.
-This means making sure that SEMinR is able to correctly interpret your data and estimate a model.
-First, I will give an overview of requirements for data to be used in SEMinR estimations.
+This means making sure that SEMinR is able to interpret your data correctly and is able estimate a model.
+I will start by providing an overview of requirements for data to be used in our estimations.
 Then I will talk in detail about why and how you should recode and rename variables and treat missing data. 
 
 ---
@@ -64,14 +66,14 @@ Advanced steps:
 ???
 
 Before you can start with model estimation, you have to prepare your data.
-As you can see, there are lots of things you can do with your data before writing even one line of SEMinR code.
+As you can see, there are a lot of things you can do with your data before even writing a single line of code.
 If you have done statistical analyses before, you will likely be familiar with many of these steps.
 
-In this video, I will focus on basic data preparation.
+In this video, we will focus on basic data preparation.
 This means making sure your data can be used by the algorithm to estimate a model.
 For the more advanced steps, we will upload separate videos.
-In this video, I will demonstrate how to do each step using R.
-Of course, if you are used to do data preparation in another software like SPSS, you are free to keep doing it your way.
+Here, I will demonstrate how to do each step using R and the tidyverse.
+Of course, if you are used to doing data preparation in another software like SPSS, you are free to keep doing it your way.
 
 ---
 
@@ -110,21 +112,23 @@ df %>%
 
 ???
 
-Let's assume we start out with a bunch of data collected in a survey.
+Let's assume we start out with data collected in a survey.
 Here, we have a small slice of such a data set.
-Specifically, this is a modified portion the mobi data set which is also included in the SEMinR package.
+
+Specifically, this is a modified portion the mobi data set, which is also included in the SEMinR package.
 The mobi data set contains data on how satisfied customers are with their mobile phone provider.
 
-Our example data set contains
+Our short example data contains
 
 * 5 variables and
 * 6 observations.
 
 The variables are the columns of this table.
-Each variable represents a survey question.
-The column contains all the answers we have collected to the question.
+Each variable represents a single survey question.
+All answers that we have collected to a question are contained in one column.
+
 The observations are the rows of this table.
-An observation is the set of all answers a single respondent has given to our survey.
+An observation are all answers a single respondent has given in our survey.
 So, what should we do with this data?
 
 ---
@@ -135,15 +139,15 @@ So, what should we do with this data?
 df %>%
   kbl() %>%
   column_spec(2,
-              background = "#FFAABB") %>% 
+              background = our_red) %>% 
   kable_styling()
 ```
 
 
 ???
 
-Needless to say, SEMinR only handles numerical data.
-So we need to recode the highlighted variable.
+SEMinR relies on your data being numerical.
+So, here,  we need to recode the highlighted variable.
 But I want to take this opportunity to quickly touch on the way data for a structural equation model should be measured.
 
 ---
@@ -159,15 +163,16 @@ But also...
 
 ???
 
-As I said, the data should be numerical so the SEMinR algorithm can do calculations with it.
+As I said, the data should be numerical so that our algorithm can do calculations with it.
 But when it does those calculations, there is another implicit assumption about your data.
-This assumption is that the distance between the numerical values is equidistant, e.g., that the distance between 1 and 2 and between 2 and 3 is roughly the same, like in this example. 
 
 -
 
-Or to say it differently,  the algorithm handles your data as if it was interval scaled.
-Now, for many reasons it can be argued that it is impossible to collect interval scaled psychological data.
-Still, when you collect your data using measures like Likert scales or percentages of agreement, you should try and ensure that the scale is, let's say, as equidistant as possible.
+This assumption is that the perceived distance between the numerical values is equidistant, e.g., that the perceived distance between 1 and 2 and between 2 and 3 is roughly the same, like in this example. 
+
+Or to say it differently, the algorithm handles your data as if it were interval scaled.
+Now, for many reasons we could argue that it is impossible to collect truely interval scaled survey data.
+Still, when you collect your data using Likert scales, or percentages of agreement, you should try and ensure that the scale is, let's say, as equidistant as possible.
 
 --
 
@@ -196,10 +201,11 @@ But also...
 
 ???
 
-So avoid to create a scale similar to this.
-From this, it also follows that categorical data, e.g. gender or profession, cannot be used in PLS-SEM constructs.
-If you want to test the influence of such data, you have to do something similar to a ANOVA or a t-test:
-Estimate a separate SEM for each group and then compare them in a multigroup analysis.
+So try to avoid creating a scale like this.
+
+From this, it also follows that categorical data, such as gender or profession, 
+cannot directly be used in PLS-SEM constructs.
+If you want to test the influence of such data, you have estimate separate models for each category and then compare them in a multigroup analysis. We will get to this in a later video.
 
 ---
 
@@ -214,7 +220,7 @@ Data should be
 ???
 
 So, to summarize:
-Your data needs to be numerical, ordinal scaled and as close to equidistant as possible.
+Your data needs to be numerical, ordinal scaled, and as close to equidistant as possible.
 
 ---
 
@@ -224,14 +230,14 @@ Your data needs to be numerical, ordinal scaled and as close to equidistant as p
 df %>%
   kbl() %>%
   column_spec(2,
-              background = "#FFAABB") %>% 
+              background = our_red) %>% 
   kable_styling()
 ```
 
 ???
 
-Now, let's take a quick look on what we need to do to our example data if we want to recode it in R.
-Of course, there are many ways to do this.
+Now, let's take a quick look on what we need to do with our example data if we want to recode it using R.
+And of course, there are many ways to do this.
 
 ---
 
@@ -248,17 +254,22 @@ df <- df %>%                     # assign changes to existing data frame
         "strongly agree" = 10
       )
   )
-# because we gave the new variable the same name, it replaces the old variable
+# because we gave the new variable the same name, 
+# it replaces the old variable
+
+# use mutate(across(v1:v3), fnc) to recode variables v1 to v3 using fnc
 ```
 
 ???
 
-One relatively quick way is the recode() function from the dplyr package combined with the mutate() function.
-We use mutate() to create a new variable called 'Expectation Products'.
-It replaces the existing variable of the same name.
-Then we use recode to tell R which answer option should be replaced by which number.
-If you have a full data set, you have to assign numbers for each possible answer option.
-To recode multiple variables at once, you can combine mutate() with across().
+One relatively quick way is to use the recode() function from the dplyr package combined with the mutate() function.
+We can use mutate() to create a new variable called 'Expectation Products'.
+Here, it replaces the existing variable of the same name.
+We use recode to tell R which answer option should be replaced by which number.
+So "rather agree" becomes 7, and "agree" becomes 9. 
+If you have a full data set, you will have to assign numbers for each possible answer option.
+To recode multiple variables using the same labels at once, 
+you can combine the mutate() function with the across() function.
 
 ---
 
@@ -268,7 +279,7 @@ To recode multiple variables at once, you can combine mutate() with across().
 df %>%
   kbl() %>%
   column_spec(2,
-              background = "#99DDFF") %>% 
+              background = our_blue) %>% 
   kable_styling()
 ```
 
@@ -284,7 +295,7 @@ Much better.
 df %>%
   kbl() %>%
   column_spec(3,
-              background = "#FFAABB") %>% 
+              background = our_red) %>% 
   kable_styling()
 ```
 
@@ -292,7 +303,7 @@ df %>%
 
 Let's take a look at the next highlighted variable.
 This variable is reverse coded.
-That means that it has a different direction than its related variables.
+This means that it has a different direction than its related variables.
 Let me illustrate this.
 
 ---
@@ -303,25 +314,26 @@ Let me illustrate this.
 df %>%
   kbl() %>%
   column_spec(3,
-              background = "#FFAABB") %>%
+              background = our_red) %>%
   column_spec(1:2,
-              background ="#99DDFF") %>%
+              background = our_blue) %>%
   add_header_above(
     c(
       "Expectation" = 3,
       "Satisfaction" = 2
     ),
-    background = c("#99DDFF"," ")  
+    background = c(our_blue," ")  
   ) %>% kable_styling()
 ```
 
 ???
 
-In our example data, the first three variables are supposed to measure facets of the same underlying concept.
+In our example data, the first three variables are supposed to measure different facets of the same underlying concept - the customer expectation.
 Specifically, they are supposed to measure the expectation a customer has of their mobile phone provider.
-The first variable in our data set refers to overall quality expectations, and the second variable to expectations about products and services.
-The third variable, which is highlighted here, refers to the expectation how often problems would occur.
-So where high values for the first two variables correspond with high expectations, a high value for the third variable corresponds with low expectations.
+The first variable refers to overall quality expectations. 
+The second variable referst to expectations about products and services.
+The third variable - highlighted in red - refers to the expectation of how often problems would occur.
+So where high values for the first two variables correspond with positive expectations, a high value for the third variable corresponds with negative expectations.
 Often, you can recode your question in advance using the survey software.
 But if you haven't, here is how you could do it in R. 
 
@@ -372,8 +384,8 @@ df <- df %>%
 
 ???
 
-You can simply reverse scale your by combining mutate() with math.
-Mutate now substracts each element of my variable from 11.
+You can simply reverse your scale by combining mutate() with some clever math.
+Mutate now subtracts each element of my variable from 11.
 As my scale ranges from 1 to 10, this gives me the same result as the code on the previous slide.
 
 ---
@@ -384,13 +396,13 @@ As my scale ranges from 1 to 10, this gives me the same result as the code on th
 df %>%
   kbl() %>%
   column_spec(1:3,
-              background ="#99DDFF") %>%
+              background =our_blue) %>%
   add_header_above(
     c(
       "Expectation" = 3,
       "Satisfaction" = 2
     ),
-    background = c("#99DDFF", "")  
+    background = c(our_blue, "")  
   ) %>% kable_styling()
 ```
 
@@ -406,25 +418,26 @@ Now, all variables are coded in the same direction.
 df %>%
   kbl() %>%
   column_spec(5,
-              background = "#FFAABB") %>%
+              background = our_red) %>%
   add_header_above(
     c(
       "Expectation" = 3,
       "Satisfaction" = 2
     ),
-    background = c("","#99DDFF")
+    background = c("",our_blue)
   ) %>% kable_styling()
 ```
 
 ???
 
-Let's take a look at the last variable in our data set.
-There are three values missing.
-The SEMinR algorithm cannot work with missing data.
-This means if you use a variable in the SEM where there is a value missing, SEMinR will by default use substitute data for that missing value.
-Otherwise, you can choose that it does not use the observation that includes this missing value at all.
-So, SEMinR has built-in functionality to deal with missing data.
-But as both built-in options might drastically influence your model results, it still makes sense to consciously decide how you want to handle missing data before.
+Now, let's take a look at the last variable in our data set.
+We have three rows with missing values.
+The SEMinR algorithm does not work with missing data.
+This means if you have missing data in a variable, SEMinR will by default fill in this values with  substitute data.
+Alternatively, you can choose to not use observations that have missing values.
+SEMinR has built-in functionality to deal with missing data.
+But as both built-in options might drastically influence your model results, 
+it still makes sense to consciously decide on how you want to handle missing data in advance.
 
 ---
 
@@ -434,22 +447,22 @@ But as both built-in options might drastically influence your model results, it 
 df %>%
   kbl() %>%
     column_spec(4,
-              background = "#99DDFF") %>%
+              background = our_blue) %>%
   column_spec(5,
-              background = "#FFAABB") %>%
+              background = our_red) %>%
   add_header_above(
     c(
       "Expectation" = 3,
       "Satisfaction" = 2
     ),
-    background = c("","#99DDFF")
+    background = c("",our_blue)
   ) %>% kable_styling()
 ```
 
 ???
 
 In our example, the last two variables measure facets of satisfaction.
-As explained, if you use both variables in your SEM without doing anything about your missing variables...
+As explained, if you use both variables without doing anything about those missing values...
 
 ---
 
@@ -466,14 +479,14 @@ df_mr %>%
       "Satisfaction" = 2
     )
   ) %>%
-  row_spec(c(1,4,6), background = "#99DDFF") %>% 
+  row_spec(c(1,4,6), background = our_blue) %>% 
   kable_styling()
 ```
 
 ???
 
-... SEMinR will by default use substitute the missing values with the mean of the variable.
-This might lead to smaller and less significant path coefficients.
+... SEMinR will by default substitute the missing values with the mean of the variable.
+This might reduce variance in the variable and therefore lead to smaller path coefficients.
 
 ---
 
@@ -488,15 +501,16 @@ df %>%
       "Satisfaction" = 2
     )
   ) %>%
-  row_spec(c(2:3,5), background = "#99DDFF") %>% 
+  row_spec(c(2:3,5), background = our_blue) %>% 
   kable_styling()
 ```
 
 ???
 
-And if you choose to not use mean replacement, only the highlighted observations, or rows, will be used to estimate the SEM.
-In our case, that means we are using only half our sample, even though the observations contain values for all other variables!
-If multiple variables are missing values for different observations, the sample size for your SEM might suddenly be much smaller than expected.
+And if you choose against using mean replacement, only the highlighted observations, or rows, will be used to estimate your model.
+In our case, this would mean using only half our data, although the data contains all values for all other variables!
+When multiple variables have missing values for different observations, 
+the sample size of your model might suddenly be much smaller than expected.
 Therefore, you should carefully consider what to do with missing data.
 
 ---
@@ -510,23 +524,23 @@ Therefore, you should carefully consider what to do with missing data.
 
 ???
 
-If a variable is missing only a small amount of data, you might impute data.
+If a variable is missing only a small amount of data, you might impute the data.
 This means that you replace the missing values with substitute data.
-As mentioned, by default SEMinR automatically replaces missing values with the mean value of the variable.
-This is called mean replacement and it is only one of many methods one can use to create substitute data.
-While using mean replacement for missing data will likely not skew the results of your model, it might also make it more unlikely for you to find significant relationships.
+By default SEMinR automatically replaces missing values with the mean value of the variable.
+This is called "mean replacement" and it is only one of many methods you can use to create substitute data.
+While using mean replacement for missing data will likely not skew the results of your model, it might also make it less likely for you to find significant relationships.
 
 -
 
-So another option is to simply not use the variable containing missing data in your SEM.
-Especially when there is a lot of data missing, this should be the method of choice.
+Another option is to simply not use the variable containing missing data in your model.
+Especially when there is a lot of data missing, this should be your method of choice.
 In their 2017 primer on structural equation modeling, Hair et al. name 15 % as the threshold for missing data over which a variable should be removed.
 
-Of course, you can also always leave the missing data as-is and tell SEMinR to disregard observations with missing data.
-A benefit of this is that SEMinR only drops observations where the missing value would actually be part of the model.
+Of course, you can always leave the missing data as-is and tell SEMinR to disregard observations with missing data.
+A benefit of this is that SEMinR only drops observations when the missing value would actually be part of the model.
 So this option might be beneficial if you try out many different model specifications.
 
-When you are working with a real data set, you will have to weigh the benefits of each option when deciding how to handle missing data.
+When you are working with a real data set, you will have to weigh the benefits of each option when deciding on how to handle missing data.
 
 --
 
@@ -559,8 +573,9 @@ df %>%
 
 The last point I want to talk about in this video is renaming the variables.
 As you can see, the variables in my data set have very descriptive names.
-This is useful when I want to see at a glance what exactly each variable refers to.
+This is useful when we quickly want to see what exactly each variable refers to.
 But if you want to use your data in SEMinR, it makes sense to rename them.
+
 ---
 
 # Renaming variables
@@ -616,10 +631,13 @@ Long variable names...
 ???
 
 Let's take a look at this example path model using our data set.
-You can imagine this gets crowded pretty quickly.
-(next slide part) 
-Especially as most models you build will likely contain many more variables.
-But the main reason is  that it makes model specification much easier.
+Variable names are already hard to read. When your model contains more variables, 
+you can imagine this gets crowded pretty quickly.
+
+-
+
+Using short abbreviated names improves the readability of the model.
+But the main reason for this is that it makes model specification much easier.
 
 --
 
@@ -656,8 +674,10 @@ measurement_model <- constructs(    # define measurement model
 
 ???
 
-This is what the SEMinR code would look like for the example.
-For an in depth description of how to specify the measurement model in SEMinR, please refer to our measurement model video.
+This is what the SEMinR code would look like for our example.
+If this looks complicated, 
+don't worry we'll talk about what this code means in our video on the measurement model.
+This code is rather lengthy...
 
 ---
 
@@ -677,7 +697,7 @@ measurement_model <- constructs(
 
 
 ???
-But even at a glance it is obvious that you code gets more succinct when you rename your variables.
+While the shorter names make the code more succint and readable.
 
 ---
 
@@ -696,13 +716,16 @@ measurement_model <- constructs(
 ```
 
 ???
+
 In SEMinR, you can use the multi_items() function you describe your measurement model.
-For this, SEMinR assumes all your variables are named after the pattern prefix-number.
-In our example, we have three variables describing Expectation.
-Therefore, we could rename all variables associated with Expectation to CUEX and number them from 1 to 3.
-Similarly, all variables associated with Satisfaction could be renamed to CUSA - although in our example, there is only one variable left.
+For this to work, SEMinR assumes that all your variables are named after the pattern "prefix-number".
+
+In our example, we have three variables measuring Expectation.
+Therefore, we could rename all variables associated with Expectation to CUEX - for customer experience - and number them from 1 to 3.
+Similarly, all variables associated with Satisfaction could be renamed to CUSA - for customer satisfaction - although in our example, there is only one variable left.
+
 For a small model like this, this might seem tedious.
-But real-life models will not only likely contain more variables, but you will almost always have to modify and re-specify them.
+But real-life models will not only contain more variables, but you will almost always have to modify and re-specify them.
 In the long run, having renamed the variables will save you a lot of time.
 
 ---
@@ -718,11 +741,15 @@ df <- df %>%
 
 
 ???
+
 So how would you do it in R?
-Again, there is a lot of ways, but one way is using the rename function.
-Let's start with the last variable, the one with Satisfaction.
-And what if we want to rename multiple variables at once?
-(next slide part)
+Again, there are a lot of ways, but one way is using the rename function.
+Let's start with the last variable "Satisfaction overall".
+
+But what if we want to rename multiple variables at once?
+
+-
+
 That's easy, too.
 We can use rename_with and paste0 to rename them all at once.
 
@@ -750,8 +777,10 @@ df %>%
 * Variables are named for use in SEMinR 
 
 ???
+
 And that's it, you're done with basic data preparation.
-Let's review what I have described in this video:
+
+Let's review:
 To start off, you should take care that you data is coded correctly.
 Then you should treat missing data.
 Lastly, you should rename your variables so you can easily use them in your SEMinR code.
