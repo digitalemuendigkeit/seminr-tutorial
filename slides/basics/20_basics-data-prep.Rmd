@@ -1,9 +1,9 @@
 ---
 title: "Preparing your Data for SEM Estimation"
 subtitle: "Basic Steps"
-author: "Lilian Kojan"
+author: "Lilian Kojan and André Calero Valdez"
 #institute: "RStudio, PBC"
-date: "2021-04-23 (updated: `r Sys.Date()`)"
+date: "updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
@@ -245,7 +245,7 @@ And of course, there are many ways to do this.
 
 ```{r}
 df <- df %>%                     # assign changes to existing data frame
-  mutate(                        # add new variable based on existing variables
+  mutate(                        # add new variable based on existing one
     `Expectation Products` =     # name for the new variable
       recode(                    # replace values
         `Expectation Products`,  # variable to replace values in
