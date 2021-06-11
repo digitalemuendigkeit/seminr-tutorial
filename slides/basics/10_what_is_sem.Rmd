@@ -1,9 +1,9 @@
 ---
 title: "What is Structural Equation Modeling"
 subtitle: "Basic Introduction to SEM-in-R"
-author: "Wir"
+author: "André Calero Valdez and Lilian Kojan"
 #institute: "RStudio, PBC"
-date: "2016/12/12 (updated: `r Sys.Date()`)"
+date: "`r Sys.Date()`"
 output:
   xaringan::moon_reader:
     #lib_dir: libs
@@ -19,81 +19,63 @@ library(seminr)
 ```
 
 
-# What is SEM?
-
-Bla bla bla 
-
---
-
-OH und bla
+# What is Structural Equation Modeling?
+1. Properties
+2. Components
+3. Process of estimating a model
 
 
 
 ???
 
-# Hallo SEM
-
-Hier sollte das und das gesagt werden
-
-Blabla
 
 
----
-class: center, middle
-# Approaches to understanding associations
+# What are the advantages of SEM?
 
+Combines
 
----
-# Regression Models
+* factor analysis
+* regression equation
 
-A regression model is a model that contains PLMSDJS
+Allows for
 
+* mediation analysis
+* causal interpretation
 
-## Linear Regression
-
----
-
-# Multiple linear regression
-
-```{r}
-ggplot(mtcars, aes(x = mpg, y = disp)) + geom_point() + geom_smooth()
-```
+???
 
 
 ---
-# Causality
+# Types of SEM
 
-.pull-left[
-```{r echo=FALSE}
-ggplot(mtcars, aes(x = mpg, y = disp)) + geom_point() + geom_smooth()
-```
-
-]
-
-.pull-right[
-```{r echo=FALSE}
-ggplot(mtcars, aes(x = mpg, y = disp)) + geom_point()
-
-```
-
-]
+* CB-SEM
+* VB-SEM / PLS-SEM
 
 
 ---
-class: center, bottom, inverse
+# Components of a SEM
 
-# Hi this is text
+* latent variables (constructs)
+* manifest variables (indicators)
 
-![](figures/squirrel.jpeg)
+--
+Relationships between those components form
+* structural model: relationships between constructs (unidirectional in PLS-SEM)
+* measurement model: relationships between constructs and their indicators
+
+
+---
+# Graphical representation of SEM - example with mobi data set
 
 
 ---
 
-# Math for formulas
+# Underlying math
 
-Cronbach's $\alpha = 0.3$ 
+---
+# Process of estimating a SEM - sequence of our videos
 
-$$\sum_{i = 0}^{n} \frac{1}{n}$$
+---
 
 ---
 
@@ -122,8 +104,6 @@ set.seed(123)
   mobi_boot <- bootstrap_model(mobi_pls, nboot = 100, cores = 1)
 ```
 
+---
 
-```{r fig.width=10}
-plot(mobi_boot)
-```
-
+# Review
