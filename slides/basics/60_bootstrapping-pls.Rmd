@@ -34,8 +34,9 @@ options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
 # PLS model estimation in SEMinR
 
 1. Why we bootstrap
-2. Bootstrapping a model
-3. The SEMinR bootstrapped model object
+2. How bootstrapping works
+3. Bootstrapping a model
+4. The SEMinR bootstrapped model object
 
 ???
 
@@ -53,19 +54,64 @@ Bootstrapping gives you significance information for
 * loadings
 * HTMT ratios
 
---
-... given your data
-
 ???
 
-Bootstrapping means that your model is re-estimated a large number of times.
+Bootstrapping means that your model is re-estimated a large number of times using different parts of your data.
 You can then analyse and compare the results from the different estimations.
 This gives you information about how likely your original model results are given your data.
 Specifically, from the results, SEMinR automatically construct confidence intervals and calculate t-values for all values in your model.
 That means path coefficients, but also weights, loadings and HTMT values.
-In short,
-Note that this doesn't say anything about how likely it is to replicate your model results in the general population.
 
+--
+
+
+**... given your data**
+
+???
+
+Note that this doesn't say anything about how likely it is to replicate your model results in the general population.
+It only says how likely you are to get your model results given your data.
+To better understand that, let's take a closer look at the process of bootstrapping.
+
+---
+
+# How bootstrapping works
+
+Regular model estimation process:
+
+![](figures/bootstrap-howto-1.png)
+
+???
+To understand the bootstrapping process, let's first take a step back.
+For the regular model estimation, the PLS algorithm considers your full data set.
+
+---
+
+# How bootstrapping works
+
+![](figures/bootstrap-howto-2.png)
+
+
+???
+In the process of bootstrapping, the model is estimated multiple times.
+But instead of using the full dataset, the algorithm uses a random sample of that data.
+For each bootstrap iteration, the model is estimated with a different slice of your data.
+In this example, there are three iterations and therefore three slices of data.
+A more realistic number of iterations is 500.
+
+---
+
+# How bootstrapping works
+
+![](figures/bootstrap-howto-3.png)
+
+Statistics include mean, standard deviation and confidence intervals on the basis of the different model results.
+
+???
+Now that you have many different model results, you can use the summary() function to obtain statistics about the different results.
+seminr will then give you means, standard deviation, confidence intervals and t statistics based on the different model results.
+This is what I mean when I talk about significance information given the data.
+Now that we have talked how bootstrapping works, let's take a look at how we do it in seminr.
 
 ---
 
@@ -162,10 +208,9 @@ bootstrapmodel <- bootstrap_model(
 Now that we have talked through the code, I will actually bootstrap our model.
 To save computing time, I have set the number of bootstrap iterations to 100.
 And as you can see, the model was successfully bootstrapped.
-Next, let's look at what we can do with the boostrapped model object.
+Next, let's look at what we can do with the bootstrapped model object.
 
 ---
-
 # The SEMinR bootstrap model object - plot
 
 ```{r echo = FALSE}
@@ -175,7 +220,9 @@ save_plot("figures/boostrapped_mediation.svg", width = 1000)
 ```{r eval = FALSE}
 plot(bootstrapmodel)
 ```
-![](figures/boostrapped_mediation.svg)
+```{r echo=FALSE, out.width="60%"}
+knitr::include_graphics("figures/boostrapped_mediation.svg")
+```
 
 ???
 
@@ -186,30 +233,31 @@ Second, there are confidence intervals for the path coefficients.
 
 ---
 
+
 # The SEMinR bootstrap model object - plot
 
-![](figures/boostrapped_mediation.svg)
---
 .pull-left[
-$^{***}p <.001$, $^{**}p <.01$, $^{*}p <.05$
+```{r echo=FALSE}
+knitr::include_graphics("figures/boostrapped_mediation.svg")
+```
+
 ]
---
+
 .pull-right[
+$^{***}p <.001$, $^{**}p <.01$, $^{*}p <.05$
+
 95% CI[lower bound, upper bound]
 ]
 
 ???
 
+???
 Let's take a closer look.
-
--
 
 The asterisks indicate the p level of significance.
 The p value is calculated based on the t value from the bootstrapping procedure and the degrees of freedom which are equal to the number of observations you have in your data set.
 As is common practice, three asterisks indicate a p which is smaller than .001.
 Two asterisks indicate a p which is smaller than .01 and one asterisk indicates a p which is smaller than .05.
-
--
 
 The 95 % confidence interval tells you the interval in which 95 % of the bootstrap model results for the path coefficient fall.
 The first value is the lower bound.
@@ -265,6 +313,12 @@ Too much information, again, to fit on this slide.
 # save summary of the bootstrapped model
 summarybootmodel <- summary(bootstrapmodel)
 ```
+
+???
+
+So let's store the summary in a object again and look at the different parts.
+The summary of the bootstrapped model contains six objects which are interesting to us:
+
 --
 ```{r}
 # number of bootstrap iterations
@@ -272,12 +326,6 @@ summarybootmodel$nboot
 ```
 
 ???
-
-So let's store the summary in a object again and look at the different parts.
-The summary of the bootstrapped model contains six objects which are interesting to us:
-
--
-
 First, we can again look up how many times the model was bootstrapped.
 
 ---
@@ -331,14 +379,15 @@ Therefore, the coefficient for the total path of Reputation on Loyalty is larger
 # Summary
 
 * Why we bootstrap
+* How bootstrapping works
 * Model bootstrapping with bootstrap_model()
-* Bootstrapped model object and boostrapped model summary object
+* Bootstrapped model object and bootstrapped model summary object
 
 ???
 
 To finish off, let me review the contents of this video.
-You now know why you should bootstrap your model and how to do it in SEminR.
-You also know how to plot and examine the bootstrapped model.
+You now know why you should bootstrap your model and what happens when you bootstrap a model.
+You also know how to do it in SEminR, and how to plot and examine the bootstrapped model.
 With this, you're ready to move on to model evaluation!
 
 ---
