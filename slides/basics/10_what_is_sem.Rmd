@@ -168,6 +168,79 @@ Gold standard of causal statistics: Randomized control trial
 
 ---
 
+???
+One way to find out a persons's attitude towards smoking is to ask them.
+In a scientific context, we tend to use surveys for that.
+But to get from survey items to variables, we have to do multiple steps.
+--
+
+... using survey items:
+
+![](figures/Items-to-variable.png)
+
+???
+Variables are typically constructed from multiple items.
+Therefore, we have to conduct a factor analysis and examine reliability.
+
+---
+
+# Why structural equation modeling?
+.pull_left[
+From association between **variables**...
+
+![](figures/correlation-causation-1.png)
+]
+
+???
+Now, suppose we have done that for all our survey items and are left with a set of variables.
+Can we now find out which variable causes which?
+--
+
+.pull-right[
+... to causation?
+
+![](figures/correlation-causation-2.png)
+]
+
+???
+The short answer to that is probably not.
+To clarify that, let's take a look at a typical regression equation.
+
+---
+
+# Why structural equation modeling?
+
+Regression equations can be reversed.
+
+.pull-left[
+### DV is height
+$$height = b\times attitude_{smoking} + c$$
+]
+
+
+???
+In this linear equation, height is the dependent variable and attitude towards smoking is the independent variable.
+--
+.pull-right[
+### DV is attitude towards smoking
+$$ attitude_{smoking} = \frac{height - c}{b} $$
+]
+
+Both sides are mathematically equivalent.
+There is no causation in math.
+
+???
+But if the left side is true, the right side is also true.
+There is no causal direction in mathematics.
+So we cannot determine if changes in height cause changes in attitude, or vice-versa.
+---
+
+# Why structural equation modeling?
+
+???
+
+---
+
 # What are the advantages of SEM?
 
 Combines
