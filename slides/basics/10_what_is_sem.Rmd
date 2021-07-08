@@ -1,99 +1,292 @@
 ---
-title: "What is Structural Equation Modeling"
-subtitle: "Basic Introduction to SEM-in-R"
-author: "Wir"
+title: "What is Structural Equation Modeling?"
+subtitle: "Basic Introduction to PLS-SEM in SEMinR"
+author: "André Calero Valdez and Lilian Kojan"
 #institute: "RStudio, PBC"
-date: "2016/12/12 (updated: `r Sys.Date()`)"
+date: "updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
+    #css: ["default", "default-fonts", "tutorials.css", "xaringan-themer.css"]  
     #lib_dir: libs
     nature:
+      ratio: '16:9'
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+  html_document:
+      highlightStyle: github
 ---
 
 ```{r setup, include = FALSE}
 library(tidyverse)
 library(seminr)
+library(jmv)
+library(dataforsocialscience)
 ```
 
+# Welcome
 
-# What is SEM?
+- Structural equation modeling using **SEMinR**
 
-Bla bla bla 
-
+???
+Hello and welcome to our online course on structural equation modeling in SEM-in-R.
+In this course, I will take you through the principles and practice of structural equation modeling using the SEM-in-R package for R.
 --
 
-OH und bla
+- Basic course: 7 videos
+
+???
+The basic section of this course is structured into seven videos.
+They reflect the sequence of steps you will take when designing a structural equation model of your own.
+If you are still curious after that, you are welcome to proceed to the advanced section.
+There, I will go into more detail on some of the issues touched upon in the basic section.
+I will also describe some more sophisticated modeling technique.
+Before starting with the content of this first video in earnest, I need to add one thing:
+--
+
+- Focus on **partial least squares** structural equation modeling (PLS-SEM) - as opposed to **covariance-based** structural equation modeling (CB-SEM)
+???
+In structural modeling, there are two main streams.
+Partial least squares equation modeling, which is also known as variance-based structural equation modeling, and covariance-based structural equation modeling.
+Although you can both types of modeling in SEMinR, in this series, we will focus on PLS-SEM.
+Now that is out of the way, let's start with the introduction.
+
+---
+
+# What is Structural Equation Modeling?
+1. Why use structural equation modeling, anyway?
+1. Properties
+2. Components
+3. Process of estimating a model
 
 
 
 ???
-
-# Hallo SEM
-
-Hier sollte das und das gesagt werden
-
-Blabla
-
-
----
-class: center, middle
-# Approaches to understanding associations
-
-
----
-# Regression Models
-
-A regression model is a model that contains PLMSDJS
-
-
-## Linear Regression
+In this video, I will introduce you to structural equation modeling, or SEM, from the perspective of a social scientist.
+Instead of starting of with a definition, I want to take a step back and reason why SEM might be interesting to you. 
+Then I will go more into the nitty gritty.
 
 ---
 
-# Multiple linear regression
+# Why structural equation modeling?
 
-```{r}
-ggplot(mtcars, aes(x = mpg, y = disp)) + geom_point() + geom_smooth()
-```
+As social scientists, we study human properties (operationalized as **variables**) and **how** they are related.
+- Human variables: Often impossible to measure directly.
+- How: Ideally, what causes what?
 
+
+???
+In a very broad sense, social scientists are interested in humans, what they think and do, and why.
+To find that out, we measure variables and examine the relationships between different variables..
+And in many cases, we would also love to know not only if variables are related, but the direction of the relationship.
+We want to know what causes what.
+And because we study humans, variables are often especially hard to measure.
+Sure, you can measure a person's height pretty easily.
+But what about their attitude towards smoking?
 
 ---
-# Causality
 
-.pull-left[
-```{r echo=FALSE}
-ggplot(mtcars, aes(x = mpg, y = disp)) + geom_point() + geom_smooth()
-```
+# Why structural equation modeling?
 
+From properties to **variables**...
+
+
+???
+One way to find out a persons's attitude towards smoking is to ask them.
+In a scientific context, we tend to use surveys for that.
+But to get from survey items to variables, we have to do multiple steps.
+--
+
+... using survey items:
+
+![](figures/Items-to-variable.png)
+
+???
+Variables are typically constructed from multiple items.
+Therefore, we have to conduct a factor analysis and examine reliability.
+
+---
+
+# Why structural equation modeling?
+.pull_left[
+From association between **variables**...
+
+![](figures/correlation-causation-1.png)
 ]
+
+???
+Now, suppose we have done that for all our survey items and are left with a set of variables.
+Can we now find out which variable causes which?
+--
 
 .pull-right[
-```{r echo=FALSE}
-ggplot(mtcars, aes(x = mpg, y = disp)) + geom_point()
+... to causation?
 
-```
+![](figures/correlation-causation-2.png)
+]
 
+???
+The short answer to that is probably not.
+To clarify that, let's take a look at a typical regression equation.
+
+---
+
+# Why structural equation modeling?
+
+Regression equations can be reversed.
+
+.pull-left[
+### DV is height
+$$height = b\times attitude_{smoking} + c$$
 ]
 
 
+???
+In this linear equation, height is the dependent variable and attitude towards smoking is the independent variable.
+--
+.pull-right[
+### DV is attitude towards smoking
+$$ attitude_{smoking} = \frac{height - c}{b} $$
+]
+
+Both sides are mathematically equivalent.
+There is no causation in math.
+
+???
+But if the left side is true, the right side is also true.
+There is no causal direction in mathematics.
+So we cannot determine if changes in height cause changes in attitude, or vice-versa.
 ---
-class: center, bottom, inverse
 
-# Hi this is text
+# Why structural equation modeling?
 
-![](figures/squirrel.jpeg)
+Gold standard of causal statistics: Randomized control trial
+
+(put graphic in here)
+???
+
+---
+
+???
+One way to find out a persons's attitude towards smoking is to ask them.
+In a scientific context, we tend to use surveys for that.
+But to get from survey items to variables, we have to do multiple steps.
+--
+
+... using survey items:
+
+![](figures/Items-to-variable.png)
+
+???
+Variables are typically constructed from multiple items.
+Therefore, we have to conduct a factor analysis and examine reliability.
+
+---
+
+# Why structural equation modeling?
+.pull_left[
+From association between **variables**...
+
+![](figures/correlation-causation-1.png)
+]
+
+???
+Now, suppose we have done that for all our survey items and are left with a set of variables.
+Can we now find out which variable causes which?
+--
+
+.pull-right[
+... to causation?
+
+![](figures/correlation-causation-2.png)
+]
+
+???
+The short answer to that is probably not.
+To clarify that, let's take a look at a typical regression equation.
+
+---
+
+# Why structural equation modeling?
+
+Regression equations can be reversed.
+
+.pull-left[
+### DV is height
+$$height = b\times attitude_{smoking} + c$$
+]
+
+
+???
+In this linear equation, height is the dependent variable and attitude towards smoking is the independent variable.
+--
+.pull-right[
+### DV is attitude towards smoking
+$$ attitude_{smoking} = \frac{height - c}{b} $$
+]
+
+Both sides are mathematically equivalent.
+There is no causation in math.
+
+???
+But if the left side is true, the right side is also true.
+There is no causal direction in mathematics.
+So we cannot determine if changes in height cause changes in attitude, or vice-versa.
+---
+
+# Why structural equation modeling?
+
+???
+
+---
+
+# What are the advantages of SEM?
+
+Combines
+
+* factor analysis
+* regression equation
+
+Allows for
+
+* mediation analysis
+* causal interpretation
+
+???
+
+
+---
+# Types of SEM
+
+* CB-SEM
+* VB-SEM / PLS-SEM
+
+
+---
+# Components of a SEM
+
+* latent variables (constructs)
+* manifest variables (indicators)
+
+--
+Relationships between those components form
+* structural model: relationships between constructs (unidirectional in PLS-SEM)
+* measurement model: relationships between constructs and their indicators
+
+
+---
+# Graphical representation of SEM - example with mobi data set
 
 
 ---
 
-# Math for formulas
+# Underlying math
 
-Cronbach's $\alpha = 0.3$ 
+---
+# Process of estimating a SEM - sequence of our videos
 
-$$\sum_{i = 0}^{n} \frac{1}{n}$$
+---
 
 ---
 
@@ -122,8 +315,6 @@ set.seed(123)
   mobi_boot <- bootstrap_model(mobi_pls, nboot = 100, cores = 1)
 ```
 
+---
 
-```{r fig.width=10}
-plot(mobi_boot)
-```
-
+# Review
