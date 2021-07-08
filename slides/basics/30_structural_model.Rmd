@@ -55,7 +55,7 @@ options(htmltools.dir.version = FALSE)
 
 ## Sequence of constructs:
 - based on theory/ concept, logic/ experiences
-- from left to right: left: independent (eplanatory) constructs > dependent constructs (outcomes)
+- from left to right: left: independent (explanatory) constructs > dependent constructs (outcomes)
 - assumes, that constructs on the left are ahead and that they predict variables on the right
 - constructs only serving as independent variables = exogeneous latent variables; at the left side; have only arrows coming from it
 - constructs serving as dependent variables = endogeneous latent variables; at the right side; only incoming arrows
