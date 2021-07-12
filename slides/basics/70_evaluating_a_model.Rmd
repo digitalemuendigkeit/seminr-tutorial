@@ -28,6 +28,10 @@ options(htmltools.dir.version = FALSE)
 - evaluation of reflective specified measurement models: application of relevant evaluation criteria and their appropriate evaluation 
 
 
+???
+
+Script not ready yet
+
 ---
 
 # Evaluation - in general:

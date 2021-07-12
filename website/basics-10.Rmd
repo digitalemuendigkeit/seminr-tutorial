@@ -1,0 +1,58 @@
+---
+title: "SEM-in-R Basics"
+date: "`r Sys.Date()`"
+#output:
+#  rmdformats::downcute:
+#    self_contained: true
+---
+
+
+```{r setup, include=FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print = "75")
+opts_chunk$set(echo = FALSE,
+	             cache = TRUE,
+               prompt = FALSE,
+               tidy = TRUE,
+               comment = NA,
+               message = FALSE,
+               warning = FALSE)
+opts_knit$set(width = 75)
+```
+
+
+# How this course works
+This course is designed to help you learn structural equation modeling (SEM) using SEMinR.
+Since it makes sense to learn things in small chunks. We split the things you need to learn into
+smaller pieces. Each will be taught in a short video. 
+
+The course is organized along the steps that you would usually take when using SEM in a research problem or in an applied setting. However, it makes sense first get a basic understanding of the overall process before diving into the details.
+Therefore, some material is listed as "advanced material". The course is designed in a way
+that you do not need to know advanced materials in a first pass.
+It does make sense to skip advanced materials in your first iteration. Then when you feel comfortable with the basics, feel free to return for advanced materials.
+
+We organized it this way, as this way of organizing the material should help you come back for reference later.
+Nobody can remember everything, so this should also serve as an easy documentation when you return to SEM after having been busy with other things for a while. We've all been there. 
+
+Expert materials are designed to support you after you have collected some experience in structural equation modeling. 
+
+
+
+
+
+
+# What is SEM?
+
+
+This video is just to demo how content could be included it is also in German. Ignore it :)
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/5ZXsIRI4Wlc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1"></iframe>
+
+
+
+Next up is [Data preperation](data-prep-basics.html).
+
+

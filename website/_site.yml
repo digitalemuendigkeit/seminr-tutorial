@@ -13,39 +13,40 @@ navbar:
       menu:
         - text: "Basics"
         - text: "What is SEM?"
-          href: basics.html
+          href: basics-10.html
         - text: "---------"
         - text: "Designing a model"
         - text: "Preparing the data"
-          href: data-prep-basics.html
+          href: basics-20-data-prep.html
         - text: "The measurement model"
-          href: basics-measurement.html
+          href: basics-30-measurement.html
         - text: "The structural model"
-          href: basics-structural.html
+          href: basics-40-structural.html
         - text: "Estimating a model"
-          href: estimating_pls.html
-        - text: "Testing a model"
-          href: advanced-simulation.html
+          href: basics-50-estimating-pls.html
+        - text: "Bootstrapping and testing a model"
+          href: basics-60-bootstrapping.html
         - text: "---------"
         - text: "Evaluating a model"
+          href: basics-70-evaluating-pls.html
     - text: "Advanced SEM"
       icon: fa-graduation-cap
       menu:
         - text: "Basics"
         - text: "What is SEM?"
-          href: basics.html
+          href: underconstruction.html
         - text: "---------"
         - text: "Designing a model"
         - text: "The structural model"
-          href: basics-structural.html
+          href: underconstruction.html
         - text: "The measurement model"
-          href: basics-measurement.html
+          href: underconstruction.html
         - text: "Testing a model"
-          href: advanced-simulation.html
+          href: underconstruction.html
         - text: "---------"
         - text: "Evaluating a model"
         - text: "Estimating a model"
-          href: estimating_pls.html
+          href: underconstruction.html
     - text: "About"
       icon: fa-info
       href: about.html

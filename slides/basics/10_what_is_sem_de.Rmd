@@ -5,13 +5,22 @@ author: "**Dr. André Calero Valdez**"
 date: ""
 output:
   xaringan::moon_reader:
-    css: ["default", "default-fonts", "hcic.css"]  
+    css: ["xaringan-themer.css", "printing.css"]
     lib_dir: libs
     nature:
+      ratio: '16:9'
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+  html_document:
+      highlightStyle: github
 ---
+
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(seminr)
+source(here::here("slides", "style.R"))
+```
 
 ```{r setup, include=FALSE}
 library(tidyverse)

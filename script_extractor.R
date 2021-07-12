@@ -11,7 +11,7 @@ library(tidyverse)
 #' @return a vector of lines from the slide noted
 #' @export
 #'
-extract_notes <- function(filename, click_text = ">>>"){
+extract_notes <- function(filename, click_text = ">>>", fortelepromter = "FALSE"){
   # open input file
   con <- file(filename, open = "r")
   line <- readLines(con)
@@ -22,6 +22,14 @@ extract_notes <- function(filename, click_text = ">>>"){
   skippable_lines <- c("!\\[", "\\.pull")
 
   header <- rmarkdown::yaml_front_matter(input_files[[j]])
+
+  if (fortelepromter){
+    comments[length(comments)+1] <- paste0("Countdown: \n")
+    comments[length(comments)+1] <- paste0("\n")
+    comments[length(comments)+1] <- paste0("1\n\n\n\n")
+    comments[length(comments)+1] <- paste0("2\n\n\n\n")
+    comments[length(comments)+1] <- paste0("3\n\n\n\n")
+  }
 
   comments[length(comments)+1] <- paste0("Hello and welcome to this Video: ", header$title, "\n")
   comments[length(comments)+1] <- paste0("The slides in this presentation were created by: ", header$author, "\n")

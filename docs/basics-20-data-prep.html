@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2021-07-12" />
+
+<title>SEM-in-R Basics - Data Preparation for SEM</title>
+
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SEMinR Tutorials</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Learning the basisc
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Basics</li>
+    <li>
+      <a href="basics-10.html">What is SEM?</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Designing a model</li>
+    <li>
+      <a href="basics-20-data-prep.html">Preparing the data</a>
+    </li>
+    <li>
+      <a href="basics-30-measurement.html">The measurement model</a>
+    </li>
+    <li>
+      <a href="basics-40-structural.html">The structural model</a>
+    </li>
+    <li>
+      <a href="basics-50-estimating-pls.html">Estimating a model</a>
+    </li>
+    <li>
+      <a href="basics-60-bootstrapping.html">Bootstrapping and testing a model</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="basics-70-evaluating-pls.html">Evaluating a model</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Advanced SEM
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Basics</li>
+    <li>
+      <a href="underconstruction.html">What is SEM?</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Designing a model</li>
+    <li>
+      <a href="underconstruction.html">The structural model</a>
+    </li>
+    <li>
+      <a href="underconstruction.html">The measurement model</a>
+    </li>
+    <li>
+      <a href="underconstruction.html">Testing a model</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Evaluating a model</li>
+    <li>
+      <a href="underconstruction.html">Estimating a model</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="about.html">
+    <span class="fa fa-info"></span>
+     
+    About
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com">
+    <span class="fa fa-code-branch"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">SEM-in-R Basics - Data Preparation for SEM</h1>
+<h4 class="date">2021-07-12</h4>
+
+</div>
+
+
+<div id="video-for-data-preperation-for-pls-sem" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Video for Data Preperation for PLS-SEM</h1>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/kGO4_NyeM5A" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1">
+</iframe>
+</div>
+<div id="tutorial-in-rstudio" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Tutorial in RStudio</h1>
+<p>Under construction.</p>
+</div>
+<div id="slides" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Slides</h1>
+<p>Here, you will find the slides for the original video. Under each slide you can read the script for that slide.</p>
+<div id="slide-1" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Slide 1</h2>
+<p><img src="figs/20_basics-data-prep/slide_01.png" /> Hello and welcome to this Video: Preparing your Data for SEM Estimation</p>
+<p>The slides in this presentation were created by: Lilian Kojan and André Calero Valdez</p>
+</div>
+<div id="slide-2" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Slide 2</h2>
+<p><img src="figs/20_basics-data-prep/slide_02.png" /></p>
+<p>In this video, I will outline the basics of data preparation for SEMinR. This means making sure that SEMinR is able to interpret your data correctly and is able estimate a model. I will start by providing an overview of requirements for data to be used in our estimations. Then I will talk in detail about why and how you should recode and rename variables and treat missing data.</p>
+</div>
+<div id="slide-3" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Slide 3</h2>
+<p><img src="figs/20_basics-data-prep/slide_03.png" /></p>
+<p>Before you can start with model estimation, you have to prepare your data. As you can see, there are a lot of things you can do with your data before even writing a single line of code. If you have done statistical analyses before, you will likely be familiar with many of these steps.</p>
+<p>In this video, we will focus on basic data preparation. This means making sure your data can be used by the algorithm to estimate a model. For the more advanced steps, we will upload separate videos. Here, I will demonstrate how to do each step using R and the tidyverse. Of course, if you are used to doing data preparation in another software like SPSS, you are free to keep doing it your way.</p>
+</div>
+<div id="slide-4" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> Slide 4</h2>
+<p><img src="figs/20_basics-data-prep/slide_04.png" /></p>
+<p>Let’s assume we start out with data collected in a survey. Here, we have a small slice of such a data set.</p>
+<p>Specifically, this is a modified portion the mobi data set, which is also included in the SEMinR package. The mobi data set contains data on how satisfied customers are with their mobile phone provider.</p>
+<p>Our short example data contains</p>
+<ul>
+<li>5 variables and</li>
+<li>6 observations.</li>
+</ul>
+<p>The variables are the columns of this table. Each variable represents a single survey question. All answers that we have collected to a question are contained in one column.</p>
+<p>The observations are the rows of this table. An observation are all answers a single respondent has given in our survey. So, what should we do with this data?</p>
+</div>
+<div id="slide-5" class="section level2" number="3.5">
+<h2 number="3.5"><span class="header-section-number">3.5</span> Slide 5</h2>
+<p><img src="figs/20_basics-data-prep/slide_05.png" /></p>
+<p>SEMinR relies on your data being numerical. So, here, we need to recode the highlighted variable. But I want to take this opportunity to quickly touch on the way data for a structural equation model should be measured.</p>
+</div>
+<div id="slide-6" class="section level2" number="3.6">
+<h2 number="3.6"><span class="header-section-number">3.6</span> Slide 6</h2>
+<p><img src="figs/20_basics-data-prep/slide_06.png" /></p>
+<p>As I said, the data should be numerical so that our algorithm can do calculations with it. But when it does those calculations, there is another implicit assumption about your data.</p>
+</div>
+<div id="slide-7" class="section level2" number="3.7">
+<h2 number="3.7"><span class="header-section-number">3.7</span> Slide 7</h2>
+<p><img src="figs/20_basics-data-prep/slide_07.png" /></p>
+<p>This assumption is that the perceived distance between the numerical values is equidistant, e.g., that the perceived distance between 1 and 2 and between 2 and 3 is roughly the same, like in this example.</p>
+<p>Or to say it differently, the algorithm handles your data as if it were interval scaled. Now, for many reasons we could argue that it is impossible to collect truely interval scaled survey data. Still, when you collect your data using Likert scales, or percentages of agreement, you should try and ensure that the scale is, let’s say, as equidistant as possible.</p>
+</div>
+<div id="slide-8" class="section level2" number="3.8">
+<h2 number="3.8"><span class="header-section-number">3.8</span> Slide 8</h2>
+<p><img src="figs/20_basics-data-prep/slide_08.png" /></p>
+<p>So try to avoid creating a scale like this.</p>
+<p>From this, it also follows that categorical data, such as gender or profession, cannot directly be used in PLS-SEM constructs. If you want to test the influence of such data, you have estimate separate models for each category and then compare them in a multigroup analysis. We will get to this in a later video.</p>
+</div>
+<div id="slide-9" class="section level2" number="3.9">
+<h2 number="3.9"><span class="header-section-number">3.9</span> Slide 9</h2>
+<p><img src="figs/20_basics-data-prep/slide_09.png" /></p>
+<p>So, to summarize: Your data needs to be numerical, ordinal scaled, and as close to equidistant as possible.</p>
+</div>
+<div id="slide-10" class="section level2" number="3.10">
+<h2 number="3.10"><span class="header-section-number">3.10</span> Slide 10</h2>
+<p><img src="figs/20_basics-data-prep/slide_10.png" /></p>
+<p>Now, let’s take a quick look on what we need to do with our example data if we want to recode it using R. And of course, there are many ways to do this.</p>
+</div>
+<div id="slide-11" class="section level2" number="3.11">
+<h2 number="3.11"><span class="header-section-number">3.11</span> Slide 11</h2>
+<p><img src="figs/20_basics-data-prep/slide_11.png" /></p>
+<p>One relatively quick way is to use the recode() function from the dplyr package combined with the mutate() function. We can use mutate() to create a new variable called ‘Expectation Products’. Here, it replaces the existing variable of the same name. We use recode to tell R which answer option should be replaced by which number. So “rather agree” becomes 7, and “agree” becomes 9. If you have a full data set, you will have to assign numbers for each possible answer option. To recode multiple variables using the same labels at once, you can combine the mutate() function with the across() function.</p>
+</div>
+<div id="slide-12" class="section level2" number="3.12">
+<h2 number="3.12"><span class="header-section-number">3.12</span> Slide 12</h2>
+<p><img src="figs/20_basics-data-prep/slide_12.png" /></p>
+<p>Much better.</p>
+</div>
+<div id="slide-13" class="section level2" number="3.13">
+<h2 number="3.13"><span class="header-section-number">3.13</span> Slide 13</h2>
+<p><img src="figs/20_basics-data-prep/slide_13.png" /></p>
+<p>Let’s take a look at the next highlighted variable. This variable is reverse coded. This means that it has a different direction than its related variables. Let me illustrate this.</p>
+</div>
+<div id="slide-14" class="section level2" number="3.14">
+<h2 number="3.14"><span class="header-section-number">3.14</span> Slide 14</h2>
+<p><img src="figs/20_basics-data-prep/slide_14.png" /></p>
+<p>In our example data, the first three variables are supposed to measure different facets of the same underlying concept - the customer expectation. Specifically, they are supposed to measure the expectation a customer has of their mobile phone provider. The first variable refers to overall quality expectations. The second variable referst to expectations about products and services. The third variable - highlighted in red - refers to the expectation of how often problems would occur. So where high values for the first two variables correspond with positive expectations, a high value for the third variable corresponds with negative expectations. Often, you can recode your question in advance using the survey software. But if you haven’t, here is how you could do it in R.</p>
+</div>
+<div id="slide-15" class="section level2" number="3.15">
+<h2 number="3.15"><span class="header-section-number">3.15</span> Slide 15</h2>
+<p><img src="figs/20_basics-data-prep/slide_15.png" /></p>
+<p>We can simply use the mutate() and recode() functions again, only with numbers instead of strings. But there is also a quicker option.</p>
+</div>
+<div id="slide-16" class="section level2" number="3.16">
+<h2 number="3.16"><span class="header-section-number">3.16</span> Slide 16</h2>
+<p><img src="figs/20_basics-data-prep/slide_16.png" /></p>
+<p>You can simply reverse your scale by combining mutate() with some clever math. Mutate now subtracts each element of my variable from 11. As my scale ranges from 1 to 10, this gives me the same result as the code on the previous slide.</p>
+</div>
+<div id="slide-17" class="section level2" number="3.17">
+<h2 number="3.17"><span class="header-section-number">3.17</span> Slide 17</h2>
+<p><img src="figs/20_basics-data-prep/slide_17.png" /></p>
+<p>Now, all variables are coded in the same direction.</p>
+</div>
+<div id="slide-18" class="section level2" number="3.18">
+<h2 number="3.18"><span class="header-section-number">3.18</span> Slide 18</h2>
+<p><img src="figs/20_basics-data-prep/slide_18.png" /></p>
+<p>Now, let’s take a look at the last variable in our data set. We have three rows with missing values. The SEMinR algorithm does not work with missing data. This means if you have missing data in a variable, SEMinR will by default fill in this values with substitute data. Alternatively, you can choose to not use observations that have missing values. SEMinR has built-in functionality to deal with missing data. But as both built-in options might drastically influence your model results, it still makes sense to consciously decide on how you want to handle missing data in advance.</p>
+</div>
+<div id="slide-19" class="section level2" number="3.19">
+<h2 number="3.19"><span class="header-section-number">3.19</span> Slide 19</h2>
+<p><img src="figs/20_basics-data-prep/slide_19.png" /></p>
+<p>In our example, the last two variables measure facets of satisfaction. As explained, if you use both variables without doing anything about those missing values…</p>
+</div>
+<div id="slide-20" class="section level2" number="3.20">
+<h2 number="3.20"><span class="header-section-number">3.20</span> Slide 20</h2>
+<p><img src="figs/20_basics-data-prep/slide_20.png" /></p>
+<p>… SEMinR will by default substitute the missing values with the mean of the variable. This might reduce variance in the variable and therefore lead to smaller path coefficients.</p>
+</div>
+<div id="slide-21" class="section level2" number="3.21">
+<h2 number="3.21"><span class="header-section-number">3.21</span> Slide 21</h2>
+<p><img src="figs/20_basics-data-prep/slide_21.png" /></p>
+<p>And if you choose against using mean replacement, only the highlighted observations, or rows, will be used to estimate your model. In our case, this would mean using only half our data, although the data contains all values for all other variables! When multiple variables have missing values for different observations, the sample size of your model might suddenly be much smaller than expected. Therefore, you should carefully consider what to do with missing data.</p>
+</div>
+<div id="slide-22" class="section level2" number="3.22">
+<h2 number="3.22"><span class="header-section-number">3.22</span> Slide 22</h2>
+<p><img src="figs/20_basics-data-prep/slide_22.png" /></p>
+<p>If a variable is missing only a small amount of data, you might impute the data. This means that you replace the missing values with substitute data. By default SEMinR automatically replaces missing values with the mean value of the variable. This is called “mean replacement” and it is only one of many methods you can use to create substitute data. While using mean replacement for missing data will likely not skew the results of your model, it might also make it less likely for you to find significant relationships.</p>
+</div>
+<div id="slide-23" class="section level2" number="3.23">
+<h2 number="3.23"><span class="header-section-number">3.23</span> Slide 23</h2>
+<p><img src="figs/20_basics-data-prep/slide_23.png" /></p>
+<p>Another option is to simply not use the variable containing missing data in your model. Especially when there is a lot of data missing, this should be your method of choice. In their 2017 primer on structural equation modeling, Hair et al. name 15 % as the threshold for missing data over which a variable should be removed.</p>
+<p>Of course, you can always leave the missing data as-is and tell SEMinR to disregard observations with missing data. A benefit of this is that SEMinR only drops observations when the missing value would actually be part of the model. So this option might be beneficial if you try out many different model specifications.</p>
+<p>When you are working with a real data set, you will have to weigh the benefits of each option when deciding on how to handle missing data.</p>
+<p>Fortunately, for our example, the decision is easy. Half the data for the variable is missing, so let’s get rid of it.</p>
+</div>
+<div id="slide-24" class="section level2" number="3.24">
+<h2 number="3.24"><span class="header-section-number">3.24</span> Slide 24</h2>
+<p><img src="figs/20_basics-data-prep/slide_24.png" /></p>
+<p>The last point I want to talk about in this video is renaming the variables. As you can see, the variables in my data set have very descriptive names. This is useful when we quickly want to see what exactly each variable refers to. But if you want to use your data in SEMinR, it makes sense to rename them.</p>
+</div>
+<div id="slide-25" class="section level2" number="3.25">
+<h2 number="3.25"><span class="header-section-number">3.25</span> Slide 25</h2>
+<p><img src="figs/20_basics-data-prep/slide_25.png" /></p>
+<p>Let’s take a look at this example path model using our data set. Variable names are already hard to read. When your model contains more variables, you can imagine this gets crowded pretty quickly.</p>
+</div>
+<div id="slide-26" class="section level2" number="3.26">
+<h2 number="3.26"><span class="header-section-number">3.26</span> Slide 26</h2>
+<p><img src="figs/20_basics-data-prep/slide_26.png" /></p>
+<p>Using short abbreviated names improves the readability of the model. But the main reason for this is that it makes model specification much easier.</p>
+</div>
+<div id="slide-27" class="section level2" number="3.27">
+<h2 number="3.27"><span class="header-section-number">3.27</span> Slide 27</h2>
+<p><img src="figs/20_basics-data-prep/slide_27.png" /></p>
+<p>This is what the SEMinR code would look like for our example. If this looks complicated, don’t worry we’ll talk about what this code means in our video on the measurement model. This code is rather lengthy…</p>
+</div>
+<div id="slide-28" class="section level2" number="3.28">
+<h2 number="3.28"><span class="header-section-number">3.28</span> Slide 28</h2>
+<p><img src="figs/20_basics-data-prep/slide_28.png" /> While the shorter names make the code more succint and readable.</p>
+</div>
+<div id="slide-29" class="section level2" number="3.29">
+<h2 number="3.29"><span class="header-section-number">3.29</span> Slide 29</h2>
+<p><img src="figs/20_basics-data-prep/slide_29.png" /></p>
+<p>In SEMinR, you can use the multi_items() function you describe your measurement model. For this to work, SEMinR assumes that all your variables are named after the pattern “prefix-number”.</p>
+<p>In our example, we have three variables measuring Expectation. Therefore, we could rename all variables associated with Expectation to CUEX - for customer experience - and number them from 1 to 3. Similarly, all variables associated with Satisfaction could be renamed to CUSA - for customer satisfaction - although in our example, there is only one variable left.</p>
+<p>For a small model like this, this might seem tedious. But real-life models will not only contain more variables, but you will almost always have to modify and re-specify them. In the long run, having renamed the variables will save you a lot of time.</p>
+</div>
+<div id="slide-30" class="section level2" number="3.30">
+<h2 number="3.30"><span class="header-section-number">3.30</span> Slide 30</h2>
+<p><img src="figs/20_basics-data-prep/slide_30.png" /></p>
+<p>So how would you do it in R? Again, there are a lot of ways, but one way is using the rename function. Let’s start with the last variable “Satisfaction overall”.</p>
+<p>But what if we want to rename multiple variables at once?</p>
+</div>
+<div id="slide-31" class="section level2" number="3.31">
+<h2 number="3.31"><span class="header-section-number">3.31</span> Slide 31</h2>
+<p><img src="figs/20_basics-data-prep/slide_31.png" /></p>
+<p>That’s easy, too. We can use rename_with and paste0 to rename them all at once.</p>
+</div>
+<div id="slide-32" class="section level2" number="3.32">
+<h2 number="3.32"><span class="header-section-number">3.32</span> Slide 32</h2>
+<p><img src="figs/20_basics-data-prep/slide_32.png" /></p>
+<p>And that’s it, you’re done with basic data preparation.</p>
+<p>Let’s review: To start off, you should take care that you data is coded correctly. Then you should treat missing data. Lastly, you should rename your variables so you can easily use them in your SEMinR code. And then you can move on to model estimation!</p>
+</div>
+<div id="slide-33" class="section level2" number="3.33">
+<h2 number="3.33"><span class="header-section-number">3.33</span> Slide 33</h2>
+<p><img src="figs/20_basics-data-prep/slide_33.png" /></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2021-07-12" />
+
+<title>SEM-in-R Basics - Data Preparation for SEM</title>
+
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SEMinR Tutorials</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Learning the basisc
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Basics</li>
+    <li>
+      <a href="basics-10.html">What is SEM?</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Designing a model</li>
+    <li>
+      <a href="basics-20-data-prep.html">Preparing the data</a>
+    </li>
+    <li>
+      <a href="basics-30-measurement.html">The measurement model</a>
+    </li>
+    <li>
+      <a href="basics-40-structural.html">The structural model</a>
+    </li>
+    <li>
+      <a href="basics-50-estimating-pls.html">Estimating a model</a>
+    </li>
+    <li>
+      <a href="basics-60-bootstrapping.html">Bootstrapping and testing a model</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="basics-70-evaluating-pls.html">Evaluating a model</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Advanced SEM
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Basics</li>
+    <li>
+      <a href="underconstruction.html">What is SEM?</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Designing a model</li>
+    <li>
+      <a href="underconstruction.html">The structural model</a>
+    </li>
+    <li>
+      <a href="underconstruction.html">The measurement model</a>
+    </li>
+    <li>
+      <a href="underconstruction.html">Testing a model</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Evaluating a model</li>
+    <li>
+      <a href="underconstruction.html">Estimating a model</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="about.html">
+    <span class="fa fa-info"></span>
+     
+    About
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com">
+    <span class="fa fa-code-branch"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">SEM-in-R Basics - Data Preparation for SEM</h1>
+<h4 class="date">2021-07-12</h4>
+
+</div>
+
+
+<div id="video-for-data-preperation-for-pls-sem" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Video for Data Preperation for PLS-SEM</h1>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/kGO4_NyeM5A" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1">
+</iframe>
+</div>
+<div id="tutorial-in-rstudio" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Tutorial in RStudio</h1>
+<p>Under construction.</p>
+</div>
+<div id="slides" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Slides</h1>
+<p>Here, you will find the slides for the original video. Under each slide you can read the script for that slide.</p>
+<div id="slide-1" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Slide 1</h2>
+<p><img src="figs/50_estimating-pls/slide_01.png" /> Hello and welcome to this Video: Estimating a PLS-SEM</p>
+<p>The slides in this presentation were created by: Lilian Kojan</p>
+</div>
+<div id="slide-2" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Slide 2</h2>
+<p><img src="figs/50_estimating-pls/slide_02.png" /></p>
+<p>Now that you know how to specify the measurement model and the structural model in SEMinR, all that is left is model estimation. In this video, I will show you how to estimate a PLS SEM model in SEMinR. I will also talk about the model object in SEMinR and what you can do with it. Finally, I will adress some common problems that appear when you estimate a model.</p>
+</div>
+<div id="slide-3" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Slide 3</h2>
+<p><img src="figs/50_estimating-pls/slide_03.png" /></p>
+<p>Before we start with estimation, let’s shortly talk about the ingredients you need to estimate a model. First, you need data as described in our video on data preparation. This data can be both in the matrix or dataframe format and must contain numerical response data. With PLS-SEM, model estimation is possible even with a small number of observations. But of course, if you have more responses, your model’s statistical power is larger. Second, you need to specify a measurement model. The measurement model is the link between your data and your structural model. A common source of trouble is a disconnect between measurement model and either the data or the structural model. For example, if the indicator names in your measurement model do not correspond with the column names in your data, or when you use a construct in your structural model that you have not defined in your measurement model. Third, in your structural model you define the relationship between the model constructs.</p>
+</div>
+<div id="slide-4" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> Slide 4</h2>
+<p><img src="figs/50_estimating-pls/slide_04.png" /></p>
+<p>For our example, we use the mobi data set which is part of the seminar package. As an example model, we use the mediation model from our structural model tutorial. For that, we define all constructs in the measurement model which we call mm. As you have learned in the measurement model tutorial, the code for all three constructs is equivalent. They each define a mode a (or correlation weights) composite construct.</p>
+</div>
+<div id="slide-5" class="section level2" number="3.5">
+<h2 number="3.5"><span class="header-section-number">3.5</span> Slide 5</h2>
+<p><img src="figs/50_estimating-pls/slide_05.png" /></p>
+<p>Lastly, we define the structural model which we call sm.</p>
+</div>
+<div id="slide-6" class="section level2" number="3.6">
+<h2 number="3.6"><span class="header-section-number">3.6</span> Slide 6</h2>
+<p><img src="figs/50_estimating-pls/slide_06.png" /></p>
+<p>Now, we are ready for model estimation. But we can also take a quick peek on how our model looks. For this, you can use the specify_model function with your measurement model and your structural model and pipe it into the plot function.</p>
+</div>
+<div id="slide-7" class="section level2" number="3.7">
+<h2 number="3.7"><span class="header-section-number">3.7</span> Slide 7</h2>
+<p><img src="figs/50_estimating-pls/slide_07.png" /></p>
+<p>Looks about right. As you can see, by default SEMinR visualizes composite constructs as hexagons.</p>
+</div>
+<div id="slide-8" class="section level2" number="3.8">
+<h2 number="3.8"><span class="header-section-number">3.8</span> Slide 8</h2>
+<p><img src="figs/50_estimating-pls/slide_08.png" /></p>
+<p>Now it’s time for model estimation! The estimate_pls function takes eight arguments. On a regular basis, you will likely only use these first three. Let me still quickly take you through all of them.</p>
+</div>
+<div id="slide-9" class="section level2" number="3.9">
+<h2 number="3.9"><span class="header-section-number">3.9</span> Slide 9</h2>
+<p><img src="figs/50_estimating-pls/slide_09.png" /></p>
+<p>As mentioned, these three are likely the only arguments you will need. The first argument asks for the data, the second for the measurement model and the third for the structural model. (Next slide part) Without these three inputs, SEMinR cannot estimate your model. But these three inputs are also sufficient to estimate the model, so normally, you can just give these inputs to the estimate_pls function without specifying which argument is which. This means, that the bottom code is equivalent to to the top code.</p>
+</div>
+<div id="slide-10" class="section level2" number="3.10">
+<h2 number="3.10"><span class="header-section-number">3.10</span> Slide 10</h2>
+<p><img src="figs/50_estimating-pls/slide_10.png" /></p>
+<p>Instead of providing a measurement model and structural model, you can also specify a model with the specify_model function. (Next slide part) We just used this to quickly plot our model, remember? So either you provide the measurement model and structural model directly to the estimate_pls function, or you specify the model before. By default, this argument is set to NULL.</p>
+</div>
+<div id="slide-11" class="section level2" number="3.11">
+<h2 number="3.11"><span class="header-section-number">3.11</span> Slide 11</h2>
+<p><img src="figs/50_estimating-pls/slide_11.png" /></p>
+<p>The inner_weights argument defines how paths are estimated by the algorithm. By default, this is set to path weighting which is the recommended option for most models. The other option is factor weighting. (New slide part) When estimating a model, the results for both options will be very similar. If you are interested in the differences between these two schemes, I recommend the 2005 PLS path modeling paper by Tenenhaus et al.</p>
+</div>
+<div id="slide-12" class="section level2" number="3.12">
+<h2 number="3.12"><span class="header-section-number">3.12</span> Slide 12</h2>
+<p><img src="figs/50_estimating-pls/slide_12.png" /></p>
+<p>These arguments let you specify how SEMinR handles missing data. As described in our data preparation basics video, missing data means that in a variable, or column of your data set, some values are missing. By default, SEMinR uses mean replacement. That means that SEMinR replaces missing values in a column of your dataset with the mean of that column. As discussed, this might not always be the best option.</p>
+</div>
+<div id="slide-13" class="section level2" number="3.13">
+<h2 number="3.13"><span class="header-section-number">3.13</span> Slide 13</h2>
+<p><img src="figs/50_estimating-pls/slide_13.png" /></p>
+<p>If you want SEMinR to disregard observations with missing values, choose the na.omit option. The second argument, missing_value, just tells SEMinR what missing values look like in your data. If you have formatted your data as numerical, it will be called NA anyway.</p>
+</div>
+<div id="slide-14" class="section level2" number="3.14">
+<h2 number="3.14"><span class="header-section-number">3.14</span> Slide 14</h2>
+<p><img src="figs/50_estimating-pls/slide_14.png" /></p>
+<p>Now that we have talked through all arguments, let’s run the code. If everything goes according to plan, your code output will look like this and tell you the number of observations. If your model includes higher-order constructs or interaction terms, this will print twice because a first-stage model is estimated separately. (Next slide part) We can now plot our model to get a quick overview of our model results.</p>
+</div>
+<div id="slide-15" class="section level2" number="3.15">
+<h2 number="3.15"><span class="header-section-number">3.15</span> Slide 15</h2>
+<p><img src="figs/50_estimating-pls/slide_15.png" /></p>
+<p>Now, we have a model object, what do we do with it? We have separate videos on model evaluation and bootstrapping, so let’s just take a quick peek at the model object itself. Firstly, we can of course plot it.</p>
+</div>
+<div id="slide-16" class="section level2" number="3.16">
+<h2 number="3.16"><span class="header-section-number">3.16</span> Slide 16</h2>
+<p><img src="figs/50_estimating-pls/slide_16.png" /></p>
+<p>By default, the contains both the measurement and the structural model with path coefficients, weights and loadings as well as the explained variance R^2.</p>
+</div>
+<div id="slide-17" class="section level2" number="3.17">
+<h2 number="3.17"><span class="header-section-number">3.17</span> Slide 17</h2>
+<p><img src="figs/50_estimating-pls/slide_17.png" /></p>
+<p>If you type in model and then the dollar sign, you get an overview of the information and objects stored in the pls model object.</p>
+</div>
+<div id="slide-18" class="section level2" number="3.18">
+<h2 number="3.18"><span class="header-section-number">3.18</span> Slide 18</h2>
+<p><img src="figs/50_estimating-pls/slide_18.png" /></p>
+<p>For example, meanData contains the means of all indicators.</p>
+</div>
+<div id="slide-19" class="section level2" number="3.19">
+<h2 number="3.19"><span class="header-section-number">3.19</span> Slide 19</h2>
+<p><img src="figs/50_estimating-pls/slide_19.png" /></p>
+<p>Iterations is the number of iterations it took until the algorithm converged.</p>
+</div>
+<div id="slide-20" class="section level2" number="3.20">
+<h2 number="3.20"><span class="header-section-number">3.20</span> Slide 20</h2>
+<p><img src="figs/50_estimating-pls/slide_20.png" /></p>
+<p>The summary function gives you a quick overview of your model results. If you just execute summary function, R prints a table with path coefficients and R^2. It also prints a table with criteria for internal consistency reliability and convergent validity.</p>
+</div>
+<div id="slide-21" class="section level2" number="3.21">
+<h2 number="3.21"><span class="header-section-number">3.21</span> Slide 21</h2>
+<p><img src="figs/50_estimating-pls/slide_21.png" /></p>
+<p>If you store the model summary in a separate object, you can access much more information. For example…</p>
+</div>
+<div id="slide-22" class="section level2" number="3.22">
+<h2 number="3.22"><span class="header-section-number">3.22</span> Slide 22</h2>
+<p><img src="figs/50_estimating-pls/slide_22.png" /></p>
+<p>You can access discriminant validity criteria like the variance inflation factor</p>
+</div>
+<div id="slide-23" class="section level2" number="3.23">
+<h2 number="3.23"><span class="header-section-number">3.23</span> Slide 23</h2>
+<p><img src="figs/50_estimating-pls/slide_23.png" /> Finally, let’s look at three common problems that can happen when estimating a model. First, let’s assume our data is not numerical. For that, I make a new data set with one of our indicators formatted as a character. What happens if I try to estimate our model with that data?</p>
+</div>
+<div id="slide-24" class="section level2" number="3.24">
+<h2 number="3.24"><span class="header-section-number">3.24</span> Slide 24</h2>
+<p><img src="figs/50_estimating-pls/slide_24.png" /></p>
+<p>I get an error that looks something like that, telling me that my data is not numeric. So if you get an error that looks like this, you need to go back and reexamine your data.</p>
+</div>
+<div id="slide-25" class="section level2" number="3.25">
+<h2 number="3.25"><span class="header-section-number">3.25</span> Slide 25</h2>
+<p><img src="figs/50_estimating-pls/slide_25.png" /></p>
+<p>For example, you can select all the columns that are not numeric using the select function, the where function negated with a ! operator and the is.numeric function.</p>
+</div>
+<div id="slide-26" class="section level2" number="3.26">
+<h2 number="3.26"><span class="header-section-number">3.26</span> Slide 26</h2>
+<p><img src="figs/50_estimating-pls/slide_26.png" /></p>
+<p>Second, what happens if I try to access a column that is not in my data? Especially with large measurement models, typos are prone to happen. So if I mistype the <em>Image</em> suffix to I-M-G-A and try to estimate the model…</p>
+</div>
+<div id="slide-27" class="section level2" number="3.27">
+<h2 number="3.27"><span class="header-section-number">3.27</span> Slide 27</h2>
+<p><img src="figs/50_estimating-pls/slide_27.png" /></p>
+<p>The resulting error tells me that R could not find the columns I tried to select in my data. Unfortunately, I have not yet found a shortcut to correct this. As far as I know, you have to scrutinize every line of your measurement model and compare it with the column names in your data.</p>
+</div>
+<div id="slide-28" class="section level2" number="3.28">
+<h2 number="3.28"><span class="header-section-number">3.28</span> Slide 28</h2>
+<p><img src="figs/50_estimating-pls/slide_28.png" /></p>
+<p>The last common error happens when I try to include a construct in my structural model that I have not defined in my measurement model. Let’s assume I want to include a construct called quality. If I just put it into my structural model without defining how it should be measured…</p>
+</div>
+<div id="slide-29" class="section level2" number="3.29">
+<h2 number="3.29"><span class="header-section-number">3.29</span> Slide 29</h2>
+<p><img src="figs/50_estimating-pls/slide_29.png" /></p>
+<p>… the error message will tell me that I attempted to apply a non-function. Again, there is not really a quick way to find the culprit construct. But if you get an error message like this, you now know where to start looking: Which construct in your structural model is not defined in your measurement model?</p>
+</div>
+<div id="slide-30" class="section level2" number="3.30">
+<h2 number="3.30"><span class="header-section-number">3.30</span> Slide 30</h2>
+<p><img src="figs/50_estimating-pls/slide_30.png" /></p>
+<p>To finish off, let me review the contents of this video. You now know how to estimate a PLS model in SEMinR. You also know how to examine the model you have estimated. And you are familiar with common errors that can happen when you estimate a model. Now you’re ready to move on to model evaluation!</p>
+</div>
+<div id="slide-31" class="section level2" number="3.31">
+<h2 number="3.31"><span class="header-section-number">3.31</span> Slide 31</h2>
+<p><img src="figs/50_estimating-pls/slide_31.png" /></p>
+</div>
+<div id="slide-32" class="section level2" number="3.32">
+<h2 number="3.32"><span class="header-section-number">3.32</span> Slide 32</h2>
+<p><img src="figs/50_estimating-pls/slide_32.png" /></p>
+</div>
+<div id="slide-33" class="section level2" number="3.33">
+<h2 number="3.33"><span class="header-section-number">3.33</span> Slide 33</h2>
+<p><img src="figs/50_estimating-pls/slide_33.png" /></p>
+</div>
+<div id="slide-34" class="section level2" number="3.34">
+<h2 number="3.34"><span class="header-section-number">3.34</span> Slide 34</h2>
+<p><img src="figs/50_estimating-pls/slide_34.png" /></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

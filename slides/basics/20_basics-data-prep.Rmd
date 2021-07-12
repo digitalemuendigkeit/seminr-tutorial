@@ -6,7 +6,7 @@ author: "Lilian Kojan and André Calero Valdez"
 date: "updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
-    css: xaringan-themer.css
+    css: ["xaringan-themer.css", "printing.css"]
     #css: ["default", "default-fonts", "tutorials.css", "xaringan-themer.css"]  
     #lib_dir: libs
     nature:
@@ -541,8 +541,6 @@ A benefit of this is that SEMinR only drops observations when the missing value 
 So this option might be beneficial if you try out many different model specifications.
 
 When you are working with a real data set, you will have to weigh the benefits of each option when deciding on how to handle missing data.
-
--
 
 Fortunately, for our example, the decision is easy.
 Half the data for the variable is missing, so let's get rid of it.
