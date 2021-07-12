@@ -54,5 +54,6 @@ For your first step, we recommend going to the "Learning the basics" menu and st
 Ideally yout start by getting a basisc understanding of the [basics](basics.html) first.
 
 The following pages are somewhat complete:
+
 - Basics - Data preparation
 - Basics - Estimating a PLS-SEM
