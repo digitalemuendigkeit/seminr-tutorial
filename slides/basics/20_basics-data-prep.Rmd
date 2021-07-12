@@ -91,13 +91,13 @@ df <- dfgoal <- mobi[1:6,1:5] %>%
     ))
 df[c(1,4,6),5] <- NA
 df[,2] <- df[,2] %>%
-  recode(
+  dplyr::recode(
   `7` = "rather agree",
   `9` = "agree",
   `10` = "strongly agree"
 )
 df[,3] <- df[,3] %>%
-  recode(
+  dplyr::recode(
     `5` = 6,
     `6` = 5,
     `7` = 4,
@@ -245,9 +245,9 @@ And of course, there are many ways to do this.
 
 ```{r}
 df <- df %>%                     # assign changes to existing data frame
-  mutate(                        # add new variable based on existing one
+  dplyr::mutate(                        # add new variable based on existing one
     `Expectation Products` =     # name for the new variable
-      recode(                    # replace values
+      dplyr::recode(                    # replace values
         `Expectation Products`,  # variable to replace values in
         "rather agree" = 7,      # old value = new value
         "agree" = 9,
@@ -345,7 +345,7 @@ But if you haven't, here is how you could do it in R.
 df <- df %>%                 # assign changes to existing data frame
   mutate(                    # add new variable based on existing variables
     `Expectation Products` = # name for the new variable
-      recode(                # replace values
+      dplyr::recode(         # replace values
         `1` = 10,            # old value = new value
         `2` = 9,
         `3` = 8,

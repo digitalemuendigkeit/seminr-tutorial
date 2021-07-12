@@ -37,5 +37,5 @@ options(htmltools.dir.version = FALSE)
 ## Moderation:
 - mediating effect: third construct occurs between two other related constructs
 
-![:scale 50%](Figures/Moderation.png)
+<!-- ![:scale 50%](Figures/Moderation.png) -->
 ---

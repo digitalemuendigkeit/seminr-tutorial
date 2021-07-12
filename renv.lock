@@ -762,6 +762,13 @@
       "Repository": "CRAN",
       "Hash": "3471fb65971f1a7b2d4ae7848cf2db8d"
     },
+    "likert": {
+      "Package": "likert",
+      "Version": "1.3.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "353f2930dd0002d72c5af46210c9fbb6"
+    },
     "lme4": {
       "Package": "lme4",
       "Version": "1.1-26",

@@ -8,6 +8,13 @@
 src_path <- here::here("slides")
 fig_out_path <- here::here("website", "figs")
 files <- dir(src_path, pattern = "*.html", recursive = T, full.names = T)
+rmd_files <- dir(src_path, pattern = "*.Rmd", recursive = T, full.names = T)
+
+for(i in 1:length(rmd_files)){
+  message(paste0("Preparing RMD:", rmd_files[i]))
+  rmarkdown::render(rmd_files[i])
+}
+
 
 
 
