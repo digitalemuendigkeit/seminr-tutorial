@@ -1,2 +1,3 @@
-30_structural_model_script.txt
-structural_model_meta_script.txt
+*.txt
+*.html
+*.pdf
