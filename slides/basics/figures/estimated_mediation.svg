@@ -227,7 +227,11 @@
 </symbol>
 </g>
 </defs>
+<<<<<<< HEAD
 <g id="surface152">
+=======
+<g id="surface72">
+>>>>>>> aa5073db21b25e55c51c3d99424e85be02df7518
 <path style="fill-rule:nonzero;fill:rgb(18.431373%,30.980393%,30.980393%);fill-opacity:1;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;" d="M 204.159047 -67.999488 L 181.410683 -105.499468 L 135.911308 -105.499468 L 113.160296 -67.999488 L 135.911308 -30.499508 L 181.410683 -30.499508 Z M 204.159047 -67.999488 " transform="matrix(1.475209,0,0,1.475209,5.900836,306.352528)"/>
 <g style="fill:rgb(100%,100%,100%);fill-opacity:1;">
   <use xlink:href="#glyph0-1" x="194.703125" y="209.873466"/>

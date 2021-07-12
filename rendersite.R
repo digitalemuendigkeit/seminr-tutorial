@@ -63,19 +63,9 @@ for (i in 1:length(files)){
   # which file?
   fname <- files[i]
   src_file <- fname
-  message(paste0("Rendering file: ", basename(src_file)))
+  message(paste0("Copying file: ", basename(src_file)))
 
   # create pdf
   pdf_file <- paste0(stringr::str_replace(fname, "html", "pdf"))
-  pagedown::chrome_print(src_file,output=pdf_file)
-  file.copy(pdf_file, pdf_out_path, overwrite = TRUE)
-
-  info <- pdftools::pdf_info(pdf_file)
-
-  target_dir <- paste0(fig_out_path, "/", xfun::sans_ext(basename(fname)))
-  if(!dir.exists(target_dir)){
-    dir.create(target_dir)
-  }
-  png_names <- paste0(target_dir,"/slide_",sprintf("%02d", 1:info$pages), ".png")
-  pdftools::pdf_convert(pdf_file, filenames = png_names, antialias = TRUE, dpi = 72)
+  file.copy(pdf_file, pdf_out_path)
 }
