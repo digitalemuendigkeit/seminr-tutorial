@@ -69,9 +69,10 @@ for (i in 1:length(files)){
 ## Finally, render the site ----
 rmarkdown::render_site("website")
 
-dir.create(here::here("docs", "pdfs"), showWarnings = FALSE)
+#dir.create(here::here("docs", "pdfs"), showWarnings = FALSE)
 
-for (i in 1:length(files)){
+if (FALSE){
+#for (i in 1:length(files)){
 
   # which file?
   fname <- files[i]
@@ -82,3 +83,5 @@ for (i in 1:length(files)){
   pdf_file <- paste0(stringr::str_replace(fname, "html", "pdf"))
   file.copy(pdf_file, pdf_out_path)
 }
+
+beepr::beep(2)
