@@ -10,17 +10,16 @@
 
 
 
-<meta name="date" content="2021-07-12" />
 
 <title>SEM-in-R Basics - Data Preparation for SEM</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs/header-attrs.js"></script>
+<script src="site_libs/jquery/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
-<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link href="site_libs/bootstrap/css/darkly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap/shim/respond.min.js"></script>
 <style>h1 {font-size: 34px;}
        h1.title {font-size: 38px;}
        h2 {font-size: 30px;}
@@ -30,14 +29,14 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<script src="site_libs/jqueryui/jquery-ui.min.js"></script>
+<link href="site_libs/tocify/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify/jquery.tocify.js"></script>
+<script src="site_libs/navigation/tabsets.js"></script>
+<link href="site_libs/highlightjs/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs/highlight.js"></script>
+<link href="site_libs/font-awesome/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -425,114 +424,142 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">SEM-in-R Basics - Data Preparation for SEM</h1>
-<h4 class="date">2021-07-12</h4>
+<h4 class="date">Last update: July 12th, 2021</h4>
 
 </div>
 
 
 <div id="video-for-data-preperation-for-pls-sem" class="section level1" number="1">
 <h1 number="1"><span class="header-section-number">1</span> Video for Data Preperation for PLS-SEM</h1>
-<iframe width="640" height="360" src="https://www.youtube.com/embed/kGO4_NyeM5A" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1">
-</iframe>
+<blockquote>
+<p>Under construction.</p>
+</blockquote>
 </div>
 <div id="tutorial-in-rstudio" class="section level1" number="2">
 <h1 number="2"><span class="header-section-number">2</span> Tutorial in RStudio</h1>
+<blockquote>
 <p>Under construction.</p>
+</blockquote>
 </div>
-<div id="slides" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Slides</h1>
-<p>Here, you will find the slides for the original video. Under each slide you can read the script for that slide.</p>
-<div id="slide-1" class="section level2" number="3.1">
-<h2 number="3.1"><span class="header-section-number">3.1</span> Slide 1</h2>
+<div id="slide-download" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Slide download</h1>
+<p>You can download the slides in this presentation <a href="pdfs/60_bootstrapping-pls.pdf">here</a>.</p>
+</div>
+<div id="slides" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Slides</h1>
+<p>Here, you can find the slides from the video. Under each slide you can find the script for that slide.</p>
+<div id="bootstrapping-a-pls-sem-119" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Bootstrapping a PLS-SEM (1/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_01.png" /> Hello and welcome to this Video: Bootstrapping a PLS-SEM</p>
 <p>The slides in this presentation were created by: Lilian Kojan</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-2" class="section level2" number="3.2">
-<h2 number="3.2"><span class="header-section-number">3.2</span> Slide 2</h2>
+<div id="pls-model-estimation-in-seminr-219" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">PLS model estimation in SEMinR (2/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_02.png" /></p>
 <p>After watching the previous videos, you now know how to prepare your data and how to specify and estimate a model. The next step is bootstrapping that model for significance.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-3" class="section level2" number="3.3">
-<h2 number="3.3"><span class="header-section-number">3.3</span> Slide 3</h2>
+<div id="why-we-bootstrap-319" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Why we bootstrap (3/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_03.png" /></p>
 <p>Bootstrapping means that your model is re-estimated a large number of times using different parts of your data. You can then analyse and compare the results from the different estimations. This gives you information about how likely your original model results are given your data. Specifically, from the results, SEMinR automatically construct confidence intervals and calculate t-values for all values in your model. That means path coefficients, but also weights, loadings and HTMT values.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-4" class="section level2" number="3.4">
-<h2 number="3.4"><span class="header-section-number">3.4</span> Slide 4</h2>
+<div id="how-bootstrapping-works-419" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">How bootstrapping works (4/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_04.png" /></p>
 <p>Note that this doesn’t say anything about how likely it is to replicate your model results in the general population. It only says how likely you are to get your model results given your data. To better understand that, let’s take a closer look at the process of bootstrapping.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-5" class="section level2" number="3.5">
-<h2 number="3.5"><span class="header-section-number">3.5</span> Slide 5</h2>
+<div id="how-bootstrapping-works-519" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">How bootstrapping works (5/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_05.png" /> To understand the bootstrapping process, let’s first take a step back. For the regular model estimation, the PLS algorithm considers your full data set.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-6" class="section level2" number="3.6">
-<h2 number="3.6"><span class="header-section-number">3.6</span> Slide 6</h2>
+<div id="how-bootstrapping-works-619" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">How bootstrapping works (6/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_06.png" /> In the process of bootstrapping, the model is estimated multiple times. But instead of using the full dataset, the algorithm uses a random sample of that data. For each bootstrap iteration, the model is estimated with a different slice of your data. In this example, there are three iterations and therefore three slices of data. A more realistic number of iterations is 500.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-7" class="section level2" number="3.7">
-<h2 number="3.7"><span class="header-section-number">3.7</span> Slide 7</h2>
+<div id="bootstrapping-a-model---preparation-719" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Bootstrapping a model - preparation (7/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_07.png" /> Now that you have many different model results, you can use the summary() function to obtain statistics about the different results. seminr will then give you means, standard deviation, confidence intervals and t statistics based on the different model results. This is what I mean when I talk about significance information given the data. Now that we have talked how bootstrapping works, let’s take a look at how we do it in seminr.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-8" class="section level2" number="3.8">
-<h2 number="3.8"><span class="header-section-number">3.8</span> Slide 8</h2>
+<div id="bootstrapping-a-model---the-fundamentals-819" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Bootstrapping a model - the fundamentals (8/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_08.png" /> I will use the same model as in the model estimation tutorial. We use the mobi dataset again, and specify the measurement model and structural model directly in the estimate_pls() function.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-9" class="section level2" number="3.9">
-<h2 number="3.9"><span class="header-section-number">3.9</span> Slide 9</h2>
+<div id="bootstrapping-a-model---cores-and-seed-919" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Bootstrapping a model - <em>cores</em> and <em>seed</em> (9/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_09.png" /></p>
 <p>Now, we can take that model and bootstrap it. As you can see, the bootstrap_model() function takes four arguments. Let’s start of with the first two arguments. For seminr_model, you of course provide the model you want to bootstrap. This needs to be a model object which is generated by the estimate_pls() function. It is also the only argument you must provide to the function for it to run. All other arguments are optional. In the second argument, you specify the number of bootstrap iterations. If you don’t specify a number, the function defaults to 500. Model bootstrapping takes a lot of resources, so this is fine for testing out different models. If you want to publish your model results, the recommended number of bootstrap iterations is 5000.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-10" class="section level2" number="3.10">
-<h2 number="3.10"><span class="header-section-number">3.10</span> Slide 10</h2>
+<div id="bootstrapping-a-model-1019" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Bootstrapping a model (10/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_10.png" /></p>
 <p>The next two arguments are <em>cores</em> and <em>seed</em>. For the argument cores, you can specify the maximum number of cores R may use to bootstrap your model. By default, bootstrap_model() will use all available cores. Lastly, you can specify a seed. This is a number that will be used to initialize a pseudorandom number generator which is used for the function. If you provide a seed, others can reproduce your results exactly because the pseudorandom number generator will give them the same number sequence. By default, the value is NULL.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-11" class="section level2" number="3.11">
-<h2 number="3.11"><span class="header-section-number">3.11</span> Slide 11</h2>
+<div id="the-seminr-bootstrap-model-object---plot-1119" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR bootstrap model object - plot (11/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_11.png" /></p>
 <p>Now that we have talked through the code, I will actually bootstrap our model. To save computing time, I have set the number of bootstrap iterations to 100. And as you can see, the model was successfully bootstrapped. Next, let’s look at what we can do with the bootstrapped model object.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-12" class="section level2" number="3.12">
-<h2 number="3.12"><span class="header-section-number">3.12</span> Slide 12</h2>
+<div id="the-seminr-bootstrap-model-object---plot-1219" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR bootstrap model object - plot (12/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_12.png" /></p>
 <p>Just like with the model object, we can of course also plot the bootstrapped model. Compared to the plot of the regular model, there are two additions: First, all path coefficients as well as loadings and weights have asterisks that show significance. Second, there are confidence intervals for the path coefficients.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-13" class="section level2" number="3.13">
-<h2 number="3.13"><span class="header-section-number">3.13</span> Slide 13</h2>
+<div id="the-seminr-bootstrap-model-object---subobjects-1319" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR bootstrap model object - subobjects (13/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_13.png" /></p>
 <p>??? Let’s take a closer look.</p>
 <p>The asterisks indicate the p level of significance. The p value is calculated based on the t value from the bootstrapping procedure and the degrees of freedom which are equal to the number of observations you have in your data set. As is common practice, three asterisks indicate a p which is smaller than .001. Two asterisks indicate a p which is smaller than .01 and one asterisk indicates a p which is smaller than .05.</p>
 <p>The 95 % confidence interval tells you the interval in which 95 % of the bootstrap model results for the path coefficient fall. The first value is the lower bound. 2.5 % of the bootstrap result values is smaller than this lower bound. And the second value is the upper bound, meaning that 2.5 % of results are larger than this bound. This gives you more information on how likely it is to get your model results, given the data.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-14" class="section level2" number="3.14">
-<h2 number="3.14"><span class="header-section-number">3.14</span> Slide 14</h2>
+<div id="the-seminr-bootstrap-model-object---summary-1419" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR bootstrap model object - summary (14/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_14.png" /></p>
-<p>As with the pls model object, the bootstrapped model object also contains a lot of subobjects. If you type in bootstrapmodel with a dollar sign, you get an overview of the information and objects stored in the bootstrapped model object. Some of that information is simply inherited from the model object, other information is generated in the bootstrapping process.</p>
+<p>As with the pls model object, the bootstrapped model object also contains a lot of subobjects. If you type in bootstrapmodel with a dollar sign, you get an overview of the information and objects stored in the bootstrapped model object. Some of that information is simply inherited from the model object, other information is generated in the bootstrapping process. <br/><br/><br/></p>
 </div>
-<div id="slide-15" class="section level2" number="3.15">
-<h2 number="3.15"><span class="header-section-number">3.15</span> Slide 15</h2>
+<div id="the-seminr-model-object---summary-subobjects-1519" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - summary subobjects (15/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_15.png" /></p>
 <p>However, if you call that information directly from the bootstrap model object, it will give you the results for each bootstrapping iteration. For example, this means there are 100 entries if we want to look at the results for the path coefficients alone.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-16" class="section level2" number="3.16">
-<h2 number="3.16"><span class="header-section-number">3.16</span> Slide 16</h2>
+<div id="the-seminr-model-object---summary-subobjects-1619" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - summary subobjects (16/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_16.png" /></p>
-<p>Thankfully, the summary function again gives us a concise overview of the bootstrap results. But in comparison to the pls model summary, executing the summary function on a bootstrapped model gives us a lot more information. Too much information, again, to fit on this slide.</p>
+<p>Thankfully, the summary function again gives us a concise overview of the bootstrap results. But in comparison to the pls model summary, executing the summary function on a bootstrapped model gives us a lot more information. Too much information, again, to fit on this slide. <br/><br/><br/></p>
 </div>
-<div id="slide-17" class="section level2" number="3.17">
-<h2 number="3.17"><span class="header-section-number">3.17</span> Slide 17</h2>
+<div id="the-seminr-model-object---summary-subobjects-1719" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - summary subobjects (17/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_17.png" /></p>
 <p>So let’s store the summary in a object again and look at the different parts. The summary of the bootstrapped model contains six objects which are interesting to us:</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-18" class="section level2" number="3.18">
-<h2 number="3.18"><span class="header-section-number">3.18</span> Slide 18</h2>
+<div id="summary-1819" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Summary (18/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_18.png" /> First, we can again look up how many times the model was bootstrapped.</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="slide-19" class="section level2" number="3.19">
-<h2 number="3.19"><span class="header-section-number">3.19</span> Slide 19</h2>
+<div id="sources-for-this-video-1919" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Sources for this video (19/19)</h2>
 <p><img src="figs/60_bootstrapping-pls/slide_19.png" /> But we are probably more interested in the results of the bootstrapping procedure. Let’s look at the results for the path coefficients. All boostrap results are formatted as a table. In the first column, you can see the original estimate for the path coefficient. The second and third column show the mean and standard deviation of the distribution of all path coefficients calculated during bootstrapping. The fourth column contains the t statistic which is an indication of significance. As the underlying t-test is two-tailed, a t statistic of at least 1.65 indicates a significance level of 10 %. The last to columns contain the lower and upper bound of the 95 % confidence interval.</p>
+<p><br/><br/><br/></p>
 </div>
+</div>
+<div id="next" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Next</h1>
+<p>Next up is <a href="basics-70-evaluating-pls.html">evaluating your model</a>.</p>
 </div>
 
 

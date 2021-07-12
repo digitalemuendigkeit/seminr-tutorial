@@ -14,12 +14,23 @@ print_slide_md <- function(associated_file){
   slides <- dir(fig_path, pattern = "*.png")
 
   script_file <- here::here("slides", paste0(associated_file, "_script.txt"))
+  headline_file <- here::here("slides", paste0(associated_file, "_headline.txt"))
   lines <- readLines(script_file)
+  headlines <- readLines(headline_file)
+
+  cat("\n# Slide download \n\n\n")
+  cat(paste0("You can download the slides in this presentation [here](pdfs/", base_path ,".pdf).\n\n"))
+
+  cat(paste0("# Slides\n\n"))
+  cat("Here, you can find the slides from the video. Under each slide you can find the script for that slide.\n\n")
 
   line_count <- 1
   for(i in 1:length(slides)){
-    cat("\n## Slide ")
-    cat(paste(i,"\n\n\n"))
+    cat(headlines[i])
+    #cat("\n## Slide ")
+    cat(paste0(" (",i,"/",length(slides),") {.unlisted .unnumbered}\n\n\n"))
+
+
 
     fig_filename <- paste0(fig_short_path, slides[i])
 
@@ -32,6 +43,8 @@ print_slide_md <- function(associated_file){
       }
       line_count <- line_count + 1
     }
+
+    cat(paste0("<br/><br/><br/>\n\n\n"))
   }
 }
 

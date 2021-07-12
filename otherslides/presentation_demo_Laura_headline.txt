@@ -1,0 +1,23 @@
+## Presentation Ninja
+## xaringan
+## Get Started
+## Hello World
+## You only live once!
+## Hello Ninja
+## remark.js
+## I was so happy to have discovered remark.js!
+## Using xaringan
+## xaringan
+## remark.js vs xaringan
+## Math Expressions
+## R Code
+## R Plots
+## Tables
+## HTML Widgets
+## Some Tips
+## Some Tips
+## Some Tips
+## Some Tips
+## Some Tips
+## Some Tips
+## Some Tips

@@ -4,6 +4,10 @@ subtitle: "Basic Steps"
 author: "Lilian Kojan and André Calero Valdez"
 #institute: "RStudio, PBC"
 date: "updated: `r Sys.Date()`"
+params:
+  videoSlides: 
+    label: "Should slides be rendered for video production?"
+    value: TRUE
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "printing.css"]

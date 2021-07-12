@@ -1,0 +1,4 @@
+## structural_model
+## The structural model:
+## The structural model 2 - exogeneous vs. endogeneous variables:
+## Specification of structural model:

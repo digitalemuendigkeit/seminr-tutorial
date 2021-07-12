@@ -5,19 +5,30 @@
 
 # where?
 
+# Step 0 ----
+## get all the folders ----
 src_path <- here::here("slides")
 fig_out_path <- here::here("website", "figs")
-files <- dir(src_path, pattern = "*.html", recursive = T, full.names = T)
+pdf_out_path <- here::here("website", "pdfs")
 rmd_files <- dir(src_path, pattern = "*.Rmd", recursive = T, full.names = T)
 
+## get headlines etc.
+source("script_extractor.R")
+
+
+# Step 1 ----
+## REDO ALL SLIDES ----
 for(i in 1:length(rmd_files)){
   message(paste0("Preparing RMD:", rmd_files[i]))
-  rmarkdown::render(rmd_files[i])
+  rmarkdown::render(rmd_files[i], params = list(videoSlides = FALSE))
 }
 
 
+files <- dir(src_path, pattern = "*.html", recursive = T, full.names = T)
 
 
+# Step 2 ----
+### RENDER ALL PNG Files ----
 for (i in 1:length(files)){
 
 # which file?
@@ -28,6 +39,7 @@ for (i in 1:length(files)){
   # create pdf
   pdf_file <- paste0(stringr::str_replace(fname, "html", "pdf"))
   pagedown::chrome_print(src_file,output=pdf_file)
+  file.copy(pdf_file, pdf_out_path)
 
   info <- pdftools::pdf_info(pdf_file)
 
@@ -40,6 +52,6 @@ for (i in 1:length(files)){
 }
 
 
-
-# Finally, render the site
+# Step 3 ----
+## Finally, render the site ----
 rmarkdown::render_site("website")

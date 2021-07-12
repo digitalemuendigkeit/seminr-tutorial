@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Strukturgleichungsmodelle</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. André Calero Valdez" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/viz/viz.js"></script>
+    <link href="libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+    <script src="libs/grViz-binding/grViz.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="printing.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Strukturgleichungsmodelle
+## Sozialwissenschaftliche Forschungsmethoden für Fortgeschrittene
+### <strong>Dr. André Calero Valdez</strong>
+
+---
+
+
+
+
+
+
+
+
+
+
+
+# Wiederholung
+
+&lt;!--![](figs/skalen/model.png)--&gt;
+
+
+
+Uns interessiert eigentlich die Wirkung zwischen den "latenten" Variablen.
+
+---
+
+# Nachteile
+## Viele Schritte um zum Ergebnis zu kommen.
+1. Faktorenanalysen
+2. Reliabilitätsanalysen
+3. Hypothesentests
+
+## Keine Kausalbeziehungen 
+Erkenntnisse sind immer Assoziationen und keine kausalen Beziehungen!
+
+## Keine Mediationsanalyse
+Im schrittweisen Erklären der einzelnen Modellteile gehen Informationen verloren.
+
+---
+
+# Assoziation und Kausalität
+Jede Regression lässt sich auch "rückwärts" rechnen.
+
+.tiny[
+
+```r
+jmv::linReg(robo_care, dep = cse, cov = age, blocks = c("age"))
+```
+
+```
+## 
+##  LINEAR REGRESSION
+## 
+##  Model Fit Measures                   
+##  ──────────────────────────────────── 
+##    Model    R            R²           
+##  ──────────────────────────────────── 
+##        1    0.3077638    0.09471855   
+##  ──────────────────────────────────── 
+## 
+## 
+##  MODEL SPECIFIC RESULTS
+## 
+##  MODEL 1
+## 
+##  Model Coefficients - cse                                               
+##  ────────────────────────────────────────────────────────────────────── 
+##    Predictor    Estimate       SE             t            p            
+##  ────────────────────────────────────────────────────────────────────── 
+##    Intercept     5.06716978    0.146384847    34.615398    &lt; .0000001   
+##    age          -0.02326828    0.004216889    -5.517879    &lt; .0000001   
+##  ──────────────────────────────────────────────────────────────────────
+```
+]
+
+
+---
+
+# Assoziation und Kausalität
+Jede Regression lässt sich auch "rückwärts" rechnen.
+
+.tiny[
+
+```r
+jmv::linReg(robo_care, dep = age, cov = cse, blocks = c("cse"))
+```
+
+```
+## 
+##  LINEAR REGRESSION
+## 
+##  Model Fit Measures                   
+##  ──────────────────────────────────── 
+##    Model    R            R²           
+##  ──────────────────────────────────── 
+##        1    0.3077638    0.09471855   
+##  ──────────────────────────────────── 
+## 
+## 
+##  MODEL SPECIFIC RESULTS
+## 
+##  MODEL 1
+## 
+##  Model Coefficients - age                                           
+##  ────────────────────────────────────────────────────────────────── 
+##    Predictor    Estimate     SE           t            p            
+##  ────────────────────────────────────────────────────────────────── 
+##    Intercept    49.565113    3.2776398    15.122197    &lt; .0000001   
+##    cse          -4.070715    0.7377318    -5.517879    &lt; .0000001   
+##  ──────────────────────────────────────────────────────────────────
+```
+]
+
+---
+# Umkehrbarkeit von lineare Gleichungen
+
+## Y als abhängige Variable
+$$ y = b\times x + c$$
+--
+
+## X als abhängige Variable
+$$ x = \frac{y - c}{b} $$
+
+---
+# Kausale Modelle?
+
+Kann ich ein Modell formulieren, in dem eine Änderung der unabhängigen Variablen eine Änderung der abhängigen Variable "verursacht" aber nicht umgekehrt?
+
+<div id="htmlwidget-e94cba4c444b7b7cb70c" style="width:504px;height:300px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e94cba4c444b7b7cb70c">{"x":{"diagram":"\n       digraph g {\n       graph[\n        rankdir=LR;\n       ]\n       node \n       [\n       shape = ellipse\n       ]\n       \n       edge [\n       color = \"black\"\n       ]\n       CSE -> Age\n       edge [\n       color = \"red\"\n       ]\n       Age -> CSE \n\n       }\n       ","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+--
+
+## Mathematik kennt keine "Richtung"
+Innerhalb der Statistik/Mathematik gibt es keinen "do"-Operator.
+
+---
+# Randomized Controlled Trial
+
+Goldstandard der kausalen Statistik
+
+## Doppelblind Gruppierung
+ - Es werden zwei Gruppen gebildet: **Test**gruppe und **Kontroll**gruppe
+ - Gruppenzuweisung erfolgt zufällig und doppelblind 
+
+## Testdurchführung
+
+ - Testgruppe bekommt die Veränderung
+ - Kontrollgruppe bekommt die Veränderung nicht
+
+## Auswertung
+ - Veränderungen, die nur in der Testgruppe stattfinden, sollten auf die Veränderung zurückzuführen sein.
+
+---
+# Beispiel
+Pfizer/BioNTech Impfstoff ([Link](https://www.fda.gov/media/144246/download) zur Originalstudie)
+
+![](static/pfizertable.png)
+---
+# Beispiel
+Pfizer/BioNTech Impfstoff ([Link](https://www.fda.gov/media/144246/download) zur Originalstudie)
+
+![](static/resultstable.png)
+
+
+---
+
+# Strukturgleichungsmodelle
+
+## Observational Study
+Häufig können Veränderungen nur beobachtet und nicht verursacht werden.
+
+Was tun?
+
+## Voraussetzungen für kausale Erkenntnis in Beobachtungsstudien
+
+1. Gute theoretische Herleitung der Modellannahmen
+2. Entwurf eines Modells, dass andere Interpretationen verhindert.
+
+Verschiedene Ansätze:
+- Kausale Modelle, Directed Acyclic Graphs (DAGs), Do-Operator
+
+Für uns relevant:
+## Strukturgleichungsmodelle
+
+---
+# Structural Equation Modelling (SEM)
+
+Zwei unterschiedliche Verfahren:
+1. Kovarianzbasierte Modelle (CB-SEM)
+2. Varianzbasierte Modelle (VB-SEM)
+
+Beide Modellarten sind graphische Modelle!
+
+--
+
+## Gemeinsamkeiten
+1. Latente Variablen werden als Ellipsen dargestellt
+2. Manifeste Variablen werden als Rechtecke dargestellt
+3. Kausale Beziehungen werden als Pfeile dargestellt
+
+---
+#Graphische Modelle
+
+
+<div id="htmlwidget-8d88edc2357a724cc3d0" style="width:504px;height:300px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8d88edc2357a724cc3d0">{"x":{"diagram":"\n      digraph g{\n      graph\n      [rankdir=LR\n      fontname=\"helvetica\"\n      ]\n      \n      node [\n      fontname = helvetica\n      shape = box\n      ]\n      kut1;kut2;kut3;\n      robo_face;\n      robo_wash\n      \n      node [\n      fontname = helvetica\n      shape = ellipse\n      ]\n      KUT\n      Akzeptanz\n      \n      kut1 -> KUT;\n      kut2 -> KUT;\n      kut3 -> KUT\n      \n      KUT -> Akzeptanz\n      \n      Akzeptanz -> robo_face \n      Akzeptanz -> robo_wash\n      }\n      ","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+Manifest Variablen vs. Latente Variablen
+- Exogene Variablen: Werden nur durch Manifestvariablen bestimmt
+- Endogene Variablen
+
+SEM prüft alle Pfade in einem mathematischen Modell
+- Dabei werden "Werte" für latente Variablen ermittelt
+---
+# Mobi Dataset
+
+Daten einer Mobiltelefon Nutzerbefragung (n=250).
+1. Expectation - Erwartungen gegenüber dem Anbieter
+2. Satisfaction - Zufriedenheit mit dem Anbieter
+3. Loyalty - Loyalität zum Anbieter
+4. Complaints - Beschwerden beim Anbieter
+5. etc.
+--
+
+## SEM Modelle auf Mobi Daten
+Vorgehensweise
+1. Hypothese ist eine Modellkombination aus
+  1. **Messmodell**: Welche Manifestvariablen messen welche latenten Variablen
+  2. **Strukturmodell**:  Welche Beziehungen bestehen zwischen latenten Variablen
+3. Es werden immer alle Pfade gleichzeitig "geschätzt".
+
+---
+# Beispiel-Modell
+## Strukturmodel
+<div id="htmlwidget-c28d2bcd4f5dad3d2c27" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c28d2bcd4f5dad3d2c27">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = white,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = white,\nfillcolor = darkslategray,\nstyle = filled,\nfontsize = 12,\nfontcolor = white,\nheight = 1.02932942708333,\nwidth = 1.27093098958333,\nfontname = helvetica,\nfixedsize = true\n]\n\"Expectation\" [label=<<B>Expectation <\/B>>, shape = ellipse]\n\"Satisfaction\" [label=<<B>Satisfaction <\/B>>, shape = ellipse]\n\"Loyalty\" [label=<<B>Loyalty <\/B>>, shape = ellipse]\n\"Complaints\" [label=<<B>Complaints <\/B>>, shape = ellipse]\nedge [\ncolor = white,\nfontsize = 9,\nfontcolor = white,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"Expectation\" -> {\"Satisfaction\"}[weight = 1, penwidth = 1.5, style = solid, color = white]\n\"Satisfaction\" -> {\"Loyalty\"}[weight = 1, penwidth = 1.5, style = solid, color = white]\n\"Expectation\" -> {\"Loyalty\"}[weight = 1, penwidth = 1.5, style = solid, color = white]\n\"Satisfaction\" -> {\"Complaints\"}[weight = 1, penwidth = 1.5, style = solid, color = white]\n}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+
+Pfade sind dabei immer (multiple) lineare Regressionen.
+
+z.B. `\(Loyalty = b_{sl} \times Satisfaction + b_{el} \times Expectation + c + \epsilon\)`
+
+--
+
+Was nicht offensichtlich ist:
+`\(Loyalty = b_{sl} \times Sat. + b_{el} \times Exp. + b_{cl} \times Complaints + c + \epsilon\)`
+und 
+
+`\(b_{cl}\)`, soll so nah an Null wie möglich sein.
+
+---
+# Beispiel-Modell
+##  Messmodell
+<div id="htmlwidget-d60bed3df420a77e0c2f" style="width:504px;height:400px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d60bed3df420a77e0c2f">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = white,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = white,\nfillcolor = darkslategray,\nstyle = filled,\nfontsize = 12,\nfontcolor = white,\nheight = 1.02932942708333,\nwidth = 1.27093098958333,\nfontname = helvetica,\nfixedsize = true\n]\n\"Expectation\" [label=<<B>Expectation <\/B>>, shape = ellipse]\n\"Satisfaction\" [label=<<B>Satisfaction <\/B>>, shape = ellipse]\n\"Loyalty\" [label=<<B>Loyalty <\/B>>, shape = ellipse]\n\"Complaints\" [label=<<B>Complaints <\/B>>, shape = hexagon]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUEX1\" [label = \"CUEX1\", shape = box]\n\"CUEX2\" [label = \"CUEX2\", shape = box]\n\"CUEX3\" [label = \"CUEX3\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Expectation\" -> {\"CUEX1\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\"Expectation\" -> {\"CUEX2\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\"Expectation\" -> {\"CUEX3\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSA1\" [label = \"CUSA1\", shape = box]\n\"CUSA2\" [label = \"CUSA2\", shape = box]\n\"CUSA3\" [label = \"CUSA3\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Satisfaction\" -> {\"CUSA1\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\"Satisfaction\" -> {\"CUSA2\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\"Satisfaction\" -> {\"CUSA3\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSL1\" [label = \"CUSL1\", shape = box]\n\"CUSL2\" [label = \"CUSL2\", shape = box]\n\"CUSL3\" [label = \"CUSL3\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Loyalty\" -> {\"CUSL1\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\"Loyalty\" -> {\"CUSL2\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\"Loyalty\" -> {\"CUSL3\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\n}\nsubgraph construct_4 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSCO\" [label = \"CUSCO\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Complaints\" -> {\"CUSCO\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+3 Typen von Messungen
+
+---
+# Beispiel-Modell
+.tiny[
+
+```r
+measurements &lt;- constructs(
+  composite("Complaints",  single_item("CUSCO"), mode_A),      # correlation
+  composite("Loyalty",     multi_items("CUSL", 1:3), mode_B),  # regression
+  reflective("Expectation", multi_items("CUEX", 1:2))          # latent factor
+)
+plot(measurements)
+```
+
+<div id="htmlwidget-bfcd331e4c563306625a" style="width:504px;height:300px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bfcd331e4c563306625a">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = white,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = white,\nfillcolor = darkslategray,\nstyle = filled,\nfontsize = 12,\nfontcolor = white,\nheight = 1.02932942708333,\nwidth = 1.27093098958333,\nfontname = helvetica,\nfixedsize = true\n]\n\"Complaints\" [label=<<B>Complaints <\/B>>, shape = hexagon]\n\"Loyalty\" [label=<<B>Loyalty <\/B>>, shape = hexagon]\n\"Expectation\" [label=<<B>Expectation <\/B>>, shape = ellipse]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSCO\" [label = \"CUSCO\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Complaints\" -> {\"CUSCO\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSL1\" [label = \"CUSL1\", shape = box]\n\"CUSL2\" [label = \"CUSL2\", shape = box]\n\"CUSL3\" [label = \"CUSL3\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Loyalty\" -> {\"CUSL1\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\"Loyalty\" -> {\"CUSL2\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\"Loyalty\" -> {\"CUSL3\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUEX1\" [label = \"CUEX1\", shape = box]\n\"CUEX2\" [label = \"CUEX2\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Expectation\" -> {\"CUEX1\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\"Expectation\" -> {\"CUEX2\"}[weight = 1000, penwidth = 1.5, style = solid, color = lightgray]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+]
+
+---
+# Model berechnen
+## Varianz-basiertes Modell mit PLS-Schätzung (partial least squares)
+
+
+```r
+library(seminr)
+measurements &lt;- constructs(
+  composite("Expectation",   multi_items("CUEX", 1:3)),
+  reflective("Satisfaction", multi_items("CUSA", 1:3)),
+  reflective("Loyalty",      multi_items("CUSL", 1:3)),
+  composite("Complaints",    single_item("CUSCO"))
+)
+structure &lt;- relationships(
+  paths(from = "Expectation", to = "Satisfaction"),
+  paths(from = c("Satisfaction", "Expectation"), to = "Loyalty"),
+  paths(from = "Satisfaction", to = c("Complaints"))
+)
+
+model &lt;- estimate_pls(mobi, measurements, structure)
+```
+
+```
+## Generating the seminr model
+```
+
+```
+## All 250 observations are valid.
+```
+
+---
+# Model analysieren
+
+## Messmodellgüte prüfen
+
+
+```r
+summary(model)
+```
+
+```
+## 
+## Results from  package seminr (2.0.3)
+## 
+## Path Coefficients:
+##              Satisfaction Loyalty Complaints
+## R^2                 0.704   0.746      0.353
+## AdjR^2              0.703   0.744      0.350
+## Expectation         0.839  -0.236          .
+## Satisfaction            .   1.052      0.594
+## 
+## Reliability:
+##              alpha  rhoC   AVE  rhoA
+## Expectation  0.452 0.732 0.481 0.468
+## Satisfaction 0.779     . 0.543 0.787
+## Loyalty      0.472     . 0.383 0.752
+## Complaints   1.000 1.000 1.000 1.000
+## 
+## Alpha, rhoC, and rhoA should exceed 0.7 while AVE should exceed 0.5
+```
+
+
+
+
+
+---
+# Model plotten
+
+
+```r
+plot(model)
+```
+
+<div id="htmlwidget-b58f0e5ed3e8aaf796d3" style="width:504px;height:504px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b58f0e5ed3e8aaf796d3">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = white,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = white,\nfillcolor = darkslategray,\nstyle = filled,\nfontsize = 12,\nfontcolor = white,\nheight = 1.02932942708333,\nwidth = 1.27093098958333,\nfontname = helvetica,\nfixedsize = true\n]\n\"Expectation\" [label=<<B>Expectation <\/B>>, shape = hexagon]\n\"Satisfaction\" [label=<<B>Satisfaction <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.704<\/FONT>>, shape = ellipse]\n\"Loyalty\" [label=<<B>Loyalty <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.746<\/FONT>>, shape = ellipse]\n\"Complaints\" [label=<<B>Complaints <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.353<\/FONT>>, shape = hexagon]\nedge [\ncolor = white,\nfontsize = 9,\nfontcolor = white,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"Expectation\" -> {\"Satisfaction\"}[weight = 1, label = < 𝛽 = 0.839<BR /><FONT POINT-SIZE=\"7\">   <\/FONT> >, penwidth = 4.695, style = solid, color = white]\n\"Satisfaction\" -> {\"Loyalty\"}[weight = 1, label = < 𝛽 = 1.052<BR /><FONT POINT-SIZE=\"7\">   <\/FONT> >, penwidth = 5.76, style = solid, color = white]\n\"Expectation\" -> {\"Loyalty\"}[weight = 1, label = < 𝛽 = -0.236<BR /><FONT POINT-SIZE=\"7\">   <\/FONT> >, penwidth = 1.68, style = dashed, color = firebrick]\n\"Satisfaction\" -> {\"Complaints\"}[weight = 1, label = < 𝛽 = 0.594<BR /><FONT POINT-SIZE=\"7\">   <\/FONT> >, penwidth = 3.47, style = solid, color = white]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUEX1\" [label = \"CUEX1\", shape = box]\n\"CUEX2\" [label = \"CUEX2\", shape = box]\n\"CUEX3\" [label = \"CUEX3\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"CUEX1\" -> {\"Expectation\"}[weight = 1000, label = < 𝜆 = 0.76 >, penwidth = 2.78, style = solid, color = lightgray]\n\"CUEX2\" -> {\"Expectation\"}[weight = 1000, label = < 𝜆 = 0.735 >, penwidth = 2.705, style = solid, color = lightgray]\n\"CUEX3\" -> {\"Expectation\"}[weight = 1000, label = < 𝜆 = 0.57 >, penwidth = 2.21, style = solid, color = lightgray]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSA1\" [label = \"CUSA1\", shape = box]\n\"CUSA2\" [label = \"CUSA2\", shape = box]\n\"CUSA3\" [label = \"CUSA3\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"CUSA1\" -> {\"Satisfaction\"}[weight = 1000, label = < 𝜆 = 0.694 >, penwidth = 2.582, style = solid, color = lightgray]\n\"CUSA2\" -> {\"Satisfaction\"}[weight = 1000, label = < 𝜆 = 0.684 >, penwidth = 2.552, style = solid, color = lightgray]\n\"CUSA3\" -> {\"Satisfaction\"}[weight = 1000, label = < 𝜆 = 0.823 >, penwidth = 2.969, style = solid, color = lightgray]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSL1\" [label = \"CUSL1\", shape = box]\n\"CUSL2\" [label = \"CUSL2\", shape = box]\n\"CUSL3\" [label = \"CUSL3\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Loyalty\" -> {\"CUSL1\"}[weight = 1000, label = < 𝜆 = 0.606 >, penwidth = 2.318, style = solid, color = lightgray]\n\"Loyalty\" -> {\"CUSL2\"}[weight = 1000, label = < 𝜆 = 0.146 >, penwidth = 0.938, style = solid, color = lightgray]\n\"Loyalty\" -> {\"CUSL3\"}[weight = 1000, label = < 𝜆 = 0.873 >, penwidth = 3.119, style = solid, color = lightgray]\n\n}\nsubgraph construct_4 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSCO\" [label = \"CUSCO\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Complaints\" -> {\"CUSCO\"}[weight = 1000, label = < 𝜆 = 1 >, penwidth = 3.5, style = solid, color = lightgray]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+
+---
+# Model optimieren
+## Manifest Variablen entfernen
+
+```r
+library(seminr)
+measurements &lt;- constructs(
+  composite("Expectation", multi_items("CUEX", 1:2)),
+  reflective("Satisfaction", multi_items("CUSA", 1:3)),
+  reflective("Loyalty",     multi_items("CUSL", c(1,3))),
+  composite("Complaints",  single_item("CUSCO"))
+)
+structure &lt;- relationships(
+  paths(from = "Expectation", to = "Satisfaction"),
+  paths(from = c("Satisfaction", "Expectation"), to = "Loyalty"),
+  paths(from = "Satisfaction", to = c("Complaints"))
+)
+
+model &lt;- estimate_pls(mobi, measurements, structure)
+```
+
+```
+## Generating the seminr model
+```
+
+```
+## All 250 observations are valid.
+```
+
+---
+# Model prüfen
+
+
+```r
+summary(model)
+```
+
+```
+## 
+## Results from  package seminr (2.0.3)
+## 
+## Path Coefficients:
+##              Satisfaction Loyalty Complaints
+## R^2                 0.527   0.714      0.353
+## AdjR^2              0.525   0.712      0.351
+## Expectation         0.726  -0.056          .
+## Satisfaction            .   0.885      0.594
+## 
+## Reliability:
+##              alpha  rhoC   AVE  rhoA
+## Expectation  0.491 0.797 0.663 0.492
+## Satisfaction 0.779     . 0.544 0.790
+## Loyalty      0.703     . 0.577 0.765
+## Complaints   1.000 1.000 1.000 1.000
+## 
+## Alpha, rhoC, and rhoA should exceed 0.7 while AVE should exceed 0.5
+```
+
+---
+# Model Plot
+
+```r
+plot(model)
+```
+
+<div id="htmlwidget-6146400167c828a9757d" style="width:504px;height:504px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6146400167c828a9757d">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = white,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = white,\nfillcolor = darkslategray,\nstyle = filled,\nfontsize = 12,\nfontcolor = white,\nheight = 1.02932942708333,\nwidth = 1.27093098958333,\nfontname = helvetica,\nfixedsize = true\n]\n\"Expectation\" [label=<<B>Expectation <\/B>>, shape = hexagon]\n\"Satisfaction\" [label=<<B>Satisfaction <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.527<\/FONT>>, shape = ellipse]\n\"Loyalty\" [label=<<B>Loyalty <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.714<\/FONT>>, shape = ellipse]\n\"Complaints\" [label=<<B>Complaints <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.353<\/FONT>>, shape = hexagon]\nedge [\ncolor = white,\nfontsize = 9,\nfontcolor = white,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"Expectation\" -> {\"Satisfaction\"}[weight = 1, label = < 𝛽 = 0.726<BR /><FONT POINT-SIZE=\"7\">   <\/FONT> >, penwidth = 4.13, style = solid, color = white]\n\"Satisfaction\" -> {\"Loyalty\"}[weight = 1, label = < 𝛽 = 0.885<BR /><FONT POINT-SIZE=\"7\">   <\/FONT> >, penwidth = 4.925, style = solid, color = white]\n\"Expectation\" -> {\"Loyalty\"}[weight = 1, label = < 𝛽 = -0.056<BR /><FONT POINT-SIZE=\"7\">   <\/FONT> >, penwidth = 0.78, style = dashed, color = firebrick]\n\"Satisfaction\" -> {\"Complaints\"}[weight = 1, label = < 𝛽 = 0.594<BR /><FONT POINT-SIZE=\"7\">   <\/FONT> >, penwidth = 3.47, style = solid, color = white]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUEX1\" [label = \"CUEX1\", shape = box]\n\"CUEX2\" [label = \"CUEX2\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"CUEX1\" -> {\"Expectation\"}[weight = 1000, label = < 𝜆 = 0.806 >, penwidth = 2.918, style = solid, color = lightgray]\n\"CUEX2\" -> {\"Expectation\"}[weight = 1000, label = < 𝜆 = 0.823 >, penwidth = 2.969, style = solid, color = lightgray]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSA1\" [label = \"CUSA1\", shape = box]\n\"CUSA2\" [label = \"CUSA2\", shape = box]\n\"CUSA3\" [label = \"CUSA3\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"CUSA1\" -> {\"Satisfaction\"}[weight = 1000, label = < 𝜆 = 0.683 >, penwidth = 2.549, style = solid, color = lightgray]\n\"CUSA2\" -> {\"Satisfaction\"}[weight = 1000, label = < 𝜆 = 0.683 >, penwidth = 2.549, style = solid, color = lightgray]\n\"CUSA3\" -> {\"Satisfaction\"}[weight = 1000, label = < 𝜆 = 0.836 >, penwidth = 3.008, style = solid, color = lightgray]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSL1\" [label = \"CUSL1\", shape = box]\n\"CUSL3\" [label = \"CUSL3\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Loyalty\" -> {\"CUSL1\"}[weight = 1000, label = < 𝜆 = 0.615 >, penwidth = 2.345, style = solid, color = lightgray]\n\"Loyalty\" -> {\"CUSL3\"}[weight = 1000, label = < 𝜆 = 0.881 >, penwidth = 3.143, style = solid, color = lightgray]\n\n}\nsubgraph construct_4 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSCO\" [label = \"CUSCO\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Complaints\" -> {\"CUSCO\"}[weight = 1000, label = < 𝜆 = 1 >, penwidth = 3.5, style = solid, color = lightgray]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+## Modell ok?
+
+---
+
+# Bootstrapping
+## Notwendig für zufallsabhängige Schätzung
+
+&lt;style type="text/css"&gt;
+.teeny .remark-code { /*Change made here*/
+  font-size: 70% !important;
+}
+div.tiny { /*Change made here*/
+  font-size: 70% !important;
+}
+&lt;/style&gt;
+
+.tiny[
+
+```r
+model_bst &lt;- bootstrap_model(model)
+```
+
+```
+## Bootstrapping model using seminr...
+```
+
+```
+## SEMinR Model successfully bootstrapped
+```
+
+```r
+smry &lt;- summary(model_bst)
+smry$bootstrapped_HTMT
+```
+
+```
+##                               Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+## Expectation  -&gt;  Satisfaction         0.735          0.751        0.119   6.171   0.540    1.002
+## Expectation  -&gt;  Loyalty              0.607          0.615        0.119   5.095   0.396    0.839
+## Expectation  -&gt;  Complaints           0.357          0.365        0.103   3.471   0.173    0.574
+## Satisfaction  -&gt;  Loyalty             0.855          0.859        0.083  10.353   0.676    1.008
+## Satisfaction  -&gt;  Complaints          0.588          0.593        0.061   9.584   0.470    0.701
+## Loyalty  -&gt;  Complaints               0.465          0.470        0.083   5.588   0.311    0.629
+```
+]
+
+---
+# Diskriminanzvalidität
+## Hetero-Trait-Mono-Trait Ratio
+
+Misst wie ähnlich sich Konstrukte sind. Ideal ist HTMT &lt; 1.
+
+--
+
+
+```r
+smry$bootstrapped_HTMT
+```
+
+```
+##                               Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+## Expectation  -&gt;  Satisfaction         0.735          0.751        0.119   6.171   0.540    1.002
+## Expectation  -&gt;  Loyalty              0.607          0.615        0.119   5.095   0.396    0.839
+## Expectation  -&gt;  Complaints           0.357          0.365        0.103   3.471   0.173    0.574
+## Satisfaction  -&gt;  Loyalty             0.855          0.859        0.083  10.353   0.676    1.008
+## Satisfaction  -&gt;  Complaints          0.588          0.593        0.061   9.584   0.470    0.701
+## Loyalty  -&gt;  Complaints               0.465          0.470        0.083   5.588   0.311    0.629
+```
+
+---
+# Bootstrapped Model Plot
+
+
+```r
+plot(model_bst)
+```
+
+<div id="htmlwidget-2774b1977274b177ba85" style="width:504px;height:504px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2774b1977274b177ba85">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = white,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = white,\nfillcolor = darkslategray,\nstyle = filled,\nfontsize = 12,\nfontcolor = white,\nheight = 1.02932942708333,\nwidth = 1.27093098958333,\nfontname = helvetica,\nfixedsize = true\n]\n\"Expectation\" [label=<<B>Expectation <\/B>>, shape = hexagon]\n\"Satisfaction\" [label=<<B>Satisfaction <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.527<\/FONT>>, shape = ellipse]\n\"Loyalty\" [label=<<B>Loyalty <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.714<\/FONT>>, shape = ellipse]\n\"Complaints\" [label=<<B>Complaints <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.353<\/FONT>>, shape = hexagon]\nedge [\ncolor = white,\nfontsize = 9,\nfontcolor = white,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"Expectation\" -> {\"Satisfaction\"}[weight = 1, label = < 𝛽 = 0.726***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.514, 0.991]   <\/FONT> >, penwidth = 4.13, style = solid, color = white]\n\"Satisfaction\" -> {\"Loyalty\"}[weight = 1, label = < 𝛽 = 0.885<BR /><FONT POINT-SIZE=\"7\">95% CI [0.497, 1.757]   <\/FONT> >, penwidth = 4.925, style = solid, color = white]\n\"Expectation\" -> {\"Loyalty\"}[weight = 1, label = < 𝛽 = -0.056<BR /><FONT POINT-SIZE=\"7\">95% CI [-0.923, 0.316]   <\/FONT> >, penwidth = 0.78, style = dashed, color = firebrick]\n\"Satisfaction\" -> {\"Complaints\"}[weight = 1, label = < 𝛽 = 0.594***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.478, 0.706]   <\/FONT> >, penwidth = 3.47, style = solid, color = white]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUEX1\" [label = \"CUEX1\", shape = box]\n\"CUEX2\" [label = \"CUEX2\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"CUEX1\" -> {\"Expectation\"}[weight = 1000, label = < 𝜆 = 0.806*** >, penwidth = 2.918, style = solid, color = lightgray]\n\"CUEX2\" -> {\"Expectation\"}[weight = 1000, label = < 𝜆 = 0.823*** >, penwidth = 2.969, style = solid, color = lightgray]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSA1\" [label = \"CUSA1\", shape = box]\n\"CUSA2\" [label = \"CUSA2\", shape = box]\n\"CUSA3\" [label = \"CUSA3\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"CUSA1\" -> {\"Satisfaction\"}[weight = 1000, label = < 𝜆 = 0.683*** >, penwidth = 2.549, style = solid, color = lightgray]\n\"CUSA2\" -> {\"Satisfaction\"}[weight = 1000, label = < 𝜆 = 0.683*** >, penwidth = 2.549, style = solid, color = lightgray]\n\"CUSA3\" -> {\"Satisfaction\"}[weight = 1000, label = < 𝜆 = 0.836*** >, penwidth = 3.008, style = solid, color = lightgray]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSL1\" [label = \"CUSL1\", shape = box]\n\"CUSL3\" [label = \"CUSL3\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Loyalty\" -> {\"CUSL1\"}[weight = 1000, label = < 𝜆 = 0.615*** >, penwidth = 2.345, style = solid, color = lightgray]\n\"Loyalty\" -> {\"CUSL3\"}[weight = 1000, label = < 𝜆 = 0.881*** >, penwidth = 3.143, style = solid, color = lightgray]\n\n}\nsubgraph construct_4 {\nnode [\nshape = box,\ncolor = lightgray,\nfillcolor = darkgoldenrod4,\nstyle = filled,\nfontsize = 8,\nfontcolor = white,\nheight = 0.164664713541667,\nwidth = 0.601888020833333,\nfontname = helvetica,\nfixedsize = true\n]\n\"CUSCO\" [label = \"CUSCO\", shape = box]\nedge [\ncolor = lightgray,\nfontsize = 7,\nfontcolor = lightgray,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"Complaints\" -> {\"CUSCO\"}[weight = 1000, label = < 𝜆 = 1 >, penwidth = 3.5, style = solid, color = lightgray]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+---
+# Was kann schief gehen?
+
+## Messmodell passt nicht?
+Egal wie viel man weglässt, immer bleibt etwas unter den Schwellen. KEIN SEM.
+
+## Modell ist unterspezifiziert
+Die Anzahl an Daten und Manifestvariablen reichen nicht aus, um das Modell zu schätzen.
+
+SEM benötigt...
+- gute Theoriearbeit
+- kausale Hypothesen
+- relativ große Stichproben 
+ 
+---
+# Was gibt es noch?
+
+## Higher Order Constructs
+- Konstrukte setzen sich aus Unterkonstrukten zusammen.
+  - z.B.: Intelligenz besteht aus kristalliner und fluider Intelligenz
+- Beide Unterkonstrukte müssen wieder einzeln gemessen werden.
+- Keine Manifestmessung der Oberkonstrukte.
+
+
+## Interaktionseffekte
+- Eine Variable kann den Einfluss einer Variable auf eine andere **moderieren**.
+  - z.B. "Die Kontrollüberzeugung im Umgang mit Technik beeinflusst mit steigendem Alter die Akzeptanz mobiler Robotik."
+ 
+<div id="htmlwidget-3338b209852d8ef52e45" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3338b209852d8ef52e45">{"x":{"diagram":"digraph {\n  A [label = \"IV: KUT\"]\n  B [label = \"DV: Akzeptanz\"]\n  C [label = \"Moderator: Alter\"]\n  empty [label = \"\", shape = point, width = 0, height = 0]\n\n  A -> empty  [arrowhead = none, weight = 1000]\n  empty -> B [weight = 1000]\n  C -> empty [constraint = FALSE]\n  C -> B\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+ 
+---
+# CB-SEM vs. VB-SEM
+
+## VB-SEM (PLS-SEM, SmartPLS, PLSc, SEMinR, etc.)
+- geeignet für kleinere Strichproben (N=150-250)
+- geeignet für Exploration kausaler Modelle
+
+## CB-SEM (AMOS, Lisrel, lavaan, etc.)
+- konfirmatorischer Ansatz
+- noch größere Stichproben (N&gt;500)
+- nur Latent-Faktor Messmodelle
+- Zusätzlich Kovarianzen zwischen Items verschiedener Konstrukte erlaubt
+  - müssen aber im Modell angegeben werden!
+
+---
+# Beispiel mit SEMinR
+
+.tiny[
+
+```r
+cbs &lt;- estimate_cbsem(mobi, as.reflective(measurements), structure)
+```
+
+```
+## Generating the seminr model for CBSEM
+```
+
+```r
+summary(cbs)
+```
+
+```
+## 
+## Results from  package seminr (2.0.3)
+## Estimation used  package seminr (2.0.3)
+## 
+## Fit metrics:
+##      npar      fmin      pnfi      logl       aic       bic    ntotal      bic2       rmr      srmr      crmr       gfi      agfi      pgfi       mfi      ecvi 
+##    20.000     0.067     0.542 -3773.665  7587.330  7657.759   250.000  7594.357     0.123     0.037     0.042     0.967     0.926     0.430     0.966     0.293 
+## 
+##                  metric  scaled robust
+## cfi               0.972   0.973  0.978
+## tli               0.952   0.953  0.962
+## nnfi              0.952   0.953  0.962
+## rni               0.972   0.973  0.978
+## rmsea             0.066   0.052  0.058
+## rmsea.ci.lower    0.033   0.016  0.010
+## rmsea.ci.upper    0.097   0.082  0.095
+## rmsea.pvalue      0.187   0.424      .
+## chisq            33.278  26.782      .
+## df               16.000  16.000      .
+## pvalue            0.007   0.044      .
+## baseline.chisq  653.542 431.468      .
+## baseline.df      28.000  28.000      .
+## baseline.pvalue   0.000   0.000      .
+## rfi               0.911   0.891      .
+## nfi               0.949   0.938      .
+## ifi               0.973   0.974      .
+## 
+## Reliability:
+##              rhoC  AVE
+## Expectation  0.49 0.33
+## Satisfaction 0.78 0.54
+## Loyalty      0.73 0.58
+## Complaints   1.00 1.00
+## 
+## Path Coefficients:
+##              Satisfaction Loyalty Complaints
+## R^2                  0.48    0.71       0.37
+## Expectation          0.69   -0.06          .
+## Satisfaction            .    0.88       0.60
+```
+]
+
+
+---
+# Model Plot
+
+```r
+plot(cbs)
+```
+
+```
+## Plotting of lavaan models using semPlot.
+```
+
+```
+## Registered S3 methods overwritten by 'lme4':
+##   method                          from
+##   cooks.distance.influence.merMod car 
+##   influence.merMod                car 
+##   dfbeta.influence.merMod         car 
+##   dfbetas.influence.merMod        car
+```
+
+```
+## Registered S3 method overwritten by 'kutils':
+##   method       from  
+##   print.likert likert
+```
+
+![](10_what_is_sem_de_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+
+```
+## NULL
+```
+
+---
+# Zusammenfassung
+
+## Zwei Arten von Strukturgleichungsmodellen
+- Kovarianzbasierte Verfahren
+- Varianzbasierte Verfahren
+
+## Notwendige Schritte
+1. Konstruktion und Überprüfung des Messmodells
+2. Konstruktion und Überprüfung des Strukturmodells
+3. Schätzen und Prüfen des Gesamt-Modells
+4. Bootstrapping
+
+## Achtung!
+- Komplexe Modelle ersetzen nicht gut durchdachte Erhebungs-/Experimentalmethodik
+- Epiphänomene können fälschlicherweise kausale Zusammenhänge liefern
+  - Theoriearbeit ist umso wichtiger! 
+---
+class: inverse, center, middle
+---
+class: inverse, center, middle
+## .yellow[ [Zurück zur Übersicht](index.html)]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+## Evaluating a model
+## Evaluating a model:
+## Overview:
+## Evaluation - in general:
+## Evaluation - Validation:
+## Evaluation of measurement models

@@ -1,6 +1,6 @@
 ---
 title: "SEM-in-R Basics - Data Preparation for SEM"
-date: "`r Sys.Date()`"
+date: "Last update: `r Sys.setlocale('LC_TIME', 'en_US.UTF-8');toOrdinal::toOrdinalDate(Sys.time())`"
 #output:
 #  rmdformats::downcute:
 #    self_contained: true
@@ -30,15 +30,12 @@ associated_file <- "basics/60_bootstrapping-pls"
 
 # Video for Data Preperation for PLS-SEM
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/kGO4_NyeM5A" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1"></iframe>
+> Under construction.
 
 # Tutorial in RStudio
 
-Under construction.
+> Under construction.
 
-# Slides
-
-Here, you will find the slides for the original video. Under each slide you can read the script for that slide.
 
 ```{r figures, results='asis'}
 print_slide_md(associated_file)
@@ -47,4 +44,6 @@ print_slide_md(associated_file)
 
 
 
+# Next
 
+Next up is [evaluating your model](basics-70-evaluating-pls.html).

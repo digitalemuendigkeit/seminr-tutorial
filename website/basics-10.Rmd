@@ -1,6 +1,6 @@
 ---
 title: "SEM-in-R Basics"
-date: "`r Sys.Date()`"
+date: "Last update: `r Sys.setlocale('LC_TIME', 'en_US.UTF-8');toOrdinal::toOrdinalDate(Sys.time())`"
 #output:
 #  rmdformats::downcute:
 #    self_contained: true
@@ -21,6 +21,9 @@ opts_chunk$set(echo = FALSE,
                message = FALSE,
                warning = FALSE)
 opts_knit$set(width = 75)
+source("slides_helper.R")
+# change this for every file
+associated_file <- "basics/10_what_is_sem"
 ```
 
 
@@ -45,13 +48,27 @@ Expert materials are designed to support you after you have collected some exper
 
 
 # What is SEM?
+<div class="alert alert-info">
+**Under construction.**
 
-
-This video is just to demo how content could be included it is also in German. Ignore it :)
+This video is just to demo how content could be included. It is also in German. Ignore it :)
+</div>
 
 <iframe width="640" height="360" src="https://www.youtube.com/embed/5ZXsIRI4Wlc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1"></iframe>
 
 
+
+# Tutorial in RStudio
+
+> Under construction.
+
+```{r figures, results='asis', cache=FALSE}
+print_slide_md(associated_file)
+
+```
+
+
+# Next
 
 Next up is [Data preperation](data-prep-basics.html).
 

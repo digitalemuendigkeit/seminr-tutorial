@@ -1,6 +1,7 @@
 # this contains the xaringang styler information
 
 library(xaringanthemer)
+#warning(paste0("Rendering for video?",params$videoSlides))
 
 darkgreen <- "#002901"
 rwthblue <- "#C7DDF2"
@@ -8,13 +9,20 @@ base_color <- rwthblue
 white_color <- "#F0F0F0"
 link_color <- rwthblue
 
+bkg <- NULL
+
+if(!params$videoSlides) {
+  bkg <-  paste0("figures/chalkboard.jpg")
+}
+
 style_mono_dark(
   base_color = rwthblue,
   background_color = darkgreen,
+
   title_slide_background_color = darkgreen,
   text_color = white_color,
   header_color = rwthblue,
-
+  background_image = bkg,
   text_bold_color = rwthblue,
   text_slide_number_color = rwthblue,
   padding = "16px 64px 16px 64px",

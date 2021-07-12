@@ -103,3 +103,8 @@
 .center{
   align-content: center;
 }
+
+.body{
+  background-image: url(chalkboard.jpg);
+  background-size: cover;
+}

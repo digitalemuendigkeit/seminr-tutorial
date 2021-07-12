@@ -1,6 +1,6 @@
 ---
 title: "Designing the measurement model"
-date: "`r Sys.Date()`"
+date: "Last update: `r Sys.setlocale('LC_TIME', 'en_US.UTF-8');toOrdinal::toOrdinalDate(Sys.time())`"
 #output:
 #  rmdformats::downcute:
 #    self_contained: true
@@ -28,11 +28,7 @@ associated_file <- "basics/40_measurement_model"
 
 # Video
 
-Not ready yet :)
-
-# Slides
-
-Here, you will find the slides for the original video. Under each slide you can read the script for that slide.
+> Under construction.
 
 ```{r figures, results='asis'}
 # change this for every file
