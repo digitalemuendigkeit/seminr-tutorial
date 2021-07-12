@@ -189,6 +189,6 @@ for(j in 1:length(input_files)){
   close(fileConn)
 }
 
-
+#extract_headlines(input_files[7])
 
 

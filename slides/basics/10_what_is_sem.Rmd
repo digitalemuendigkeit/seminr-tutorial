@@ -2,15 +2,14 @@
 title: "What is Structural Equation Modeling?"
 subtitle: "Basic Introduction to PLS-SEM in SEMinR"
 author: "André Calero Valdez and Lilian Kojan"
-#institute: "RStudio, PBC"
 date: "updated: `r Sys.Date()`"
 params:
   videoSlides: 
     label: "Should slides be rendered for video production?"
-    value: TRUE
+    value: FALSE
 output:
   xaringan::moon_reader:
-    css: xaringan-themer.css
+    css: ["xaringan-themer.css", "printing.css"]
     #css: ["default", "default-fonts", "tutorials.css", "xaringan-themer.css"]  
     #lib_dir: libs
     nature:
@@ -18,9 +17,13 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-  html_document:
-      highlightStyle: github
 ---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(seminr)
+source(here::here("slides", "style.R"))
+```
+
 
 ```{r setup, include = FALSE}
 library(tidyverse)
@@ -33,27 +36,33 @@ library(dataforsocialscience)
 
 - Structural equation modeling using **SEMinR**
 
-???
-Hello and welcome to our online course on structural equation modeling in SEM-in-R.
-In this course, I will take you through the principles and practice of structural equation modeling using the SEM-in-R package for R.
 --
 
 - Basic course: 7 videos
 
+--
+
+- Focus on **partial least squares** structural equation modeling (PLS-SEM) - as opposed to **covariance-based** structural equation modeling (CB-SEM)
+
 ???
+
+Hello and welcome to our online course on structural equation modeling in SEM-in-R.
+In this course, I will take you through the principles and practice of structural equation modeling using the SEM-in-R package for R.
+
+-
+
 The basic section of this course is structured into seven videos.
 They reflect the sequence of steps you will take when designing a structural equation model of your own.
 If you are still curious after that, you are welcome to proceed to the advanced section.
 There, I will go into more detail on some of the issues touched upon in the basic section.
-I will also describe some more sophisticated modeling technique.
+I will also describe some more sophisticated modeling techniques.
 Before starting with the content of this first video in earnest, I need to add one thing:
---
 
-- Focus on **partial least squares** structural equation modeling (PLS-SEM) - as opposed to **covariance-based** structural equation modeling (CB-SEM)
-???
+-
+
 In structural modeling, there are two main streams.
 Partial least squares equation modeling, which is also known as variance-based structural equation modeling, and covariance-based structural equation modeling.
-Although you can both types of modeling in SEMinR, in this series, we will focus on PLS-SEM.
+Although you can do both types of modeling in SEMinR, we will focus on PLS-SEM in this series.
 Now that is out of the way, let's start with the introduction.
 
 ---
@@ -67,9 +76,10 @@ Now that is out of the way, let's start with the introduction.
 
 
 ???
+
 In this video, I will introduce you to structural equation modeling, or SEM, from the perspective of a social scientist.
-Instead of starting of with a definition, I want to take a step back and reason why SEM might be interesting to you. 
-Then I will go more into the nitty gritty.
+Instead of starting with a definition, I want to take a step back and reason why SEM might be interesting to you. 
+Then I will go more into the nitty-gritty.
 
 ---
 
@@ -81,11 +91,12 @@ As social scientists, we study human properties (operationalized as **variables*
 
 
 ???
+
 In a very broad sense, social scientists are interested in humans, what they think and do, and why.
-To find that out, we measure variables and examine the relationships between different variables..
-And in many cases, we would also love to know not only if variables are related, but the direction of the relationship.
+To study humans, we measure variables and examine the relationships between different variables.
+And in many cases, we would like to know if variables are related and the direction of the relationship.
 We want to know what causes what.
-And because we study humans, variables are often especially hard to measure.
+And because we study humans, variables are often tough to measure.
 Sure, you can measure a person's height pretty easily.
 But what about their attitude towards smoking?
 
@@ -95,11 +106,6 @@ But what about their attitude towards smoking?
 
 From properties to **variables**...
 
-
-???
-One way to find out a persons's attitude towards smoking is to ask them.
-In a scientific context, we tend to use surveys for that.
-But to get from survey items to variables, we have to do multiple steps.
 --
 
 ... using survey items:
@@ -107,6 +113,14 @@ But to get from survey items to variables, we have to do multiple steps.
 ![](figures/Items-to-variable.png)
 
 ???
+
+One way to find out a persons' attitude towards smoking is to ask them.
+In a scientific context, we tend to use surveys for that.
+If you are familiar with survey methodology, you know that to get from individual 
+survey questions or items to variables, we have to do multiple steps.
+
+-
+
 Variables are typically constructed from multiple items.
 Therefore, we have to conduct a factor analysis and examine reliability.
 
@@ -119,9 +133,7 @@ From association between **variables**...
 ![](figures/correlation-causation-1.png)
 ]
 
-???
-Now, suppose we have done that for all our survey items and are left with a set of variables.
-Can we now find out which variable causes which?
+
 --
 
 .pull-right[
@@ -131,8 +143,14 @@ Can we now find out which variable causes which?
 ]
 
 ???
+
+Now, suppose we have done that for all our survey items and are left with a set of variables.
+Can we now find out which variable causes which?
+
+-
+
 The short answer to that is probably not.
-To clarify that, let's take a look at a typical regression equation.
+To clarify this, let's take a look at a typical regression equation.
 
 ---
 
@@ -145,10 +163,8 @@ Regression equations can be reversed.
 $$height = b\times attitude_{smoking} + c$$
 ]
 
-
-???
-In this linear equation, height is the dependent variable and attitude towards smoking is the independent variable.
 --
+
 .pull-right[
 ### DV is attitude towards smoking
 $$ attitude_{smoking} = \frac{height - c}{b} $$
@@ -158,6 +174,11 @@ Both sides are mathematically equivalent.
 There is no causation in math.
 
 ???
+
+In this linear equation, height is the dependent variable and attitude towards smoking is the independent variable.
+
+-
+
 But if the left side is true, the right side is also true.
 There is no causal direction in mathematics.
 So we cannot determine if changes in height cause changes in attitude, or vice-versa.
@@ -168,80 +189,17 @@ So we cannot determine if changes in height cause changes in attitude, or vice-v
 Gold standard of causal statistics: Randomized control trial
 
 (put graphic in here)
-???
-
----
 
 ???
-One way to find out a persons's attitude towards smoking is to ask them.
-In a scientific context, we tend to use surveys for that.
-But to get from survey items to variables, we have to do multiple steps.
---
 
-... using survey items:
+RCT-Text
 
-![](figures/Items-to-variable.png)
-
-???
-Variables are typically constructed from multiple items.
-Therefore, we have to conduct a factor analysis and examine reliability.
-
----
-
-# Why structural equation modeling?
-.pull_left[
-From association between **variables**...
-
-![](figures/correlation-causation-1.png)
-]
-
-???
-Now, suppose we have done that for all our survey items and are left with a set of variables.
-Can we now find out which variable causes which?
---
-
-.pull-right[
-... to causation?
-
-![](figures/correlation-causation-2.png)
-]
-
-???
-The short answer to that is probably not.
-To clarify that, let's take a look at a typical regression equation.
-
----
-
-# Why structural equation modeling?
-
-Regression equations can be reversed.
-
-.pull-left[
-### DV is height
-$$height = b\times attitude_{smoking} + c$$
-]
-
-
-???
-In this linear equation, height is the dependent variable and attitude towards smoking is the independent variable.
---
-.pull-right[
-### DV is attitude towards smoking
-$$ attitude_{smoking} = \frac{height - c}{b} $$
-]
-
-Both sides are mathematically equivalent.
-There is no causation in math.
-
-???
-But if the left side is true, the right side is also true.
-There is no causal direction in mathematics.
-So we cannot determine if changes in height cause changes in attitude, or vice-versa.
----
 
 # Why structural equation modeling?
 
 ???
+
+Script Missing
 
 ---
 
@@ -259,6 +217,7 @@ Allows for
 
 ???
 
+Script missing
 
 ---
 # Types of SEM
@@ -266,6 +225,9 @@ Allows for
 * CB-SEM
 * VB-SEM / PLS-SEM
 
+???
+
+Script missing
 
 ---
 # Components of a SEM
@@ -274,23 +236,42 @@ Allows for
 * manifest variables (indicators)
 
 --
+
 Relationships between those components form
 * structural model: relationships between constructs (unidirectional in PLS-SEM)
 * measurement model: relationships between constructs and their indicators
 
 
+???
+
+Script missing
+
+-
+
+Script missing
+
 ---
 # Graphical representation of SEM - example with mobi data set
 
+???
+
+Script missing
 
 ---
 
 # Underlying math
 
----
-# Process of estimating a SEM - sequence of our videos
+???
+
+Script missing
 
 ---
+
+# Process of estimating a SEM - sequence of our videos
+
+???
+
+Script missing
 
 ---
 
@@ -319,6 +300,14 @@ set.seed(123)
   mobi_boot <- bootstrap_model(mobi_pls, nboot = 100, cores = 1)
 ```
 
+???
+
+Script missing
+
 ---
 
 # Review
+
+???
+
+Script missing

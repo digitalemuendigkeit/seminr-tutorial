@@ -14,7 +14,7 @@ library(rmdformats)
 ## Global options
 options(max.print = "75")
 opts_chunk$set(echo = FALSE,
-	             cache = TRUE,
+	             cache = FALSE,
                prompt = FALSE,
                tidy = TRUE,
                comment = NA,
@@ -37,7 +37,7 @@ associated_file <- "basics/50_estimating-pls"
 Under construction.
 
 
-```{r figures, results='asis'}
+```{r figures, cache=FALSE, results='asis'}
 print_slide_md(associated_file)
 
 ```

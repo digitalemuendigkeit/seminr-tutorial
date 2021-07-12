@@ -1,4 +1,5 @@
 name: "SEMinR Tutorials"
+include: ["*.pdf"]
 output_dir: ../docs
 
 navbar:
@@ -52,4 +53,4 @@ navbar:
       href: about.html
   right:
     - icon: fa-code-branch
-      href: https://github.com
+      href: https://github.com/digitalemuendigkeit/seminr-tutorial

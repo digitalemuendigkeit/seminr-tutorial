@@ -36,7 +36,7 @@ print_slide_md <- function(associated_file){
 
     cat(paste0('![](',fig_filename,')\n'))
     if(line_count <= length(lines)){
-      while (lines[line_count] != ">>>") {
+      while (isTRUE(lines[line_count] != ">>>")) {
         cat(lines[line_count])
         cat("\n")
         line_count <- line_count + 1

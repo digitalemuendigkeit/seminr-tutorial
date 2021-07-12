@@ -2,12 +2,11 @@
 title: "Estimating a PLS-SEM"
 subtitle: "Model Estimation in SEMinR"
 author: "Lilian Kojan"
-#institute: "RStudio, PBC"
 date: "2021-04-27 (updated: `r Sys.Date()`)"
 params:
   videoSlides: 
     label: "Should slides be rendered for video production?"
-    value: TRUE
+    value: FALSE
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "printing.css"]
@@ -18,16 +17,18 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-  html_document:
-      highlightStyle: github
 ---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(seminr)
+source(here::here("slides", "style.R"))
+```
 
 ```{r setup, include = FALSE}
 library(tidyverse)
 library(seminr)
 library(knitr)
 options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
-source(here::here("slides", "style.R"))
 ```
 # PLS model estimation in SEMinR
 
@@ -194,7 +195,9 @@ model <- estimate_pls(
   missing_value = NA
 )
 ```
+
 --
+
 Equivalent code:
 ```{r eval=FALSE}
 model <- estimate_pls(mobi, mm, sm)
@@ -204,7 +207,9 @@ model <- estimate_pls(mobi, mm, sm)
 
 As mentioned, these three are likely the only arguments you will need.
 The first argument asks for the data, the second for the measurement model and the third for the structural model.
-(Next slide part)
+
+-
+
 Without these three inputs, SEMinR cannot estimate your model.
 But these three inputs are also sufficient to estimate the model, so normally, you can just give these inputs to the estimate_pls function without specifying which argument is which.
 This means, that the bottom code is equivalent to to the top code.
@@ -238,7 +243,9 @@ specified_model <- specify_model(
 ???
 
 Instead of providing a measurement model and structural model, you can also specify a model with the specify_model function.
-(Next slide part)
+
+-
+
 We just used this to quickly plot our model, remember?
 So either you provide the measurement model and structural model directly to the estimate_pls function, or you specify the model before.
 By default, this argument is set to NULL.
@@ -269,7 +276,9 @@ Tenenhaus et al. (2005). PLS path modeling.
 The inner_weights argument defines how paths are estimated by the algorithm.
 By default, this is set to path weighting which is the recommended option for most models.
 The other option is factor weighting.
-(New slide part)
+
+-
+
 When estimating a model, the results for both options will be very similar.
 If you are interested in the differences between these two schemes, I recommend the 2005 PLS path modeling paper by Tenenhaus et al.
 
@@ -341,8 +350,11 @@ model <- estimate_pls(
 Now that we have talked through all arguments, let's run the code.
 If everything goes according to plan, your code output will look like this and tell you the number of observations.
 If your model includes higher-order constructs or interaction terms, this will print twice because a first-stage model is estimated separately.
-(Next slide part)
-We can now plot our model to get a quick overview of our model results.
+
+Now, we have a model object, what do we do with it?
+We have separate videos on model evaluation and bootstrapping, so let's just take a quick peek at the model object itself.
+
+
 
 ---
 
@@ -352,6 +364,7 @@ We can now plot our model to get a quick overview of our model results.
 plot(model) -> p
 save_plot("figures/estimated_mediation.svg", width = 1000)
 ```
+
 ```{r eval = FALSE}
 plot(model)
 ```
@@ -359,14 +372,9 @@ plot(model)
 
 
 ???
-
-Now, we have a model object, what do we do with it?
-We have separate videos on model evaluation and bootstrapping, so let's just take a quick peek at the model object itself.
 Firstly, we can of course plot it.
 
--
-
-By default, the contains both the measurement and the structural model with path coefficients, weights and loadings as well as the explained variance R^2.
+By default, the plot contains both the measurement and the structural model with path coefficients, weights and loadings as well as the explained variances R^2.
 
 ---
 
@@ -468,7 +476,6 @@ Error in colMeans(x, na.rm = TRUE) : 'x' must be numeric
 dt2 %>% select(!where(is.numeric))
 ```
 
---
 
 
 ???
@@ -515,6 +522,7 @@ mmMatrix[, : undefined columns selected
 Second, what happens if I try to access a column that is not in my data?
 Especially with large measurement models, typos are prone to happen.
 So if I mistype the *Image* suffix to I-M-G-A and try to estimate the model...
+
 -
 
 The resulting error tells me that R could not find the columns I tried to select in my data.

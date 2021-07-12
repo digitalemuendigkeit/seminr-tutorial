@@ -2,12 +2,11 @@
 title: "Preparing your Data for SEM Estimation"
 subtitle: "Basic Steps"
 author: "Lilian Kojan and André Calero Valdez"
-#institute: "RStudio, PBC"
 date: "updated: `r Sys.Date()`"
 params:
   videoSlides: 
     label: "Should slides be rendered for video production?"
-    value: TRUE
+    value: FALSE
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "printing.css"]
@@ -18,13 +17,12 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-  html_document:
-      highlightStyle: github
 ---
 
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
 library(seminr)
+print(params)
 source(here::here("slides", "style.R"))
 ```
 

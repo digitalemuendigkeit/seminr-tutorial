@@ -409,7 +409,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com">
+  <a href="https://github.com/digitalemuendigkeit/seminr-tutorial">
     <span class="fa fa-code-branch"></span>
      
   </a>
@@ -445,192 +445,200 @@ div.tocify {
 <div id="slides" class="section level1" number="4">
 <h1 number="4"><span class="header-section-number">4</span> Slides</h1>
 <p>Here, you can find the slides from the video. Under each slide you can find the script for that slide.</p>
-<div id="estimating-a-pls-sem-134" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Estimating a PLS-SEM (1/34)</h2>
+<div id="estimating-a-pls-sem-133" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Estimating a PLS-SEM (1/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_01.png" /> Hello and welcome to this Video: Estimating a PLS-SEM</p>
 <p>The slides in this presentation were created by: Lilian Kojan</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="pls-model-estimation-in-seminr-234" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">PLS model estimation in SEMinR (2/34)</h2>
+<div id="pls-model-estimation-in-seminr-233" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">PLS model estimation in SEMinR (2/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_02.png" /></p>
 <p>Now that you know how to specify the measurement model and the structural model in SEMinR, all that is left is model estimation. In this video, I will show you how to estimate a PLS SEM model in SEMinR. I will also talk about the model object in SEMinR and what you can do with it. Finally, I will adress some common problems that appear when you estimate a model.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="before-estimation-334" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Before estimation (3/34)</h2>
+<div id="before-estimation-333" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Before estimation (3/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_03.png" /></p>
 <p>Before we start with estimation, let’s shortly talk about the ingredients you need to estimate a model. First, you need data as described in our video on data preparation. This data can be both in the matrix or dataframe format and must contain numerical response data. With PLS-SEM, model estimation is possible even with a small number of observations. But of course, if you have more responses, your model’s statistical power is larger. Second, you need to specify a measurement model. The measurement model is the link between your data and your structural model. A common source of trouble is a disconnect between measurement model and either the data or the structural model. For example, if the indicator names in your measurement model do not correspond with the column names in your data, or when you use a construct in your structural model that you have not defined in your measurement model. Third, in your structural model you define the relationship between the model constructs.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="before-estimation---example-434" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Before estimation - example (4/34)</h2>
+<div id="before-estimation---example-433" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Before estimation - example (4/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_04.png" /></p>
 <p>For our example, we use the mobi data set which is part of the seminar package. As an example model, we use the mediation model from our structural model tutorial. For that, we define all constructs in the measurement model which we call mm. As you have learned in the measurement model tutorial, the code for all three constructs is equivalent. They each define a mode a (or correlation weights) composite construct.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="before-estimation---example-534" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Before estimation - example (5/34)</h2>
+<div id="before-estimation---example-533" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Before estimation - example (5/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_05.png" /></p>
 <p>Lastly, we define the structural model which we call sm.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="before-estimation---example-634" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Before estimation - example (6/34)</h2>
+<div id="before-estimation---example-633" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Before estimation - example (6/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_06.png" /></p>
 <p>Now, we are ready for model estimation. But we can also take a quick peek on how our model looks. For this, you can use the specify_model function with your measurement model and your structural model and pipe it into the plot function.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="before-estimation---example-734" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Before estimation - example (7/34)</h2>
+<div id="before-estimation---example-733" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Before estimation - example (7/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_07.png" /></p>
 <p>Looks about right. As you can see, by default SEMinR visualizes composite constructs as hexagons.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="estimating-a-model-834" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Estimating a model (8/34)</h2>
+<div id="estimating-a-model-833" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Estimating a model (8/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_08.png" /></p>
 <p>Now it’s time for model estimation! The estimate_pls function takes eight arguments. On a regular basis, you will likely only use these first three. Let me still quickly take you through all of them.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="estimating-a-model---the-fundamentals-934" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Estimating a model - the fundamentals (9/34)</h2>
+<div id="estimating-a-model---the-fundamentals-933" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Estimating a model - the fundamentals (9/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_09.png" /></p>
-<p>As mentioned, these three are likely the only arguments you will need. The first argument asks for the data, the second for the measurement model and the third for the structural model. (Next slide part) Without these three inputs, SEMinR cannot estimate your model. But these three inputs are also sufficient to estimate the model, so normally, you can just give these inputs to the estimate_pls function without specifying which argument is which. This means, that the bottom code is equivalent to to the top code.</p>
+<p>As mentioned, these three are likely the only arguments you will need. The first argument asks for the data, the second for the measurement model and the third for the structural model.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="estimating-a-model---model-1034" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Estimating a model - <em>model</em> (10/34)</h2>
+<div id="estimating-a-model---the-fundamentals-1033" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Estimating a model - the fundamentals (10/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_10.png" /></p>
-<p>Instead of providing a measurement model and structural model, you can also specify a model with the specify_model function. (Next slide part) We just used this to quickly plot our model, remember? So either you provide the measurement model and structural model directly to the estimate_pls function, or you specify the model before. By default, this argument is set to NULL.</p>
+<p>Without these three inputs, SEMinR cannot estimate your model. But these three inputs are also sufficient to estimate the model, so normally, you can just give these inputs to the estimate_pls function without specifying which argument is which. This means, that the bottom code is equivalent to to the top code.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="estimating-a-model---inner_weights-1134" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Estimating a model - <em>inner_weights</em> (11/34)</h2>
+<div id="estimating-a-model---model-1133" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Estimating a model - <em>model</em> (11/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_11.png" /></p>
-<p>The inner_weights argument defines how paths are estimated by the algorithm. By default, this is set to path weighting which is the recommended option for most models. The other option is factor weighting. (New slide part) When estimating a model, the results for both options will be very similar. If you are interested in the differences between these two schemes, I recommend the 2005 PLS path modeling paper by Tenenhaus et al.</p>
+<p>Instead of providing a measurement model and structural model, you can also specify a model with the specify_model function.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="estimating-a-model---missing-1234" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Estimating a model - <em>missing</em> (12/34)</h2>
+<div id="estimating-a-model---model-1233" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Estimating a model - <em>model</em> (12/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_12.png" /></p>
+<p>We just used this to quickly plot our model, remember? So either you provide the measurement model and structural model directly to the estimate_pls function, or you specify the model before. By default, this argument is set to NULL.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="estimating-a-model---inner_weights-1333" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Estimating a model - <em>inner_weights</em> (13/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_13.png" /></p>
+<p>The inner_weights argument defines how paths are estimated by the algorithm. By default, this is set to path weighting which is the recommended option for most models. The other option is factor weighting.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="estimating-a-model---inner_weights-1433" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Estimating a model - <em>inner_weights</em> (14/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_14.png" /></p>
+<p>When estimating a model, the results for both options will be very similar. If you are interested in the differences between these two schemes, I recommend the 2005 PLS path modeling paper by Tenenhaus et al.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="estimating-a-model---missing-1533" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Estimating a model - <em>missing</em> (15/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_15.png" /></p>
 <p>These arguments let you specify how SEMinR handles missing data. As described in our data preparation basics video, missing data means that in a variable, or column of your data set, some values are missing. By default, SEMinR uses mean replacement. That means that SEMinR replaces missing values in a column of your dataset with the mean of that column. As discussed, this might not always be the best option.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="estimating-a-model---missing-1334" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Estimating a model - <em>missing</em> (13/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_13.png" /></p>
+<div id="estimating-a-model---missing-1633" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Estimating a model - <em>missing</em> (16/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_16.png" /></p>
 <p>If you want SEMinR to disregard observations with missing values, choose the na.omit option. The second argument, missing_value, just tells SEMinR what missing values look like in your data. If you have formatted your data as numerical, it will be called NA anyway.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="estimating-a-model-1434" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Estimating a model (14/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_14.png" /></p>
-<p>Now that we have talked through all arguments, let’s run the code. If everything goes according to plan, your code output will look like this and tell you the number of observations. If your model includes higher-order constructs or interaction terms, this will print twice because a first-stage model is estimated separately. (Next slide part) We can now plot our model to get a quick overview of our model results.</p>
-<p><br/><br/><br/></p>
-</div>
-<div id="the-seminr-model-object---plot-1534" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">The SEMinR model object - plot (15/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_15.png" /></p>
-<p>Now, we have a model object, what do we do with it? We have separate videos on model evaluation and bootstrapping, so let’s just take a quick peek at the model object itself. Firstly, we can of course plot it.</p>
-<p><br/><br/><br/></p>
-</div>
-<div id="the-seminr-model-object---plot-1634" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">The SEMinR model object - plot (16/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_16.png" /></p>
-<p>By default, the contains both the measurement and the structural model with path coefficients, weights and loadings as well as the explained variance R^2.</p>
-<p><br/><br/><br/></p>
-</div>
-<div id="the-seminr-model-object---subobjects-1734" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">The SEMinR model object - subobjects (17/34)</h2>
+<div id="estimating-a-model-1733" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Estimating a model (17/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_17.png" /></p>
+<p>Now that we have talked through all arguments, let’s run the code. If everything goes according to plan, your code output will look like this and tell you the number of observations. If your model includes higher-order constructs or interaction terms, this will print twice because a first-stage model is estimated separately.</p>
+<p>Now, we have a model object, what do we do with it? We have separate videos on model evaluation and bootstrapping, so let’s just take a quick peek at the model object itself.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="the-seminr-model-object---plot-1833" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - plot (18/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_18.png" /> Firstly, we can of course plot it.</p>
+<p>By default, the plot contains both the measurement and the structural model with path coefficients, weights and loadings as well as the explained variances R^2.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="the-seminr-model-object---subobjects-1933" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - subobjects (19/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_19.png" /></p>
 <p>If you type in model and then the dollar sign, you get an overview of the information and objects stored in the pls model object.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="the-seminr-model-object---subobjects-1834" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">The SEMinR model object - subobjects (18/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_18.png" /></p>
+<div id="the-seminr-model-object---subobjects-2033" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - subobjects (20/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_20.png" /></p>
 <p>For example, meanData contains the means of all indicators.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="the-seminr-model-object---subobjects-1934" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">The SEMinR model object - subobjects (19/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_19.png" /></p>
+<div id="the-seminr-model-object---subobjects-2133" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - subobjects (21/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_21.png" /></p>
 <p>Iterations is the number of iterations it took until the algorithm converged.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="the-seminr-model-object---summary-2034" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">The SEMinR model object - summary (20/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_20.png" /></p>
+<div id="the-seminr-model-object---summary-2233" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - summary (22/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_22.png" /></p>
 <p>The summary function gives you a quick overview of your model results. If you just execute summary function, R prints a table with path coefficients and R^2. It also prints a table with criteria for internal consistency reliability and convergent validity.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="the-seminr-model-object---summary-subobjects-2134" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">The SEMinR model object - summary subobjects (21/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_21.png" /></p>
+<div id="the-seminr-model-object---summary-subobjects-2333" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - summary subobjects (23/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_23.png" /></p>
 <p>If you store the model summary in a separate object, you can access much more information. For example…</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="the-seminr-model-object---summary-subobjects-2234" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">The SEMinR model object - summary subobjects (22/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_22.png" /></p>
+<div id="the-seminr-model-object---summary-subobjects-2433" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - summary subobjects (24/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_24.png" /></p>
 <p>You can access discriminant validity criteria like the variance inflation factor</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="troubleshooting---x-must-be-numeric-2334" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Troubleshooting - <em>‘x’ must be numeric</em> (23/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_23.png" /> Finally, let’s look at three common problems that can happen when estimating a model. First, let’s assume our data is not numerical. For that, I make a new data set with one of our indicators formatted as a character. What happens if I try to estimate our model with that data?</p>
+<div id="troubleshooting---x-must-be-numeric-2533" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Troubleshooting - <em>‘x’ must be numeric</em> (25/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_25.png" /> Finally, let’s look at three common problems that can happen when estimating a model. First, let’s assume our data is not numerical. For that, I make a new data set with one of our indicators formatted as a character. What happens if I try to estimate our model with that data?</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="troubleshooting---x-must-be-numeric-2434" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Troubleshooting - <em>‘x’ must be numeric</em> (24/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_24.png" /></p>
+<div id="troubleshooting---x-must-be-numeric-2633" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Troubleshooting - <em>‘x’ must be numeric</em> (26/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_26.png" /></p>
 <p>I get an error that looks something like that, telling me that my data is not numeric. So if you get an error that looks like this, you need to go back and reexamine your data.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="troubleshooting---x-must-be-numeric-2534" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Troubleshooting - <em>‘x’ must be numeric</em> (25/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_25.png" /></p>
+<div id="troubleshooting---x-must-be-numeric-2733" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Troubleshooting - <em>‘x’ must be numeric</em> (27/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_27.png" /></p>
 <p>For example, you can select all the columns that are not numeric using the select function, the where function negated with a ! operator and the is.numeric function.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="troubleshooting---undefined-columns-selected-2634" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Troubleshooting - <em>undefined columns selected</em> (26/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_26.png" /></p>
-<p>Second, what happens if I try to access a column that is not in my data? Especially with large measurement models, typos are prone to happen. So if I mistype the <em>Image</em> suffix to I-M-G-A and try to estimate the model… <br/><br/><br/></p>
+<div id="troubleshooting---undefined-columns-selected-2833" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Troubleshooting - <em>undefined columns selected</em> (28/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_28.png" /></p>
+<p>Second, what happens if I try to access a column that is not in my data? Especially with large measurement models, typos are prone to happen. So if I mistype the <em>Image</em> suffix to I-M-G-A and try to estimate the model…</p>
+<p><br/><br/><br/></p>
 </div>
-<div id="troubleshooting---undefined-columns-selected-2734" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Troubleshooting - <em>undefined columns selected</em> (27/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_27.png" /></p>
+<div id="troubleshooting---undefined-columns-selected-2933" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Troubleshooting - <em>undefined columns selected</em> (29/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_29.png" /></p>
 <p>The resulting error tells me that R could not find the columns I tried to select in my data. Unfortunately, I have not yet found a shortcut to correct this. As far as I know, you have to scrutinize every line of your measurement model and compare it with the column names in your data.</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="troubleshooting---attempt-to-apply-non-function-2834" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Troubleshooting - <em>attempt to apply non-function</em> (28/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_28.png" /></p>
+<div id="troubleshooting---attempt-to-apply-non-function-3033" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Troubleshooting - <em>attempt to apply non-function</em> (30/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_30.png" /></p>
 <p>The last common error happens when I try to include a construct in my structural model that I have not defined in my measurement model. Let’s assume I want to include a construct called quality. If I just put it into my structural model without defining how it should be measured…</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="troubleshooting---attempt-to-apply-non-function-2934" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Troubleshooting - <em>attempt to apply non-function</em> (29/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_29.png" /></p>
+<div id="troubleshooting---attempt-to-apply-non-function-3133" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Troubleshooting - <em>attempt to apply non-function</em> (31/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_31.png" /></p>
 <p>… the error message will tell me that I attempted to apply a non-function. Again, there is not really a quick way to find the culprit construct. But if you get an error message like this, you now know where to start looking: Which construct in your structural model is not defined in your measurement model? <br/><br/><br/></p>
 </div>
-<div id="summary-3034" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Summary (30/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_30.png" /></p>
+<div id="summary-3233" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Summary (32/33)</h2>
+<p><img src="figs/50_estimating-pls/slide_32.png" /></p>
 <p>To finish off, let me review the contents of this video. You now know how to estimate a PLS model in SEMinR. You also know how to examine the model you have estimated. And you are familiar with common errors that can happen when you estimate a model. Now you’re ready to move on to model evaluation!</p>
 <p><br/><br/><br/></p>
 </div>
-<div id="sources-for-this-video-3134" class="section level2 unlisted unnumbered">
-<h2 class="unlisted unnumbered">Sources for this video (31/34)</h2>
-<p><img src="figs/50_estimating-pls/slide_31.png" /> <br/><br/><br/></p>
-<p>NA (32/34) {.unlisted .unnumbered}</p>
-<p><img src="figs/50_estimating-pls/slide_32.png" /> <br/><br/><br/></p>
-<p>NA (33/34) {.unlisted .unnumbered}</p>
+<div id="sources-for-this-video-3333" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Sources for this video (33/33)</h2>
 <p><img src="figs/50_estimating-pls/slide_33.png" /> <br/><br/><br/></p>
-<p>NA (34/34) {.unlisted .unnumbered}</p>
-<p><img src="figs/50_estimating-pls/slide_34.png" /> <br/><br/><br/></p>
 </div>
 </div>
 <div id="next" class="section level1" number="5">

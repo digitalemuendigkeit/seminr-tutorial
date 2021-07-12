@@ -1,7 +1,6 @@
 ---
 title: "Seminr Tutorials"
-date: "Last update: `r Sys.Date()`"
-
+date: "Last update: `r Sys.setlocale('LC_TIME', 'en_US.UTF-8');toOrdinal::toOrdinalDate(Sys.time())`"
 
 
 #output:
@@ -29,7 +28,7 @@ opts_knit$set(width = 75)
 htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 ```
 
-<img src="figs/seminr-v2_0.png" width = "50%">
+<img src="static/seminr-v2_0.png" width = "50%">
 
 # Welcome to learning SEM using SEMinR
 
