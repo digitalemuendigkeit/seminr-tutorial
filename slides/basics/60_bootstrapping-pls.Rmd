@@ -4,6 +4,10 @@ subtitle: "Bootstrapping in SEMinR"
 author: "Lilian Kojan"
 #institute: "RStudio, PBC"
 date: "updated: `r Sys.Date()`"
+params:
+  videoSlides: 
+    label: "Should slides be rendered for video production?"
+    value: TRUE
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css

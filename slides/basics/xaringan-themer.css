@@ -45,7 +45,7 @@
   /* Colors */
   --text-color: #F0F0F0;
   --header-color: #C7DDF2;
-  --background-color: #002901;
+  --background-color: #000000;
   --link-color: #C7DDF2;
   --text-bold-color: #C7DDF2;
   --code-highlight-color: rgba(255,255,0,0.5);
@@ -53,7 +53,7 @@
   --inverse-background-color: #002901;
   --inverse-header-color: #F0F0F0;
   --inverse-link-color: #C7DDF2;
-  --title-slide-background-color: #002901;
+  --title-slide-background-color: #000000;
   --title-slide-text-color: #F0F0F0;
   --header-background-color: #C7DDF2;
   --header-background-text-color: #002901;

@@ -1,0 +1,31 @@
+## Estimating a PLS-SEM
+## PLS model estimation in SEMinR
+## Before estimation
+## Before estimation - example
+## Before estimation - example
+## Before estimation - example
+## Before estimation - example
+## Estimating a model
+## Estimating a model - the fundamentals
+## Estimating a model - *model*
+## Estimating a model - *inner_weights*
+## Estimating a model - *missing*
+## Estimating a model - *missing*
+## Estimating a model 
+## The SEMinR model object - plot
+## The SEMinR model object - plot
+## The SEMinR model object - subobjects
+## The SEMinR model object - subobjects
+## The SEMinR model object - subobjects
+## The SEMinR model object - summary
+## The SEMinR model object - summary subobjects
+## The SEMinR model object - summary subobjects
+## Troubleshooting - *'x' must be numeric*
+## Troubleshooting - *'x' must be numeric*
+## Troubleshooting - *'x' must be numeric*
+## Troubleshooting - *undefined columns selected*
+## Troubleshooting - *undefined columns selected*
+## Troubleshooting - *attempt to apply non-function*
+## Troubleshooting - *attempt to apply non-function*
+## Summary
+## Sources for this video

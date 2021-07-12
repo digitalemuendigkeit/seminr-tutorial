@@ -1,0 +1,19 @@
+## What is Structural Equation Modeling?
+## Welcome
+## What is Structural Equation Modeling?
+## Why structural equation modeling?
+## Why structural equation modeling?
+## Why structural equation modeling?
+## Why structural equation modeling?
+## Why structural equation modeling?
+## Why structural equation modeling?
+## Why structural equation modeling?
+## Why structural equation modeling?
+## What are the advantages of SEM?
+## Types of SEM
+## Components of a SEM
+## Graphical representation of SEM - example with mobi data set
+## Underlying math
+## Process of estimating a SEM - sequence of our videos
+## SeminR Model
+## Review

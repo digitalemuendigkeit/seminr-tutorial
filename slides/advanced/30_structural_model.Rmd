@@ -3,6 +3,10 @@ title: "structural_model"
 subtitle: "Basic Introduction to SEM-in-R"
 author: "Laura"
 date: "test 4/21/2021"
+params:
+  videoSlides: 
+    label: "Should slides be rendered for video production?"
+    value: TRUE
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -55,7 +59,7 @@ options(htmltools.dir.version = FALSE)
 - constructs serving as dependent variables = endogeneous latent variables; at the right side; only incoming arrows
 - constructs serving as independent and dependent variables = endogeneous variables; in the middle of the path-model
 
-![](Figures/Path-model.png)
+<!-- ![](Figures/Path-model.png) -->
 
 ---
 
@@ -86,7 +90,7 @@ options(htmltools.dir.version = FALSE)
 - indirect effects: related by a sequence of relationships with at least one mediating construct
 - indirect effects: sequence of two or more direct (indicated by arrows) effects = mediating effect
 
-![](Figures/Mediation.png)
+<!-- ![](Figures/Mediation.png) -->
 ---
 
 ## Mediation:
@@ -97,5 +101,5 @@ options(htmltools.dir.version = FALSE)
 ## Moderation:
 - mediating effect: third construct occurs between two other related constructs
 
-![](Figures/Moderation.png)
+<!-- ![](Figures/Moderation.png) -->
 

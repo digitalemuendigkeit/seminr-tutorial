@@ -2,6 +2,84 @@
 
 library(tidyverse)
 
+#' Extracts the slide headlines from a Rmd file
+#'
+#' @param filename path of the Rmd file
+#'
+#' @return a vector of lines from the slide noted
+#' @export
+#'
+extract_headlines <- function(filename){
+  # open input file
+  con <- file(filename, open = "r")
+  line <- readLines(con)
+
+  # setup state machien
+  state <- "start"
+  comments <- list()
+  skippable_lines <- c("!\\[", "\\.pull")
+
+  header <- rmarkdown::yaml_front_matter(input_files[[j]])
+
+  comments[length(comments)+1] <- paste0("## ", header$title)
+  last_head <- ""
+
+  for (i in 1:length(line)){
+    #print(paste(state, line[[i]]))
+    if (state == "start" && line[[i]]=="---"){
+      state <- "yaml"
+      next
+    }
+    if (state == "yaml" && line[[i]]=="---"){
+      state <- "body"
+      next
+    }
+    if (state == "body" && stringr::str_starts(line[[i]],"```")){
+      state <- "chunk"
+      next
+    }
+    if (state == "chunk" && stringr::str_starts(line[[i]],"```")){
+      state <- "body"
+      next
+    }
+    if (state == "body" && stringr::str_starts(line[[i]],"\\?\\?\\?")){
+      state <- "comment"
+      next
+    }
+
+    if (state == "comment" && stringr::str_starts(line[[i]],"--")){
+      state <- "body"
+      #comments[length(comments)+1] <- line[[i]]
+      next
+    }
+
+    if (state == "comment" && line[[i]] == "-"){
+      comments[length(comments)+1] <- last_head
+      next
+    }
+
+
+    if (state == "comment" && any(stringr::str_starts(line[[i]], skippable_lines))){
+      # figure
+      state <- "body"
+      next
+    }
+
+    # this is headline relevant ----
+    if (state == "body"){
+      if(str_starts(line[[i]], "# ")){
+        last_head <- paste0("#", line[[i]])
+        comments[length(comments)+1] <- last_head
+      }
+    }
+  }
+
+  close(con)
+  comments %>% unlist()
+}
+
+
+
 
 #' Extracts the slide notes from a Rmd file
 #'
@@ -88,6 +166,7 @@ extract_notes <- function(filename, click_text = ">>>", fortelepromter = "FALSE"
 
 input_files <- dir("slides", pattern = "*.Rmd", recursive = T, full.names = T)
 output_files <- input_files %>% map_chr(~str_replace(., ".Rmd", "_script.txt"))
+headline_files <- input_files %>% map_chr(~str_replace(., ".Rmd", "_headline.txt"))
 
 for(j in 1:length(input_files)){
   f_input <- input_files[[j]]
@@ -99,6 +178,16 @@ for(j in 1:length(input_files)){
   close(fileConn)
 }
 
+
+for(j in 1:length(input_files)){
+  f_input <- input_files[[j]]
+  fileConn <- file(headline_files[[j]])
+  # open input file
+  comments <- extract_headlines(f_input)
+
+  writeLines(comments %>% unlist(), fileConn)
+  close(fileConn)
+}
 
 
 

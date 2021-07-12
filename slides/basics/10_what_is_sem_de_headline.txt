@@ -1,0 +1,31 @@
+## Strukturgleichungsmodelle
+## Wiederholung
+## Nachteile
+## Assoziation und Kausalität
+## Assoziation und Kausalität
+## Umkehrbarkeit von lineare Gleichungen
+## Kausale Modelle?
+## Randomized Controlled Trial
+## Beispiel
+## Beispiel
+## Strukturgleichungsmodelle
+## Structural Equation Modelling (SEM)
+## Mobi Dataset
+## Beispiel-Modell
+## Beispiel-Modell
+## Beispiel-Modell
+## Model berechnen
+## Model analysieren
+## Model plotten
+## Model optimieren
+## Model prüfen
+## Model Plot
+## Bootstrapping
+## Diskriminanzvalidität
+## Bootstrapped Model Plot
+## Was kann schief gehen?
+## Was gibt es noch?
+## CB-SEM vs. VB-SEM
+## Beispiel mit SEMinR
+## Model Plot
+## Zusammenfassung
