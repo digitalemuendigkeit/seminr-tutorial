@@ -11,3 +11,8 @@ Put the following files on gitignore
 - Do not commit .txt files for scripts or headers
 - Do not commit .html files unless in the docs subfolder
 - Do not commit .pdf files unless in the docs subfolder
+
+## Generate site
+
+Simply run the "rendersite.R" file to create all necessary files.
+To generate greenscreen compatible slide, knit with params.
