@@ -9,7 +9,7 @@ navbar:
     - text: "Home"
       icon: fa-home
       href: index.html
-    - text: "Learning the basisc"
+    - text: "Learning the basics"
       icon: fa-graduation-cap
       menu:
         - text: "Basics"
@@ -48,6 +48,10 @@ navbar:
         - text: "Evaluating a model"
         - text: "Estimating a model"
           href: underconstruction.html
+      - text: "Expert SEM"
+        icon: fa-graduation-cap
+        menu:
+          - text: "More to follow"
     - text: "About"
       icon: fa-info
       href: about.html

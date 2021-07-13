@@ -58,6 +58,10 @@ Bootstrapping gives you significance information for
 * loadings
 * HTMT ratios
 
+--
+
+**... given your data**
+
 ???
 
 Bootstrapping means that your model is re-estimated a large number of times using different parts of your data.
@@ -66,12 +70,7 @@ This gives you information about how likely your original model results are give
 Specifically, from the results, SEMinR automatically construct confidence intervals and calculate t-values for all values in your model.
 That means path coefficients, but also weights, loadings and HTMT values.
 
---
-
-
-**... given your data**
-
-???
+-
 
 Note that this doesn't say anything about how likely it is to replicate your model results in the general population.
 It only says how likely you are to get your model results given your data.
