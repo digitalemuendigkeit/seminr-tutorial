@@ -38,7 +38,6 @@ associated_file <- "basics/20_basics-data-prep"
 
 ```{r figures, results='asis', cache=FALSE}
 print_slide_md(associated_file)
-
 ```
 
 
