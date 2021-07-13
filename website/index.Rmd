@@ -51,9 +51,9 @@ For up to date installation guidelines follow the instructions on the official G
 
 # Start learning
 For your first step, we recommend going to the "Learning the basics" menu and starting from top to bottom.
-Ideally yout start by getting a basisc understanding of the [basics](basics.html) first.
+Ideally you start by getting a basic understanding of the [basics](basics-10.html) first.
 
 The following pages are somewhat complete:
 
-- Basics - Data preparation
-- Basics - Estimating a PLS-SEM
+- [Basics - Data preparation](basics-20-data-prep.html)
+- [Basics - Estimating a PLS-SEM](basics-50-estimating-pls.html)

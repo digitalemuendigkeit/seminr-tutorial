@@ -253,8 +253,6 @@ $^{***}p <.001$, $^{**}p <.01$, $^{*}p <.05$
 ]
 
 ???
-
-???
 Let's take a closer look.
 
 The asterisks indicate the p level of significance.
@@ -275,11 +273,6 @@ This gives you more information on how likely it is to get your model results, g
 ```{r eval=FALSE}
 > bootstrapmodel$
 ```
-???
-
-As with the pls model object, the bootstrapped model object also contains a lot of subobjects.
-If you type in bootstrapmodel with a dollar sign, you get an overview of the information and objects stored in the bootstrapped model object.
-Some of that information is simply inherited from the model object, other information is generated in the bootstrapping process.
 --
 
 Example: Path coefficients for all iterations:
@@ -289,6 +282,11 @@ bootstrapmodel$boot_paths
 
 
 ???
+As with the pls model object, the bootstrapped model object also contains a lot of subobjects.
+If you type in bootstrapmodel with a dollar sign, you get an overview of the information and objects stored in the bootstrapped model object.
+Some of that information is simply inherited from the model object, other information is generated in the bootstrapping process.
+
+-
 
 However, if you call that information directly from the bootstrap model object, it will give you the results for each bootstrapping iteration.
 For example, this means there are 100 entries if we want to look at the results for the path coefficients alone.
@@ -304,10 +302,10 @@ summary(bootstrapmodel)
 ```
 
 ???
-
 Thankfully, the summary function again gives us a concise overview of the bootstrap results.
 But in comparison to the pls model summary, executing the summary function on a bootstrapped model gives us a lot more information.
 Too much information, again, to fit on this slide.
+
 ---
 
 # The SEMinR model object - summary subobjects
@@ -317,11 +315,6 @@ Too much information, again, to fit on this slide.
 summarybootmodel <- summary(bootstrapmodel)
 ```
 
-???
-
-So let's store the summary in a object again and look at the different parts.
-The summary of the bootstrapped model contains six objects which are interesting to us:
-
 --
 ```{r}
 # number of bootstrap iterations
@@ -329,6 +322,12 @@ summarybootmodel$nboot
 ```
 
 ???
+
+So let's store the summary in a object again and look at the different parts.
+The summary of the bootstrapped model contains six objects which are interesting to us:
+
+-
+
 First, we can again look up how many times the model was bootstrapped.
 
 ---
