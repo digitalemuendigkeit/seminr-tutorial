@@ -29,7 +29,7 @@ source(here::here("slides", "style.R"))
 library(tidyverse)
 library(seminr)
 library(jmv)
-library(dataforsocialscience)
+#library(dataforsocialscience)
 ```
 
 # Welcome
@@ -69,9 +69,9 @@ Now that is out of the way, let's start with the introduction.
 
 # What is Structural Equation Modeling?
 1. Why use structural equation modeling, anyway?
-1. Properties
-2. Components
-3. Process of estimating a model
+2. Properties 
+3. Components
+4. Process of estimating a model
 
 
 
@@ -110,7 +110,7 @@ From properties to **variables**...
 
 ... using survey items:
 
-![](figures/Items-to-variable.png)
+![](figures/items-to-variables.svg)
 
 ???
 
@@ -130,7 +130,7 @@ Therefore, we have to conduct a factor analysis and examine reliability.
 .pull_left[
 From association between **variables**...
 
-![](figures/correlation-causation-1.png)
+![](figures/correlation.svg)
 ]
 
 
@@ -139,7 +139,7 @@ From association between **variables**...
 .pull-right[
 ... to causation?
 
-![](figures/correlation-causation-2.png)
+![](figures/causation.svg)
 ]
 
 ???
@@ -186,20 +186,51 @@ So we cannot determine if changes in height cause changes in attitude, or vice-v
 
 # Why structural equation modeling?
 
-Gold standard of causal statistics: Randomized control trial
 
-(put graphic in here)
+
+.pull-left[
+![](figures/RCT.svg)
+
+]
+.pull-right[
+Gold standard of causal statistics: **Randomized control trial**
+
+Changes in $Attitude_{A,2}$ but not in $Attitude_{B,2}$ are **caused** by the experimental intervention
+]
 
 ???
 
-RCT-Text
+The gold standard of causal statistics is the randomized control trial.
+We have two groups of test subjects that are randomly assigned to a condition.
+Here, group A is the experimental group and group B is the control group.
+In our example, we want to test the effect of an intervention on a person's attitude towards smoking.
+The experimental group is then presented with that intervention.
+For example, that might be a message on the dangers of smoking.
+The control group is presented with no message at all, or an unrelated message.
+Now, we compare the changes in attitude between both groups.
+Changes that only occur in the experimental group are likely caused by our intervention.
 
-
+---
 # Why structural equation modeling?
 
+Causal inference and observational data?
+
+--
+
+Causal interpretation is possible 
+- **if** there is strong support of that interpretation by theory and previous evidence
+- using causal modeling techniques, e.g., Directed Acyclic Graphs (DAGs) or **Structural Equation Modeling**
+
+Further reading:
+Pearl (2012). The Causal Foundations of Structural Equation Modeling.
+
 ???
 
-Script Missing
+But experiments like these are often neither possible nor practical.
+So what can we do if we have only observational data?
+
+-
+
 
 ---
 
@@ -311,3 +342,12 @@ Script missing
 ???
 
 Script missing
+
+---
+# Sources for this video
+
+Hair, J. F., Hult, G. T. M., Ringle, C. M., & Sarstedt, M. (2017). A primer on partial least squares structural equation modeling (PLS-SEM) (Second edition). Sage.
+
+Pearl, J. (2012). The Causal Foundations of Structural Equation Modeling: Defense Technical Information Center. https://doi.org/10.21236/ADA557445
+
+Ray, S. & Danks. N. (2020). SEMinR Vignette. https://cran.r-project.org/web/packages/seminr/vignettes/SEMinR.html
