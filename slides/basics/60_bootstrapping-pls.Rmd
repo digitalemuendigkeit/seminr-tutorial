@@ -2,7 +2,6 @@
 title: "Bootstrapping a PLS-SEM"
 subtitle: "Bootstrapping in SEMinR"
 author: "Lilian Kojan"
-#institute: "RStudio, PBC"
 date: "updated: `r Sys.Date()`"
 params:
   videoSlides: 
@@ -10,7 +9,7 @@ params:
     value: FALSE
 output:
   xaringan::moon_reader:
-    css: xaringan-themer.css
+    css: ["xaringan-themer.css", "printing.css"]
     #css: ["default", "default-fonts", "tutorials.css", "xaringan-themer.css"]  
     #lib_dir: libs
     nature:
@@ -18,8 +17,6 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-  html_document:
-      highlightStyle: github
 ---
 
 
@@ -67,13 +64,13 @@ Bootstrapping gives you significance information for
 Bootstrapping means that your model is re-estimated a large number of times using different parts of your data.
 You can then analyse and compare the results from the different estimations.
 This gives you information about how likely your original model results are given your data.
-Specifically, from the results, SEMinR automatically construct confidence intervals and calculate t-values for all values in your model.
-That means path coefficients, but also weights, loadings and HTMT values.
+Specifically, from the results, SEMinR automatically constructs confidence intervals and calculates t-values for all values in your model.
+That means path coefficients, but also weights, loadings, and HTMT values.
 
 -
 
 Note that this doesn't say anything about how likely it is to replicate your model results in the general population.
-It only says how likely you are to get your model results given your data.
+It only tells you how likely you are to get your model results given your data.
 To better understand that, let's take a closer look at the process of bootstrapping.
 
 ---
@@ -85,6 +82,7 @@ Regular model estimation process:
 ![](figures/bootstrap-howto-1.png)
 
 ???
+
 To understand the bootstrapping process, let's first take a step back.
 For the regular model estimation, the PLS algorithm considers your full data set.
 
@@ -96,6 +94,7 @@ For the regular model estimation, the PLS algorithm considers your full data set
 
 
 ???
+
 In the process of bootstrapping, the model is estimated multiple times.
 But instead of using the full dataset, the algorithm uses a random sample of that data.
 For each bootstrap iteration, the model is estimated with a different slice of your data.
