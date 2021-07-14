@@ -9,7 +9,7 @@ params:
     value: FALSE
 output:
   xaringan::moon_reader:
-    css: [xaringan-themer.css] #, tutorials.css]
+    css: [xaringan-themer.css, printing.css] #, tutorials.css]
     #lib_dir: libs
     nature:
       ratio: '16:9'

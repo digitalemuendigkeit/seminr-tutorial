@@ -1,5 +1,5 @@
 ---
-title: "SEM-in-R Basics - Data Preparation for SEM"
+title: "SEM-in-R Basics - Bootstrapping PLS"
 date: "Last update: `r Sys.setlocale('LC_TIME', 'en_US.UTF-8');toOrdinal::toOrdinalDate(Sys.time())`"
 #output:
 #  rmdformats::downcute:
@@ -28,9 +28,11 @@ associated_file <- "basics/60_bootstrapping-pls"
 ```
 
 
-# Video for Data Preperation for PLS-SEM
+# Video for Bootstrapping PLS Models
 
 > Under construction.
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/yDCMxkgtOw8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1"></iframe>
 
 # Tutorial in RStudio
 

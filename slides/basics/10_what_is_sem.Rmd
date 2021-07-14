@@ -1,7 +1,7 @@
 ---
 title: "What is Structural Equation Modeling?"
 subtitle: "Basic Introduction to PLS-SEM in SEMinR"
-author: "André Calero Valdez and Lilian Kojan"
+author: "Lilian Kojan and André Calero Valdez"
 date: "updated: `r Sys.Date()`"
 params:
   videoSlides: 
@@ -10,8 +10,6 @@ params:
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "printing.css"]
-    #css: ["default", "default-fonts", "tutorials.css", "xaringan-themer.css"]  
-    #lib_dir: libs
     nature:
       ratio: '16:9'
       highlightStyle: github
@@ -46,14 +44,15 @@ library(dataforsocialscience)
 
 ???
 
-Hello and welcome to our online course on structural equation modeling in SEM-in-R.
-In this course, I will take you through the principles and practice of structural equation modeling using the SEM-in-R package for R.
+Hello and welcome to our online course on structural equation modeling using SEM-in-R or SEMinR.
+
+In this course, I will take you through the principles and practices of structural equation modeling using the SEM-in-R package for the R Programming language.
 
 -
 
-The basic section of this course is structured into seven videos.
+The basic section of this course is split into seven videos.
 They reflect the sequence of steps you will take when designing a structural equation model of your own.
-If you are still curious after that, you are welcome to proceed to the advanced section.
+If you are curious for more after that, you are welcome to proceed to the advanced section.
 There, I will go into more detail on some of the issues touched upon in the basic section.
 I will also describe some more sophisticated modeling techniques.
 Before starting with the content of this first video in earnest, I need to add one thing:
@@ -77,28 +76,29 @@ Now that is out of the way, let's start with the introduction.
 
 ???
 
-In this video, I will introduce you to structural equation modeling, or SEM, from the perspective of a social scientist.
-Instead of starting with a definition, I want to take a step back and reason why SEM might be interesting to you. 
-Then I will go more into the nitty-gritty.
+In this video, I will introduce you to structural equation modeling, or SEM, from the perspective of an HCI-researcher or social scientist.
+Instead of starting with a definition, I want to take a step back and explain why SEM might be interesting to you. 
+Then we will go more into the nitty-gritty.
 
 ---
 
 # Why structural equation modeling?
 
-As social scientists, we study human properties (operationalized as **variables**) and **how** they are related.
+As researchers in HCI or in the social sciences, we study human properties (operationalized as **variables**) and **how** they are related.
 - Human variables: Often impossible to measure directly.
 - How: Ideally, what causes what?
 
 
 ???
 
-In a very broad sense, social scientists are interested in humans, what they think and do, and why.
+In a very broad sense, we are interested in humans, what they think, their attitudes, their behavior, and their reasons for doing things.
 To study humans, we measure variables and examine the relationships between different variables.
 And in many cases, we would like to know if variables are related and the direction of the relationship.
 We want to know what causes what.
-And because we study humans, variables are often tough to measure.
-Sure, you can measure a person's height pretty easily.
-But what about their attitude towards smoking?
+
+As we study humans, variables are often tough to measure.
+Sure, we can measure a person's height pretty easily.
+But what about, e.g., their attitude towards smoking?
 
 ---
 

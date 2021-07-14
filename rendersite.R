@@ -24,8 +24,10 @@ file.create(paste0(fig_out_path, "/_dont_put_files_here.txt"))
 file.create(paste0(pdf_out_path, "/_dont_put_files_here.txt"))
 
 ## get headlines etc.
-source("script_extractor.R")
-
+source(here::here("R", "script_extractor.R"))
+input_files <- dir(here::here("slides"), pattern = "*.Rmd", recursive = T, full.names = T)
+extract_all_headlines(input_files)
+extract_all_notes(input_files, telepromter = FALSE)
 
 # Step 1 ----
 ## REDO ALL SLIDES ----

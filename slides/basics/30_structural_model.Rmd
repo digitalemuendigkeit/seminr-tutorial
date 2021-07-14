@@ -9,8 +9,7 @@ params:
     value: FALSE
 output:
   xaringan::moon_reader:
-    css: [xaringan-themer.css, printing.css] #, tutorials.css]
-    #lib_dir: libs
+    css: [xaringan-themer.css, printing.css] 
     nature:
       ratio: '16:9'
       highlightStyle: github

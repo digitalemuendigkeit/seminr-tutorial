@@ -6,7 +6,7 @@ date: "updated: `r Sys.Date()`"
 params:
   videoSlides: 
     label: "Should slides be rendered for video production?"
-    value: FALSE
+    value: TRUE
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "printing.css"]
@@ -79,24 +79,24 @@ To better understand that, let's take a closer look at the process of bootstrapp
 
 Regular model estimation process:
 
-![](figures/bootstrap-howto-1.png)
+![](figures/bootstrap-howto-1.svg)
 
 ???
 
 To understand the bootstrapping process, let's first take a step back.
-For the regular model estimation, the PLS algorithm considers your full data set.
+For regular model estimation, the PLS algorithm considers your full data set.
 
 ---
 
 # How bootstrapping works
 
-![](figures/bootstrap-howto-2.png)
+![](figures/bootstrap-howto-2.svg)
 
 
 ???
 
 In the process of bootstrapping, the model is estimated multiple times.
-But instead of using the full dataset, the algorithm uses a random sample of that data.
+But instead of using the full dataset, the algorithm uses a random but equally large sample of that data.
 For each bootstrap iteration, the model is estimated with a different slice of your data.
 In this example, there are three iterations and therefore three slices of data.
 A more realistic number of iterations is 500.
@@ -105,15 +105,16 @@ A more realistic number of iterations is 500.
 
 # How bootstrapping works
 
-![](figures/bootstrap-howto-3.png)
+![](figures/bootstrap-howto-3.svg)
 
 Statistics include mean, standard deviation and confidence intervals on the basis of the different model results.
 
 ???
+
 Now that you have many different model results, you can use the summary() function to obtain statistics about the different results.
-seminr will then give you means, standard deviation, confidence intervals and t statistics based on the different model results.
+SEMinR will then give you means, standard deviation, confidence intervals and t statistics based on the different model results.
 This is what I mean when I talk about significance information given the data.
-Now that we have talked how bootstrapping works, let's take a look at how we do it in seminr.
+Now that we have talked how bootstrapping works, let's take a look at how we do it in SEMinR.
 
 ---
 
@@ -137,6 +138,7 @@ model <- estimate_pls(
 
 
 ???
+
 I will use the same model as in the model estimation tutorial.
 We use the mobi dataset again, and specify the measurement model and structural model directly in the estimate_pls() function. 
 
@@ -252,6 +254,7 @@ $^{***}p <.001$, $^{**}p <.01$, $^{*}p <.05$
 ]
 
 ???
+
 Let's take a closer look.
 
 The asterisks indicate the p level of significance.
@@ -272,6 +275,7 @@ This gives you more information on how likely it is to get your model results, g
 ```{r eval=FALSE}
 > bootstrapmodel$
 ```
+
 --
 
 Example: Path coefficients for all iterations:
@@ -281,6 +285,7 @@ bootstrapmodel$boot_paths
 
 
 ???
+
 As with the pls model object, the bootstrapped model object also contains a lot of subobjects.
 If you type in bootstrapmodel with a dollar sign, you get an overview of the information and objects stored in the bootstrapped model object.
 Some of that information is simply inherited from the model object, other information is generated in the bootstrapping process.
@@ -301,6 +306,7 @@ summary(bootstrapmodel)
 ```
 
 ???
+
 Thankfully, the summary function again gives us a concise overview of the bootstrap results.
 But in comparison to the pls model summary, executing the summary function on a bootstrapped model gives us a lot more information.
 Too much information, again, to fit on this slide.
@@ -340,6 +346,7 @@ summarybootmodel$bootstrapped_paths
 
 
 ???
+
 But we are probably more interested in the results of the bootstrapping procedure.
 Let's look at the results for the path coefficients.
 All boostrap results are formatted as a table.
@@ -361,6 +368,7 @@ summarybootmodel$bootstrapped_loadings
 # bootstrapped HTMT
 summarybootmodel$bootstrapped_HTMT
 ```
+
 ```{r}
 # bootstrapped total paths - includes mediated influence
 summarybootmodel$bootstrapped_total_paths

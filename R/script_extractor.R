@@ -1,7 +1,5 @@
 # This file extracts the slide comments into a txt file.
 
-library(tidyverse)
-
 #' Extracts the slide headlines from a Rmd file
 #'
 #' @param filename path of the Rmd file
@@ -10,6 +8,7 @@ library(tidyverse)
 #' @export
 #'
 extract_headlines <- function(filename){
+
   # open input file
   con <- file(filename, open = "r")
   line <- readLines(con)
@@ -19,7 +18,7 @@ extract_headlines <- function(filename){
   comments <- list()
   skippable_lines <- c("!\\[", "\\.pull")
 
-  header <- rmarkdown::yaml_front_matter(input_files[[j]])
+  header <- rmarkdown::yaml_front_matter(filename)
 
   comments[length(comments)+1] <- paste0("## ", header$title)
   last_head <- ""
@@ -67,7 +66,7 @@ extract_headlines <- function(filename){
 
     # this is headline relevant ----
     if (state == "body"){
-      if(str_starts(line[[i]], "# ")){
+      if(stringr::str_starts(line[[i]], "# ")){
         last_head <- paste0("#", line[[i]])
         comments[length(comments)+1] <- last_head
       }
@@ -75,7 +74,7 @@ extract_headlines <- function(filename){
   }
 
   close(con)
-  comments %>% unlist()
+  unlist(comments)
 }
 
 
@@ -99,7 +98,7 @@ extract_notes <- function(filename, click_text = ">>>", fortelepromter = "FALSE"
   comments <- list()
   skippable_lines <- c("!\\[", "\\.pull")
 
-  header <- rmarkdown::yaml_front_matter(input_files[[j]])
+  header <- rmarkdown::yaml_front_matter(filename)
 
   if (fortelepromter){
     comments[length(comments)+1] <- paste0("Countdown: \n")
@@ -160,35 +159,41 @@ extract_notes <- function(filename, click_text = ">>>", fortelepromter = "FALSE"
   }
 
   close(con)
-  comments %>% unlist()
+  unlist(comments)
 }
 
 
-input_files <- dir("slides", pattern = "*.Rmd", recursive = T, full.names = T)
-output_files <- input_files %>% map_chr(~str_replace(., ".Rmd", "_script.txt"))
-headline_files <- input_files %>% map_chr(~str_replace(., ".Rmd", "_headline.txt"))
+extract_all_notes <- function(input_files, output_files, telepromter = TRUE){
+  output_files <- purrr::map_chr(input_files, ~stringr::str_replace(., ".Rmd", "_script.txt"))
+  # get comments
+  for(j in 1:length(input_files)){
+    message(paste("Extracting notes from", input_files[[j]]))
+    f_input <- input_files[[j]]
+    fileConn <- file(output_files[[j]])
+    # open input file
+    comments <- extract_notes(f_input, fortelepromter = telepromter)
 
-for(j in 1:length(input_files)){
-  f_input <- input_files[[j]]
-  fileConn <- file(output_files[[j]])
-  # open input file
-  comments <- extract_notes(f_input)
+    writeLines(unlist(comments), fileConn)
+    close(fileConn)
+  }
+}
 
-  writeLines(comments %>% unlist(), fileConn)
-  close(fileConn)
+extract_all_headlines <- function(input_files) {
+  headline_files <- purrr::map_chr(input_files, ~stringr::str_replace(., ".Rmd", "_headline.txt"))
+
+    # get headlines
+  for(j in 1:length(input_files)){
+    message(paste("Extracting headlines from", input_files[[j]]))
+    f_input <- input_files[[j]]
+    fileConn <- file(headline_files[[j]])
+    # open input file
+    comments <- extract_headlines(f_input)
+
+    writeLines(unlist(comments), fileConn)
+    close(fileConn)
+  }
 }
 
 
-for(j in 1:length(input_files)){
-  f_input <- input_files[[j]]
-  fileConn <- file(headline_files[[j]])
-  # open input file
-  comments <- extract_headlines(f_input)
-
-  writeLines(comments %>% unlist(), fileConn)
-  close(fileConn)
-}
-
-#extract_headlines(input_files[7])
 
 
