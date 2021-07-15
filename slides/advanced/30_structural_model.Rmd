@@ -19,62 +19,99 @@ options(htmltools.dir.version = FALSE)
 
 # The structural model:
 
-- describes relationship between latent variables
-- order and sequence of constructs: based on theory/ experiences and knowledge
-- path-models from left to right
--- left: independent variables
--- right: dependent variables
--- left: sequential ahead, influence variables on the right
+* relationships between latent variables
+* order and sequence of constructs: theory/ experiences and knowledge
+
+???
+
+The structural model describes the relationships between latent variables. 
+(Thus, it justifies the constructs and the path-relationships within the structural model.)
+The order and sequence of constructs is based in either a theory or the experiences and knowledge of a researcher.
+
 
 ---
 
 # The structural model 2 - exogeneous vs. endogeneous variables:
 
-- variables can serve as dependent and independent
-- latent variables serving only as independent = exogeneous latent variables (Y1 and Y2)
-- latent variables serving only as dependent (Y4) or as independent and dependent (Y3) = endogeneous latent variables (Y3)
-- each variable, which has only arrows coming from it = exogeneous latent variable
-- endogeneous latent variables can have either incoming and outgoing arrows (Y3) or only incoming arrows (Y4)
-- exogeneous latent variables have no error terms (because these constructs depict the independent variables explaining the dependent variables in the path-model)
+* variables: can be dependent and independent
+* latent variables = independent = exogeneous latent variables (Y1 and Y2)
+* latent variables = dependent (Y4) or independent and dependent (Y3) = endogeneous latent variables (Y3)
+* Variables with only arrows coming from it = exogeneous latent variables
+* endogeneous latent variables: incoming and outgoing arrows (Y3) or only incoming arrows (Y4) 
+* exogeneous latent variables: no error terms 
+
+???
+
+Variables can also serve simultaneously as independent and dependent variables.
+Latent variables, that only serve as independent variables are called exogeneous latent variables (here Y1 and Y2).
+Latent variables, that only serve as dependent variable (such as Y4) or as independent AND dependent variable (such as Y3) are called endogeneous latent variables.
+Variables in the structural model with only arrows coming from it, are exogeneous latent variables.
+In contrast, endogeneous variables can have incoming and outgoing arrows (Y3) or only incoming arrows (Y4).
+Exogeneous latent variables have no error terms, because these constructs depict the independent variables explaining the dependent variables in the path-model. 
 
 ---
 
 # Specification of structural model:
-- When developing a structural model, two things must be considered:
-1. sequence of the constructs
-2. relationships between constructs
-- both represent hypotheses and the theory to be tested (must be reflected during development of model)
+* Developing a structural model:
+ 1. sequence of the constructs
+ 2. relationships between constructs
+ * represent hypotheses and theory (to be tested) 
+ 
+???
+
+To develop a structural model, two things must be considered: The sequence of the constructs and the relationships between the constructs.
+Both aspects are important and must be reflected when developing a structural model, because they represent the hypotheses and thus the theory to be tested. 
 
 ---
 
 ## Sequence of constructs:
-- based on theory/ concept, logic/ experiences
-- from left to right: left: independent (eplanatory) constructs > dependent constructs (outcomes)
-- assumes, that constructs on the left are ahead and that they predict variables on the right
-- constructs only serving as independent variables = exogeneous latent variables; at the left side; have only arrows coming from it
-- constructs serving as dependent variables = endogeneous latent variables; at the right side; only incoming arrows
-- constructs serving as independent and dependent variables = endogeneous variables; in the middle of the path-model
+* based on theory/ concept, logic/ experiences
+* path-models from left to right
+ * left: independent variables
+ * right: dependent variables
+ * left: influence variables on the right
 
 ![](Figures/Path-model.png)
+
+???
+
+The sequence of constructs in a structural model is based on a theory or concept, on logic or experiences of a researcher. 
+Developed path-models are set up from left to right. 
+The variables on the left side are the independent (exploratory) variables, the variables on the right are the dependent variables (outcomes).
+Thus, the variables on the left are sequential ahead of the variables on the right and influence the variables on the right. 
+
+
 
 ---
 
 ## Determining sequence of constructs:
-- hard: contradictory theoretic perspectives imply different sequences 
-- should always be based on theory and logic
-- contradictory perpectives: personal judgement 
-- possible: competing models
+* hard: contradictory theoretic perspectives imply different sequences 
+ * Example: reputation > satisfaction > loyalty
+* should always be based on theory and logic
+* contradictory perpectives: personal judgement 
+* possible: competing models
+
+???
+
+To determine the sequence of constructs is hard, because contradictory theoretic perspectives can imply different sequences of the latent variables.
+For example, customer satisfaction can determine the reputation of a company, but the reputation of a company could also determine satisfaction.
+The sequence of constructs (in a conceptual model) should always be based on theory and logic. 
+If in literature there is no clearly defined sequence of constructs, a researcher must decide which sequence he/she wants to consider. 
+For complex models, researchers may need to adjust the construct sequence multiple times to adequately capture the theoretical relationships. 
+There may also be competing models with different sequences of constructs. 
 
 ---
 
 ## Relationships between constructs:
-- specified by arrows
-- generally the tip points to the right
-- directed relations: called causal, when supported by theory
-- conflict: completeness (all relations supported by theory) and sparsity (few relations)
-- sparsity: not everything should explain everything
-- mostly, linear relationships between two or more constructs within one path-model
-- more complex modell relationships: mediations; moderations (next slides)
+* specified by arrows
+* generally the tip points to the right
+* directed relations: called causal, when supported by theory
+* conflict: completeness (all relations supported by theory) and sparsity (few relations)
+* sparsity: not everything should explain everything
+* mostly, linear relationships between two or more constructs within one path-model
+* more complex modell relationships: mediations; moderations (next slides)
+
+???
 
 ---
 
@@ -87,15 +124,27 @@ options(htmltools.dir.version = FALSE)
 - indirect effects: sequence of two or more direct (indicated by arrows) effects = mediating effect
 
 ![](Figures/Mediation.png)
+
+???
+
+
 ---
 
 ## Mediation:
 - most common used for "explanation" why a relation between an exogeneous and an ednogeneous construct exists
 - (e.g. one observes a relation between two constructs, but is unsure "why" this relation exist or if the relation is the only possible relation between the constructs)
+
+???
+
+
 ---
 
 ## Moderation:
 - mediating effect: third construct occurs between two other related constructs
 
 ![](Figures/Moderation.png)
+
+
+???
+
 

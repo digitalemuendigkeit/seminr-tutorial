@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>structural_model</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Laura" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# structural_model
+## Basic Introduction to SEM-in-R
+### Laura
+### test 4/21/2021
+
+---
+
+
+
+
+
+# The structural model:
+
+* relationships between latent variables
+* order and sequence of constructs: theory/ experiences and knowledge
+
+???
+
+The structural model describes the relationships between latent variables. 
+(Thus, it justifies the constructs and the path-relationships within the structural model.)
+The order and sequence of constructs is based in either a theory or the experiences and knowledge of a researcher.
+
+
+---
+
+# The structural model 2 - exogeneous vs. endogeneous variables:
+
+* variables: can be dependent and independent
+* latent variables = independent = exogeneous latent variables (Y1 and Y2)
+* latent variables = dependent (Y4) or independent and dependent (Y3) = endogeneous latent variables (Y3)
+* Variables with only arrows coming from it = exogeneous latent variables
+* endogeneous latent variables: incoming and outgoing arrows (Y3) or only incoming arrows (Y4) 
+* exogeneous latent variables: no error terms 
+
+???
+
+Variables can also serve simultaneously as independent and dependent variables.
+Latent variables, that only serve as independent variables are called exogeneous latent variables (here Y1 and Y2).
+Latent variables, that only serve as dependent variable (such as Y4) or as independent AND dependent variable (such as Y3) are called endogeneous latent variables.
+Variables in the structural model with only arrows coming from it, are exogeneous latent variables.
+In contrast, endogeneous variables can have incoming and outgoing arrows (Y3) or only incoming arrows (Y4).
+Exogeneous latent variables have no error terms, because these constructs depict the independent variables explaining the dependent variables in the path-model. 
+
+---
+
+# Specification of structural model:
+* Developing a structural model:
+ 1. sequence of the constructs
+ 2. relationships between constructs
+ * represent hypotheses and theory (to be tested) 
+ 
+???
+
+To develop a structural model, two things must be considered: The sequence of the constructs and the relationships between the constructs.
+Both aspects are important and must be reflected when developing a structural model, because they represent the hypotheses and thus the theory to be tested. 
+
+---
+
+## Sequence of constructs:
+* based on theory/ concept, logic/ experiences
+* path-models from left to right
+ * left: independent variables
+ * right: dependent variables
+ * left: influence variables on the right
+
+![](Figures/Path-model.png)
+
+???
+
+The sequence of constructs in a structural model is based on a theory or concept, on logic or experiences of a researcher. 
+Developed path-models are set up from left to right. 
+The variables on the left side are the independent (exploratory) variables, the variables on the right are the dependent variables (outcomes).
+Thus, the variables on the left are sequential ahead of the variables on the right and influence the variables on the right. 
+
+
+
+---
+
+## Determining sequence of constructs:
+* hard: contradictory theoretic perspectives imply different sequences 
+* should always be based on theory and logic
+* contradictory perpectives: personal judgement 
+* possible: competing models
+
+???
+
+To determine the sequence of constructs is hard, because contradictory theoretic perspectives can imply different sequences of the latent variables.
+For 
+
+
+---
+
+## Relationships between constructs:
+* specified by arrows
+* generally the tip points to the right
+* directed relations: called causal, when supported by theory
+* conflict: completeness (all relations supported by theory) and sparsity (few relations)
+* sparsity: not everything should explain everything
+* mostly, linear relationships between two or more constructs within one path-model
+* more complex modell relationships: mediations; moderations (next slides)
+
+???
+
+---
+
+
+## Mediation:
+- mediating effect: third construct occurs between two other related constructs
+- e.g. model with direct and indirect effects:
+- direct effects: two constructs are related by only one arrow
+- indirect effects: related by a sequence of relationships with at least one mediating construct
+- indirect effects: sequence of two or more direct (indicated by arrows) effects = mediating effect
+
+![](Figures/Mediation.png)
+
+???
+
+
+---
+
+## Mediation:
+- most common used for "explanation" why a relation between an exogeneous and an ednogeneous construct exists
+- (e.g. one observes a relation between two constructs, but is unsure "why" this relation exist or if the relation is the only possible relation between the constructs)
+
+???
+
+
+---
+
+## Moderation:
+- mediating effect: third construct occurs between two other related constructs
+
+![](Figures/Moderation.png)
+
+
+???
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
