@@ -104,8 +104,7 @@ There may also be competing models with different sequences of constructs.
 
 ## Relationships between constructs:
 * specified by arrows
-* generally the tip points to the right
-* directed relations: called causal, when supported by theory
+* directed relations = causal
 * conflict: completeness (all relations supported by theory) and sparsity (few relations)
 * sparsity: not everything should explain everything
 * mostly, linear relationships between two or more constructs within one path-model
@@ -113,38 +112,12 @@ There may also be competing models with different sequences of constructs.
 
 ???
 
----
+After specifying the sequence of constructs, the researcher determines the relationships between the constructs using arrows. 
+Generally the tip points to the right, which again shows that the constructs on the left predict the constructs on the right. 
+Sometimes, the directed relations are called causal, when these are supported by the theory. 
+When drawing the arrows, the researcher must weigh on the one hand side between theoretical completeness, what means that all relationships supported by the theory are integrated in the model and on the other hand economical modeling, meaning the use of only few relations. 
+In most cases, researcher analyze linear relationships between two or more constructs within a path model. 
+Eventually, the theory refers to more complex model relationships as well as to mediation and moderation, what we talk about in a later video. 
 
-
-## Mediation:
-- mediating effect: third construct occurs between two other related constructs
-- e.g. model with direct and indirect effects:
-- direct effects: two constructs are related by only one arrow
-- indirect effects: related by a sequence of relationships with at least one mediating construct
-- indirect effects: sequence of two or more direct (indicated by arrows) effects = mediating effect
-
-![](Figures/Mediation.png)
-
-???
-
-
----
-
-## Mediation:
-- most common used for "explanation" why a relation between an exogeneous and an ednogeneous construct exists
-- (e.g. one observes a relation between two constructs, but is unsure "why" this relation exist or if the relation is the only possible relation between the constructs)
-
-???
-
-
----
-
-## Moderation:
-- mediating effect: third construct occurs between two other related constructs
-
-![](Figures/Moderation.png)
-
-
-???
 
 
