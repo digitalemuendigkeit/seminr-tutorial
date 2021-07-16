@@ -71,8 +71,6 @@ Now that is out of the way, let's start with the introduction.
 2. Properties and components of a structural equation model
 3. Process of estimating a model
 
-
-
 ???
 
 In this video, I will introduce you to structural equation modeling, or SEM, from the perspective of an HCI-researcher or social scientist.
@@ -265,7 +263,10 @@ This is done by combining factor analysis - that is, how a variable relates to i
 ---
 # Components of a SEM
 ```{r echo=FALSE, include=FALSE}
-seminr_theme_set(seminr_theme_dark())
+thm <- seminr_theme_dark()
+thm$construct.compositeA.shape = "ellipse"
+thm$plot.bgcolor = "transparent"
+seminr_theme_set(thm)
 examplemodel <- specify_model(
   measurement_model = constructs(
   composite(construct_name = "Reputation",
@@ -302,7 +303,6 @@ To illustrate that, let's look at how a structural equation model might look.
 The mustard rectangles represent the so-called indicators.
 These are what we actually measured, e.g., the survey items.
 The grey ellipses are called constructs, or variables.
-<!-- @André: Please change the above code so we do have ellipses instead of hexagons. :) -->
 The arrows from the constructs to the indicators show the measurement model.
 The measurement model defines which construct is made up of which indicators.
 The arrows between the constructs make up the structural model.
@@ -310,50 +310,137 @@ The direction of the arrow represents the direction of causality.
 In this model, we hypothesize that a customer's satisfaction with a company and the company's reputation causes that customer's loyalty.
 
 ---
-<!-- # Measurement model -->
-<!-- ```{r echo=FALSE, include=FALSE} -->
-<!-- plot(examplemodel, measurement_only = TRUE) -->
-<!-- save_plot("figures/example-model_mm.svg", width = 1000) -->
-<!-- ``` -->
-<!-- .pull-left[ -->
-<!-- ![](figures/example-model_mm.svg) -->
-<!-- ] -->
-<!-- .pull-right[ -->
+# Components of a SEM: Measurement model
+```{r echo=FALSE, include=FALSE}
+plot(examplemodel, measurement_only = TRUE)
+save_plot("figures/example-model_mm.svg", width = 1000)
+```
+.pull-left[
+![](figures/example-model_mm.svg)
+]
+.pull-right[
+Equivalent:
 
-<!-- ] -->
-<!-- --- -->
+$CUSL1 = \lambda_{1L} \times Loyalty + \epsilon$
+$CUSL2 = \lambda_{2L} \times Loyalty + \epsilon$
+$CUSL3 = \lambda_{3L} \times Loyalty + \epsilon$
 
-# How a model is estimated - mathematically
+etc.
 
-- (Survey) data is provided for all indicators (latent variables)
+$\lambda$ = factor loading
+
+$\epsilon$ = error term
+]
+
+???
+Let's take a closer look at the measurement model.
+If we express it mathematically, it's a set of linear regression equations.
+Every indicator is regressed on the associated construct.
+The coefficient lambda is the factor loading.
+Epsilon is the error term.
+Before we estimate the model, everything on the right side of the equation is unknown.
+We only have values for the indicators.
+These values come, for example, from our survey.
+Later on, I will introduce different kinds of measurements, but the principle stays the same:
+The whole measurement model can be expressed as a set of regression equations.
+---
+# Components of a SEM: Structural model
+```{r echo=FALSE, include=FALSE}
+plot(examplemodel, structure_only = TRUE)
+save_plot("figures/example-model_sm.svg", width = 1000)
+```
+.pull-left[
+![](figures/example-model_sm.svg)
+]
+.pull-right[
+Equivalent:
+
+$Loy. = \beta_{RL} \times Rep. +\beta_{SL} \times Sat. + c + \epsilon$
+
+etc.
+
+$\beta$ = path coefficient
+
+$c$ = intercept
+
+$\epsilon$ = error term
+]
+
+???
+Now, on to the structural model.
+Just as the measurement model, all relationships are regression equations.
+As this model is relatively simple, we only have one equation.
+Before model estimation, basically everything in this equation is unknown.
+---
+
+# How a PLS-SEM is estimated
+
 - Measurement model and structural model are specified
-- Both models are represented as a set of linear regression equations
-- The regression equations are solved by a partial least squares algorithm
-- The solution provides coefficients for all paths in the models
+- This results in an **underspecified** system of linear equations
+- (Survey) data is provided for all indicators (manifest variables)
+- Challenge: Solve underspecified system so it fits each set of responses as well as possible
+- System is solved using a **partial least squares** algorithm (PLS-SEM) so the explained **variance** of all latent variables is maximized (variance-based SEM)
 
 
 ???
-If you wonder now, how does it even work?
+So, if we take all the equations from the measurement model and structural model together, we have a system of linear equations.
+This system is underspecified.
+This means that there is more than one possible solution.
+More than that, we do have values for some of the variables, specifically the indicators.
+But these values are not the same for all our survey respondents - at least, they shouldn't be.
+This means we need to find a solution for our equation system that best fits all sets of response data.
+And to do that, SEMinR uses an algorithm, a so-called partial least squares algorithm.
+Remember in the beginning, when I said that we will focus on partial least squares structural equation modeling, or PLS-SEM?
+This is where it gets its name.
+By the way, PLS-SEM is sometimes also called variance-based structural equation modeling, or VB-SEM.
+This is because when solving the equation system, the algorithm aims for a solution that maximizes the explained variance of the endogenous variables.
+We will talk more about explained variance in the model evaluation.
+---
 
+# How you estimate a PLS-SEM
+
+- Gather and prepare data
+- Specify the measurement model
+- Specify the structural model
+- Estimate the SEM
+- Bootstrap the SEM
+- Evaluate the SEM
+
+???
+Now that you have had a small glimpse at the principles behind structural equation modeling, let's move on to practice.
+The next videos in this course will take you through each step of the estimation process using R and SEMinR.
+You start of by gathering and preparing your data.
+After, you specify the measurement and the structural model.
+Then, you can estimate a model.
+To gain further insights about your model, you will bootstrap it.
+Finally, you will evaluate your model results.
+For each of the bullet points above, we have prepared a video.
+
+Of course, once you move on to your own models, you will start data collection only after you have designed your full model.
+Only then will you know what you need to measure.
+And often, you will not be done after the first round of model estimation and evaluation.
+Instead, you might have to go back and re-specify your model.
+But after watching the next videos, you will be well-equipped to do all that and more.
 
 ---
 
-# How you estimate a model
+# Summary
+
+- Advantages of structural equation modeling
+- Composition of a structural equation model
+- Steps of the modeling process
 
 ???
-
-Script missing
-
----
-
-# Review
-
-???
-
-Script missing
+Let's review.
+After watching this video, you now know about the advantages of structural equation modeling.
+You know the components of a model and you know how a model is estimated.
+You also know which steps a researcher needs to take to get from the data to a model.
+Now you're ready to dive into the details of the modeling process.
 
 ---
 # Sources for this video
+
+Davcik, N. St. (2014). The Use and Misuse of Structural Equation Modeling in Management Research: A Review and Critique. SSRN Electronic Journal. https://doi.org/10.2139/ssrn.2196120
 
 Hair, J. F., Hult, G. T. M., Ringle, C. M., & Sarstedt, M. (2017). A primer on partial least squares structural equation modeling (PLS-SEM) (Second edition). Sage.
 
