@@ -40,7 +40,7 @@ We distinguish two ways to measure latent variables: the formative and reflectiv
 
 # The measurement model - formative measurement:
 
-Figure 1.4
+![](Figures/SimplePath.png)
 
 
 ???
@@ -54,7 +54,7 @@ This implies a causal and predictive relationship in this direction.
 
 # The measurement model - reflective measurement:
 
-Figure 1.4
+![](Figures/SimplePath.png)
 
 
 ???

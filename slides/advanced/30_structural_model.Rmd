@@ -75,7 +75,7 @@ Both aspects are important and must be reflected when developing a structural mo
  * right: dependent variables
  * left: influence variables on the right
 
-<!-- ![](Figures/Path-model.png) -->
+![](Figures/Path-model.png)
 
 ???
 
@@ -95,6 +95,8 @@ Thus, the variables on the left are sequential ahead of the variables on the rig
 * contradictory perpectives: personal judgement 
 * possible: competing models
 
+![](Figures/Mediation.png)
+
 ???
 
 To determine the sequence of constructs is hard, because contradictory theoretic perspectives can imply different sequences of the latent variables.
@@ -103,10 +105,6 @@ The sequence of constructs (in a conceptual model) should always be based on the
 If in literature there is no clearly defined sequence of constructs, a researcher must decide which sequence he/she wants to consider. 
 For complex models, researchers may need to adjust the construct sequence multiple times to adequately capture the theoretical relationships. 
 There may also be competing models with different sequences of constructs. 
-=======
-<!-- ![](Figures/Mediation.png) -->
----
-
 
 ---
 
@@ -117,6 +115,8 @@ There may also be competing models with different sequences of constructs.
 * sparsity: not everything should explain everything
 * mostly, linear relationships between two or more constructs within one path-model
 * more complex modell relationships: mediations; moderations (next slides)
+
+![](Figures/Moderation.png)
 
 ???
 
@@ -129,6 +129,5 @@ Eventually, the theory refers to more complex model relationships as well as to 
 
 
 
-=======
-<!-- ![](Figures/Moderation.png) -->
+
 
