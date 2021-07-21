@@ -3,6 +3,10 @@ title: "structural_model"
 subtitle: "Basic Introduction to SEM-in-R"
 author: "Laura"
 date: "test 4/21/2021"
+params:
+  videoSlides: 
+    label: "Should slides be rendered for video production?"
+    value: TRUE
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -71,7 +75,7 @@ Both aspects are important and must be reflected when developing a structural mo
  * right: dependent variables
  * left: influence variables on the right
 
-![](Figures/Path-model.png)
+<!-- ![](Figures/Path-model.png) -->
 
 ???
 
@@ -99,6 +103,10 @@ The sequence of constructs (in a conceptual model) should always be based on the
 If in literature there is no clearly defined sequence of constructs, a researcher must decide which sequence he/she wants to consider. 
 For complex models, researchers may need to adjust the construct sequence multiple times to adequately capture the theoretical relationships. 
 There may also be competing models with different sequences of constructs. 
+=======
+<!-- ![](Figures/Mediation.png) -->
+---
+
 
 ---
 
@@ -120,4 +128,7 @@ In most cases, researcher analyze linear relationships between two or more const
 Eventually, the theory refers to more complex model relationships as well as to mediation and moderation, what we talk about in a later video. 
 
 
+
+=======
+<!-- ![](Figures/Moderation.png) -->
 

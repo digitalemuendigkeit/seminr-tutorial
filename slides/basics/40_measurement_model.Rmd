@@ -3,9 +3,13 @@ title: "Measurement Model"
 subtitle: "Basic Introduction to SEM-in-R"
 author: "Laura"
 date: "test 4/21/2021"
+params:
+  videoSlides: 
+    label: "Should slides be rendered for video production?"
+    value: FALSE
 output:
   xaringan::moon_reader:
-    css: [xaringan-themer.css] #, tutorials.css]
+    css: [xaringan-themer.css, printing.css] #, tutorials.css]
     #lib_dir: libs
     nature:
       ratio: '16:9'

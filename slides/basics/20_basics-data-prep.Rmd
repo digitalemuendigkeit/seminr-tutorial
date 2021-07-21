@@ -1,12 +1,15 @@
 ---
 title: "Preparing your Data for SEM Estimation"
 subtitle: "Basic Steps"
-author: "Lilian Kojan"
-#institute: "RStudio, PBC"
-date: "2021-04-23 (updated: `r Sys.Date()`)"
+author: "Lilian Kojan and André Calero Valdez"
+date: "updated: `r Sys.Date()`"
+params:
+  videoSlides: 
+    label: "Should slides be rendered for video production?"
+    value: FALSE
 output:
   xaringan::moon_reader:
-    css: xaringan-themer.css
+    css: ["xaringan-themer.css", "printing.css"]
     #css: ["default", "default-fonts", "tutorials.css", "xaringan-themer.css"]  
     #lib_dir: libs
     nature:
@@ -14,13 +17,12 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-  html_document:
-      highlightStyle: github
 ---
 
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
 library(seminr)
+print(params)
 source(here::here("slides", "style.R"))
 ```
 
@@ -91,13 +93,13 @@ df <- dfgoal <- mobi[1:6,1:5] %>%
     ))
 df[c(1,4,6),5] <- NA
 df[,2] <- df[,2] %>%
-  recode(
+  dplyr::recode(
   `7` = "rather agree",
   `9` = "agree",
   `10` = "strongly agree"
 )
 df[,3] <- df[,3] %>%
-  recode(
+  dplyr::recode(
     `5` = 6,
     `6` = 5,
     `7` = 4,
@@ -245,9 +247,9 @@ And of course, there are many ways to do this.
 
 ```{r}
 df <- df %>%                     # assign changes to existing data frame
-  mutate(                        # add new variable based on existing variables
+  dplyr::mutate(                        # add new variable based on existing one
     `Expectation Products` =     # name for the new variable
-      recode(                    # replace values
+      dplyr::recode(                    # replace values
         `Expectation Products`,  # variable to replace values in
         "rather agree" = 7,      # old value = new value
         "agree" = 9,
@@ -345,7 +347,7 @@ But if you haven't, here is how you could do it in R.
 df <- df %>%                 # assign changes to existing data frame
   mutate(                    # add new variable based on existing variables
     `Expectation Products` = # name for the new variable
-      recode(                # replace values
+      dplyr::recode(         # replace values
         `1` = 10,            # old value = new value
         `2` = 9,
         `3` = 8,
@@ -541,8 +543,6 @@ A benefit of this is that SEMinR only drops observations when the missing value 
 So this option might be beneficial if you try out many different model specifications.
 
 When you are working with a real data set, you will have to weigh the benefits of each option when deciding on how to handle missing data.
-
--
 
 Fortunately, for our example, the decision is easy.
 Half the data for the variable is missing, so let's get rid of it.

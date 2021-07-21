@@ -2,19 +2,36 @@
 title: "Evaluating a model"
 subtitle: "Basic Introduction to SEM-in-R"
 author: "Laura"
-date: "4/21/2021"
+date: "updated: `r Sys.Date()`"
+params:
+  videoSlides: 
+    label: "Should slides be rendered for video production?"
+    value: FALSE
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
+    #css: ["default", "default-fonts", "tutorials.css", "xaringan-themer.css"]  
     #lib_dir: libs
     nature:
+      ratio: '16:9'
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+  html_document:
+      highlightStyle: github
 ---
 
+```{r xaringan-theme, include=FALSE, warning=FALSE}
+library(seminr)
+source(here::here("slides", "style.R"))
+```
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(seminr)
+library(knitr)
+options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
 ```
 
 # Evaluating a model:
@@ -27,6 +44,10 @@ options(htmltools.dir.version = FALSE)
 - primary quality or evaluation criteria and their systematic application to PLS-path-models 
 - evaluation of reflective specified measurement models: application of relevant evaluation criteria and their appropriate evaluation 
 
+
+???
+
+Script not ready yet
 
 ---
 

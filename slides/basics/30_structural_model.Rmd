@@ -1,12 +1,15 @@
 ---
-title: "structural_model"
+title: "The structural model"
 subtitle: "Basic Introduction to SEM-in-R"
 author: "Laura"
 date: "test 4/21/2021"
+params:
+  videoSlides: 
+    label: "Should slides be rendered for video production?"
+    value: FALSE
 output:
   xaringan::moon_reader:
-    css: [xaringan-themer.css] #, tutorials.css]
-    #lib_dir: libs
+    css: [xaringan-themer.css, printing.css] 
     nature:
       ratio: '16:9'
       highlightStyle: github
@@ -31,6 +34,11 @@ options(htmltools.dir.version = FALSE)
  - left: independent variables
  - right: dependent variables
  - left: sequential ahead, influence variables on the right
+ 
+ 
+???
+
+Script not ready yet
 
 ---
 
@@ -55,7 +63,7 @@ options(htmltools.dir.version = FALSE)
 
 ## Sequence of constructs:
 - based on theory/ concept, logic/ experiences
-- from left to right: left: independent (eplanatory) constructs > dependent constructs (outcomes)
+- from left to right: left: independent (explanatory) constructs > dependent constructs (outcomes)
 - assumes, that constructs on the left are ahead and that they predict variables on the right
 - constructs only serving as independent variables = exogeneous latent variables; at the left side; have only arrows coming from it
 - constructs serving as dependent variables = endogeneous latent variables; at the right side; only incoming arrows

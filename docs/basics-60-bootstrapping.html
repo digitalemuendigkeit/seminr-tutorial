@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>SEM-in-R Basics - Bootstrapping PLS</title>
+
+<script src="site_libs/header-attrs/header-attrs.js"></script>
+<script src="site_libs/jquery/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap/css/darkly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui/jquery-ui.min.js"></script>
+<link href="site_libs/tocify/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify/jquery.tocify.js"></script>
+<script src="site_libs/navigation/tabsets.js"></script>
+<link href="site_libs/highlightjs/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs/highlight.js"></script>
+<link href="site_libs/font-awesome/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SEMinR Tutorials</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Learning the basics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Basics</li>
+    <li>
+      <a href="basics-10.html">What is SEM?</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Designing a model</li>
+    <li>
+      <a href="basics-20-data-prep.html">Preparing the data</a>
+    </li>
+    <li>
+      <a href="basics-30-measurement.html">The measurement model</a>
+    </li>
+    <li>
+      <a href="basics-40-structural.html">The structural model</a>
+    </li>
+    <li>
+      <a href="basics-50-estimating-pls.html">Estimating a model</a>
+    </li>
+    <li>
+      <a href="basics-60-bootstrapping.html">Bootstrapping and testing a model</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="basics-70-evaluating-pls.html">Evaluating a model</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Advanced SEM
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Basics</li>
+    <li>
+      <a href="underconstruction.html">What is SEM?</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Designing a model</li>
+    <li>
+      <a href="underconstruction.html">The structural model</a>
+    </li>
+    <li>
+      <a href="underconstruction.html">The measurement model</a>
+    </li>
+    <li>
+      <a href="underconstruction.html">Testing a model</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Evaluating a model</li>
+    <li>
+      <a href="underconstruction.html">Estimating a model</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Expert SEM
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">More to follow</li>
+  </ul>
+</li>
+<li>
+  <a href="about.html">
+    <span class="fa fa-info"></span>
+     
+    About
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/digitalemuendigkeit/seminr-tutorial">
+    <span class="fa fa-code-branch"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">SEM-in-R Basics - Bootstrapping PLS</h1>
+<h4 class="date">Last update: July 14th, 2021</h4>
+
+</div>
+
+
+<div id="video-for-bootstrapping-pls-models" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Video for Bootstrapping PLS Models</h1>
+<blockquote>
+<p>Under construction.</p>
+</blockquote>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/yDCMxkgtOw8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1">
+</iframe>
+</div>
+<div id="tutorial-in-rstudio" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Tutorial in RStudio</h1>
+<blockquote>
+<p>Under construction.</p>
+</blockquote>
+</div>
+<div id="slide-download" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Slide download</h1>
+<p>You can download the slides in this presentation <a href="pdfs/60_bootstrapping-pls.pdf">here</a>.</p>
+</div>
+<div id="slides" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Slides</h1>
+<p>Here, you can find the slides from the video. Under each slide you can find the script for that slide.</p>
+<div id="bootstrapping-a-pls-sem-122" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Bootstrapping a PLS-SEM (1/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_01.png" /> Hello and welcome to this Video: Bootstrapping a PLS-SEM</p>
+<p>The slides in this presentation were created by: Lilian Kojan</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="pls-model-estimation-in-seminr-222" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">PLS model estimation in SEMinR (2/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_02.png" /></p>
+<p>After watching the previous videos, you now know how to prepare your data and how to specify and estimate a model. The next step is bootstrapping that model for significance.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="why-we-bootstrap-322" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Why we bootstrap (3/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_03.png" /></p>
+<p>Bootstrapping means that your model is re-estimated a large number of times using different parts of your data. You can then analyse and compare the results from the different estimations. This gives you information about how likely your original model results are given your data. Specifically, from the results, SEMinR automatically constructs confidence intervals and calculates t-values for all values in your model. That means path coefficients, but also weights, loadings, and HTMT values.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="why-we-bootstrap-422" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Why we bootstrap (4/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_04.png" /></p>
+<p>Note that this doesn’t say anything about how likely it is to replicate your model results in the general population. It only tells you how likely you are to get your model results given your data. To better understand that, let’s take a closer look at the process of bootstrapping.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="how-bootstrapping-works-522" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">How bootstrapping works (5/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_05.png" /></p>
+<p>To understand the bootstrapping process, let’s first take a step back. For regular model estimation, the PLS algorithm considers your full data set.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="how-bootstrapping-works-622" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">How bootstrapping works (6/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_06.png" /></p>
+<p>In the process of bootstrapping, the model is estimated multiple times. But instead of using the full dataset, the algorithm uses a random but equally large sample of that data. For each bootstrap iteration, the model is estimated with a different slice of your data. In this example, there are three iterations and therefore three slices of data. A more realistic number of iterations is 500.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="how-bootstrapping-works-722" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">How bootstrapping works (7/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_07.png" /></p>
+<p>Now that you have many different model results, you can use the summary() function to obtain statistics about the different results. SEMinR will then give you means, standard deviation, confidence intervals and t statistics based on the different model results. This is what I mean when I talk about significance information given the data. Now that we have talked how bootstrapping works, let’s take a look at how we do it in SEMinR.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="bootstrapping-a-model---preparation-822" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Bootstrapping a model - preparation (8/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_08.png" /></p>
+<p>I will use the same model as in the model estimation tutorial. We use the mobi dataset again, and specify the measurement model and structural model directly in the estimate_pls() function.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="bootstrapping-a-model---the-fundamentals-922" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Bootstrapping a model - the fundamentals (9/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_09.png" /></p>
+<p>Now, we can take that model and bootstrap it. As you can see, the bootstrap_model() function takes four arguments. Let’s start of with the first two arguments. For seminr_model, you of course provide the model you want to bootstrap. This needs to be a model object which is generated by the estimate_pls() function. It is also the only argument you must provide to the function for it to run. All other arguments are optional. In the second argument, you specify the number of bootstrap iterations. If you don’t specify a number, the function defaults to 500. Model bootstrapping takes a lot of resources, so this is fine for testing out different models. If you want to publish your model results, the recommended number of bootstrap iterations is 5000.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="bootstrapping-a-model---cores-and-seed-1022" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Bootstrapping a model - <em>cores</em> and <em>seed</em> (10/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_10.png" /></p>
+<p>The next two arguments are <em>cores</em> and <em>seed</em>. For the argument cores, you can specify the maximum number of cores R may use to bootstrap your model. By default, bootstrap_model() will use all available cores. Lastly, you can specify a seed. This is a number that will be used to initialize a pseudorandom number generator which is used for the function. If you provide a seed, others can reproduce your results exactly because the pseudorandom number generator will give them the same number sequence. By default, the value is NULL.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="bootstrapping-a-model-1122" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Bootstrapping a model (11/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_11.png" /></p>
+<p>Now that we have talked through the code, I will actually bootstrap our model. To save computing time, I have set the number of bootstrap iterations to 100. And as you can see, the model was successfully bootstrapped. Next, let’s look at what we can do with the bootstrapped model object.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="the-seminr-bootstrap-model-object---plot-1222" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR bootstrap model object - plot (12/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_12.png" /></p>
+<p>Just like with the model object, we can of course also plot the bootstrapped model. Compared to the plot of the regular model, there are two additions: First, all path coefficients as well as loadings and weights have asterisks that show significance. Second, there are confidence intervals for the path coefficients.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="the-seminr-bootstrap-model-object---plot-1322" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR bootstrap model object - plot (13/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_13.png" /></p>
+<p>Let’s take a closer look.</p>
+<p>The asterisks indicate the p level of significance. The p value is calculated based on the t value from the bootstrapping procedure and the degrees of freedom which are equal to the number of observations you have in your data set. As is common practice, three asterisks indicate a p which is smaller than .001. Two asterisks indicate a p which is smaller than .01 and one asterisk indicates a p which is smaller than .05.</p>
+<p>The 95 % confidence interval tells you the interval in which 95 % of the bootstrap model results for the path coefficient fall. The first value is the lower bound. 2.5 % of the bootstrap result values is smaller than this lower bound. And the second value is the upper bound, meaning that 2.5 % of results are larger than this bound. This gives you more information on how likely it is to get your model results, given the data.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="the-seminr-bootstrap-model-object---subobjects-1422" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR bootstrap model object - subobjects (14/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_14.png" /></p>
+<p>As with the pls model object, the bootstrapped model object also contains a lot of subobjects. If you type in bootstrapmodel with a dollar sign, you get an overview of the information and objects stored in the bootstrapped model object. Some of that information is simply inherited from the model object, other information is generated in the bootstrapping process.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="the-seminr-bootstrap-model-object---subobjects-1522" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR bootstrap model object - subobjects (15/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_15.png" /></p>
+<p>However, if you call that information directly from the bootstrap model object, it will give you the results for each bootstrapping iteration. For example, this means there are 100 entries if we want to look at the results for the path coefficients alone.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="the-seminr-bootstrap-model-object---summary-1622" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR bootstrap model object - summary (16/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_16.png" /></p>
+<p>Thankfully, the summary function again gives us a concise overview of the bootstrap results. But in comparison to the pls model summary, executing the summary function on a bootstrapped model gives us a lot more information. Too much information, again, to fit on this slide.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="the-seminr-model-object---summary-subobjects-1722" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - summary subobjects (17/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_17.png" /></p>
+<p>So let’s store the summary in a object again and look at the different parts. The summary of the bootstrapped model contains six objects which are interesting to us:</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="the-seminr-model-object---summary-subobjects-1822" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - summary subobjects (18/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_18.png" /></p>
+<p>First, we can again look up how many times the model was bootstrapped.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="the-seminr-model-object---summary-subobjects-1922" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - summary subobjects (19/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_19.png" /></p>
+<p>But we are probably more interested in the results of the bootstrapping procedure. Let’s look at the results for the path coefficients. All boostrap results are formatted as a table. In the first column, you can see the original estimate for the path coefficient. The second and third column show the mean and standard deviation of the distribution of all path coefficients calculated during bootstrapping. The fourth column contains the t statistic which is an indication of significance. As the underlying t-test is two-tailed, a t statistic of at least 1.65 indicates a significance level of 10 %. The last to columns contain the lower and upper bound of the 95 % confidence interval.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="the-seminr-model-object---summary-subobjects-2022" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">The SEMinR model object - summary subobjects (20/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_20.png" /></p>
+<p>The same information is available for the weights, the loadings, the heterotrait-monotrait ratio and the total paths. The results are all formatted using the same table structure. The difference between paths and total paths is that total paths include mediated influence. In our model, Reputation has a direct path to Loyalty but also a path that is mediated by Satisfaction. Therefore, the coefficient for the total path of Reputation on Loyalty is larger.</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="summary-2122" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Summary (21/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_21.png" /></p>
+<p>To finish off, let me review the contents of this video. You now know why you should bootstrap your model and what happens when you bootstrap a model. You also know how to do it in SEminR, and how to plot and examine the bootstrapped model. With this, you’re ready to move on to model evaluation!</p>
+<p><br/><br/><br/></p>
+</div>
+<div id="sources-for-this-video-2222" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered">Sources for this video (22/22)</h2>
+<p><img src="figs/60_bootstrapping-pls/slide_22.png" /> <br/><br/><br/></p>
+</div>
+</div>
+<div id="next" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Next</h1>
+<p>Next up is <a href="basics-70-evaluating-pls.html">evaluating your model</a>.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
