@@ -34,7 +34,7 @@ options(htmltools.dir.version = FALSE)
 Let's start with the Structural model
 - This is your hypothesis
 
-
+---
 
 
 # The structural model:
