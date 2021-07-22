@@ -33,7 +33,7 @@ options(htmltools.dir.version = FALSE)
 - SM is the hypothesis
 - MM is the connection with data
 
-
+- There are several ways to do name constructs in PLS-SEM
 
 # The measurement model:
 
@@ -46,7 +46,7 @@ options(htmltools.dir.version = FALSE)
 The measurement model specifies how we measure the latent variables (constructs).
 We distinguish two ways to measure latent variables: the formative and reflective measurement. 
 
-Mode A (Correlation weights) and Mode B (regression weights), reflective
+Mode A (Correlation weights - reflective) and Mode B (regression weights - formative), reflective
 Formative vs Composite
 Causal Indicators (with error term) and Composite Indicators (no error term)
 ---
@@ -83,6 +83,17 @@ In contrast, formative measurements have no error terms.
 We assume, that formative measurements are without error.
 
 In this example, Y4 is measured with only one item instead of multiple items. 
+
+
+---
+# Overview of Measurement Terminologies
+
+Table SmartPLS SEMinR 
+
+
+---
+# How SEMinR PLots different Measurements
+
 
 ---
 
