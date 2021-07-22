@@ -1,8 +1,8 @@
 ---
 title: "The structural model"
 subtitle: "Basic Introduction to SEM-in-R"
-author: "Laura"
-date: "test 4/21/2021"
+author: "Laura Burbach"
+date: "updated: `r Sys.Date()`"
 params:
   videoSlides: 
     label: "Should slides be rendered for video production?"
