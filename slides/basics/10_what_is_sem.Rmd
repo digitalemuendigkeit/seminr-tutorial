@@ -333,6 +333,7 @@ $\epsilon$ = error term
 ]
 
 ???
+
 Let's take a closer look at the measurement model.
 If we express it mathematically, it's a set of linear regression equations.
 Every indicator is regressed on the associated construct.
@@ -343,7 +344,9 @@ We only have values for the indicators.
 These values come, for example, from our survey.
 Later on, I will introduce different kinds of measurements, but the principle stays the same:
 The whole measurement model can be expressed as a set of regression equations.
+
 ---
+
 # Components of a SEM: Structural model
 ```{r echo=FALSE, include=FALSE}
 plot(examplemodel, structure_only = TRUE)
@@ -367,10 +370,12 @@ $\epsilon$ = error term
 ]
 
 ???
+
 Now, on to the structural model.
 Just as the measurement model, all relationships are regression equations.
 As this model is relatively simple, we only have one equation.
 Before model estimation, basically everything in this equation is unknown.
+
 ---
 
 # How a PLS-SEM is estimated
@@ -383,6 +388,7 @@ Before model estimation, basically everything in this equation is unknown.
 
 
 ???
+
 So, if we take all the equations from the measurement model and structural model together, we have a system of linear equations.
 This system is underspecified.
 This means that there is more than one possible solution.
@@ -395,6 +401,7 @@ This is where it gets its name.
 By the way, PLS-SEM is sometimes also called variance-based structural equation modeling, or VB-SEM.
 This is because when solving the equation system, the algorithm aims for a solution that maximizes the explained variance of the endogenous variables.
 We will talk more about explained variance in the model evaluation.
+
 ---
 
 # How you estimate a PLS-SEM
@@ -407,6 +414,7 @@ We will talk more about explained variance in the model evaluation.
 - Evaluate the SEM
 
 ???
+
 Now that you have had a small glimpse at the principles behind structural equation modeling, let's move on to practice.
 The next videos in this course will take you through each step of the estimation process using R and SEMinR.
 You start of by gathering and preparing your data.
@@ -431,6 +439,7 @@ But after watching the next videos, you will be well-equipped to do all that and
 - Steps of the modeling process
 
 ???
+
 Let's review.
 After watching this video, you now know about the advantages of structural equation modeling.
 You know the components of a model and you know how a model is estimated.

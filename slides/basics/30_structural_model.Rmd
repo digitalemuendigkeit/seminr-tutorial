@@ -26,6 +26,17 @@ source(here::here("slides", "style.R"))
 options(htmltools.dir.version = FALSE)
 ```
 
+# Start Defining your model
+
+- Finished data preperation
+- Reminder Structural and Measurement model
+
+Let's start with the Structural model
+- This is your hypothesis
+
+
+
+
 # The structural model:
 
 - describes relationship between latent variables

@@ -1,8 +1,8 @@
 ---
 title: "Measurement Model"
 subtitle: "Basic Introduction to SEM-in-R"
-author: "Laura"
-date: "test 4/21/2021"
+author: "Laura Burbach"
+date: "updated: `r Sys.Date()`"
 params:
   videoSlides: 
     label: "Should slides be rendered for video production?"
@@ -27,26 +27,41 @@ source(here::here("slides", "style.R"))
 options(htmltools.dir.version = FALSE)
 ```
 
-# The measurment model:
+# SEM RECAP
+
+- SEMs have a structural and a measurement model
+- SM is the hypothesis
+- MM is the connection with data
+
+
+
+# The measurement model:
 
 * how to measure the latent variables (constructs)
 * formative vs. reflective
 
 
 ???
-The measurement model specifies how to measure the latent variables (constructs).
+
+The measurement model specifies how we measure the latent variables (constructs).
 We distinguish two ways to measure latent variables: the formative and reflective measurement. 
+
+Mode A (Correlation weights) and Mode B (regression weights), reflective
+Formative vs Composite
+Causal Indicators (with error term) and Composite Indicators (no error term)
 ---
 
 # The measurement model - formative measurement:
 
-![](Figures/SimplePath.png)
+![](figures/simplepath2x.png)
 
 
 ???
+
 In this figure, the constructs Y1 and Y2 are based on a formative measurement model. 
 The arrows point from the indicator variables (here X1-X3 for Y1 and X4-X6 for Y2) to the constructs. 
 This implies a causal and predictive relationship in this direction.
+
 
 ---
 
@@ -54,12 +69,13 @@ This implies a causal and predictive relationship in this direction.
 
 # The measurement model - reflective measurement:
 
-![](Figures/SimplePath.png)
+![](figures/simplepath2x.png)
 
 
 ???
+
 In contrast, Y3 and Y4 are based on a reflective measurement model. 
-In reflecive measurement models, the arrows point from the constructs to the indicators.
+In reflective measurement models, the arrows point from the constructs to the indicators.
 Thus, the construct causes the measurement of the indicator variables or more specific of their covariance. 
 
 The Figure shows also, that for reflective measurement each indicator has an error term. 
@@ -69,3 +85,6 @@ We assume, that formative measurements are without error.
 In this example, Y4 is measured with only one item instead of multiple items. 
 
 ---
+
+# Summary
+
